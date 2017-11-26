@@ -9,6 +9,15 @@
 import Foundation
 import RealmSwift
 
+
+struct Landmark: Codable {
+	var name: String
+	var foundingYear: Int
+	
+	// Landmark now supports the Codable methods init(from:) and encode(to:),
+	// even though they aren't written as part of its declaration.
+}
+
 class Chat: Object {
 	let people = List<Person>()
 	let messages = LinkingObjects(fromType: Message.self, property: "chat")

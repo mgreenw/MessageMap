@@ -19,13 +19,14 @@ class ChatsViewController: NSViewController, NSTableViewDataSource, NSTableViewD
 	let realm = try! Realm()
 	var chatsSorted: [Chat]!
 	let dateFormatter = DateFormatter()
-
+	
     override func viewDidLoad() {
         super.viewDidLoad()
 		
 		self.tableView.delegate = self
 		self.tableView.dataSource = self
 		dateFormatter.dateFormat = "MM/dd/yy"
+		let delegate = NSApplication.shared.delegate
 		
 		let chats = realm.objects(Chat.self)
 		func chatDateSort(chatOne: Chat, chatTwo: Chat) -> Bool {

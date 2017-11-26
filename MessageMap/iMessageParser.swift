@@ -134,30 +134,34 @@ class iMessageParser: NSObject {
 			print("Failed to connect to iMessage database")
 			return
 		}
+		
+		#if DEBUG
+			db.trace { print($0) }
+		#endif
 
 		print("Initialized iMesasge database")
 
-		guard let chats = try? db.prepare(chatTable) else {
+		guard let chats = try? db.prepare(chatTable.select(idCol, displayNameCol, isArchivedCol)) else {
 			print("Failed to get chats table")
 			return
 		}
 		
-		guard let handles = try? db.prepare(handleTable) else {
+		guard let handles = try? db.prepare(handleTable.select(idCol, handleCol, countryCol)) else {
 			print("Failed to get handles table")
 			return
 		}
 		
-		guard let messages = try? db.prepare(messageTable) else {
+		guard let messages = try? db.prepare(messageTable.select(idCol, textCol, handleIdCol, isFromMeCol, dateCol)) else {
 			print("Failed to get handles table")
 			return
 		}
 		
-		guard let chatMessageJoins = try? db.prepare(chatMessageJoinTable) else {
+		guard let chatMessageJoins = try? db.prepare(chatMessageJoinTable.select(chatIdCol, messageIdCol)) else {
 			print("Failed to get chat_message_join table")
 			return
 		}
 		
-		guard let chatHandleJoins = try? db.prepare(chatHandleJoinTable) else {
+		guard let chatHandleJoins = try? db.prepare(chatHandleJoinTable.select(chatIdCol, handleIdCol)) else {
 			print("Failed to get chat_handle_join table")
 			return
 		}
