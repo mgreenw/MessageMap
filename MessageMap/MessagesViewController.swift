@@ -8,7 +8,7 @@
 
 import Cocoa
 import SnapKit
-import RealmSwift
+//import RealmSwift
 
 // Define Constants
 let minMessagesViewWidth = 400
@@ -16,44 +16,50 @@ let minMessagesViewWidth = 400
 class MessagesViewController: NSViewController, NSTableViewDataSource, NSTableViewDelegate  {
 
 	@IBOutlet weak var tableView:NSTableView!
-	let realm = try! Realm()
-	var messages: Results<Message>! = nil
+	var chat: Chat?
 	
     override func viewDidLoad() {
         super.viewDidLoad()
 		
-		if let me = realm.objects(Person.self).filter("isMe = true").first {
-			let predicate = NSPredicate(format: "sender.firstName == %@ AND sender.lastName == %@", me.firstName, me.lastName)
-			messages = realm.objects(Message.self).filter(predicate)
-			
-		} else {
-			print("failed to get messages")
-		}
-		
 		self.tableView.delegate = self
 		self.tableView.dataSource = self
-		self.tableView.usesAutomaticRowHeights = true
+		//self.tableView.usesAutomaticRowHeights = true
+		
+		let delegate = NSApplication.shared.delegate as! AppDelegate
+		delegate.messagesViewController = self
 		
 		// Set the initial view constraints using SnapKit
 		self.view.snp.makeConstraints { (make) -> Void in
 			make.width.greaterThanOrEqualTo(minMessagesViewWidth)
 		}
     }
+	
+	func setChat(chat: Chat) {
+		self.chat = chat
+		tableView.reloadData()
+	}
 
 	
 	func numberOfRows(in tableView: NSTableView) -> Int {
-		print(messages.count)
-		return messages.count
+		if let c = chat {
+			return c.messages.count
+		} else {
+			return 0
+		}
 	}
 	
 	func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView?{
 		
 		
 		let result:MessageTableCellView = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "messageRow"), owner: self) as! MessageTableCellView
-		
-		let message = messages[row]
-		if let text = message.text {
-			result.text.stringValue = text
+		if let c = chat {
+			let message = c.messages[row]
+			result.text.stringValue = message.text ?? ""
+			if message.fromMe {
+				result.text.alignment = NSTextAlignment.right
+			} else {
+				result.text.alignment = NSTextAlignment.left
+			}
 		}
 		
 		return result;

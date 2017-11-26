@@ -35,7 +35,6 @@
 		98FAFCF01FBDF51200F242AC /* RealmSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 98FAFCEC1FBDF51200F242AC /* RealmSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		98FAFCF21FBDF55B00F242AC /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98FAFCF11FBDF55B00F242AC /* Models.swift */; };
 		98FAFCF61FBE04D600F242AC /* iMessageParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98FAFCF51FBE04D600F242AC /* iMessageParser.swift */; };
-		98FAFCF81FBE04E900F242AC /* ContactParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98FAFCF71FBE04E900F242AC /* ContactParser.swift */; };
 		98FAFCFA1FBE0DAB00F242AC /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98FAFCF91FBE0DAB00F242AC /* SQLite.framework */; };
 		98FAFCFC1FBE0DB500F242AC /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98FAFCFB1FBE0DB500F242AC /* SQLite.framework */; };
 		98FAFCFD1FBE0DB500F242AC /* SQLite.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 98FAFCFB1FBE0DB500F242AC /* SQLite.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -117,7 +116,6 @@
 		98FAFCEC1FBDF51200F242AC /* RealmSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RealmSwift.framework; path = Carthage/Build/Mac/RealmSwift.framework; sourceTree = "<group>"; };
 		98FAFCF11FBDF55B00F242AC /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		98FAFCF51FBE04D600F242AC /* iMessageParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iMessageParser.swift; sourceTree = "<group>"; };
-		98FAFCF71FBE04E900F242AC /* ContactParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactParser.swift; sourceTree = "<group>"; };
 		98FAFCF91FBE0DAB00F242AC /* SQLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SQLite.framework; path = Carthage/Build/Mac/SQLite.framework; sourceTree = "<group>"; };
 		98FAFCFB1FBE0DB500F242AC /* SQLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SQLite.framework; path = Carthage/Build/Mac/SQLite.framework; sourceTree = "<group>"; };
 		98FAFCFE1FBE0DBF00F242AC /* SQLite.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = SQLite.framework.dSYM; path = Carthage/Build/Mac/SQLite.framework.dSYM; sourceTree = "<group>"; };
@@ -195,7 +193,6 @@
 				98046B541FBA140100ACCF79 /* CalendarViewController.swift */,
 				988E76101FBB2D9000A782DF /* CalendarView.swift */,
 				98FAFCF51FBE04D600F242AC /* iMessageParser.swift */,
-				98FAFCF71FBE04E900F242AC /* ContactParser.swift */,
 				98F275771FB91D1600EB1241 /* Assets.xcassets */,
 				98F2757C1FB91D1600EB1241 /* Info.plist */,
 				98F2757D1FB91D1600EB1241 /* MessageMap.entitlements */,
@@ -381,7 +378,6 @@
 				98FAFCF21FBDF55B00F242AC /* Models.swift in Sources */,
 				98046B4D1FBA13AF00ACCF79 /* ChatsViewController.swift in Sources */,
 				98F275741FB91D1600EB1241 /* AppDelegate.swift in Sources */,
-				98FAFCF81FBE04E900F242AC /* ContactParser.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

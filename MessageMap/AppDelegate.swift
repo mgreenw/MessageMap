@@ -10,10 +10,13 @@ import Cocoa
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
+	
+	var chatsViewController: ChatsViewController!
+	var messagesViewController: MessagesViewController!
 
 	func applicationDidFinishLaunching(_ aNotification: Notification) {
 		// Insert code here to initialize your application
-		//let p = iMessageParser()
+		let p = iMessageParser()
 	}
 
 	func applicationWillTerminate(_ aNotification: Notification) {

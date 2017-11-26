@@ -8,7 +8,7 @@
 
 import Cocoa
 import SnapKit
-import RealmSwift
+//import RealmSwift
 
 // Define Constants
 let chatsViewWidth = 250
@@ -16,31 +16,22 @@ let chatsViewWidth = 250
 class ChatsViewController: NSViewController, NSTableViewDataSource, NSTableViewDelegate {
 	
 	@IBOutlet weak var tableView:NSTableView!
-	let realm = try! Realm()
-	var chatsSorted: [Chat]!
 	let dateFormatter = DateFormatter()
+	var delegate: AppDelegate!
 	
     override func viewDidLoad() {
         super.viewDidLoad()
 		
+		delegate = NSApplication.shared.delegate as! AppDelegate
+		delegate.chatsViewController = self
+		
+		print(Store.shared)
+		
 		self.tableView.delegate = self
 		self.tableView.dataSource = self
 		dateFormatter.dateFormat = "MM/dd/yy"
-		let delegate = NSApplication.shared.delegate
-		
-		let chats = realm.objects(Chat.self)
-		func chatDateSort(chatOne: Chat, chatTwo: Chat) -> Bool {
-			guard let chatOneDate = chatOne.lastDateBefore(date: Date()) else {
-				return false
-			}
-			guard let chatTwoDate = chatTwo.lastDateBefore(date: Date()) else {
-				return false
-			}
-			
-			return chatOneDate > chatTwoDate
-		}
-		chatsSorted = chats.sorted ( by: chatDateSort )
-		
+
+	
 		// Set the initial view constraints using SnapKit
 		self.view.snp.makeConstraints { (make) -> Void in
 			make.width.greaterThanOrEqualTo(chatsViewWidth)
@@ -48,12 +39,15 @@ class ChatsViewController: NSViewController, NSTableViewDataSource, NSTableViewD
     }
 	
 	func numberOfRows(in tableView: NSTableView) -> Int {
-		let chats = realm.objects(Chat.self)
-		return chats.count
+		return Store.shared.chats.count
 	}
 	
 	func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
 		return 68.0
+	}
+	
+	func tableViewSelectionDidChange(_ notification: Notification) {
+		delegate.messagesViewController.setChat(chat: Store.shared.chats[tableView.selectedRow])
 	}
 	
 	func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView?{
@@ -61,7 +55,7 @@ class ChatsViewController: NSViewController, NSTableViewDataSource, NSTableViewD
 		
 		let result:ChatTableCellView = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "chatRow"), owner: self) as! ChatTableCellView
 		
-		let chat = chatsSorted[row]
+		let chat = Store.shared.chats[row]
 		
 		if let displayName = chat.displayName {
 			result.name.stringValue = displayName
@@ -78,7 +72,7 @@ class ChatsViewController: NSViewController, NSTableViewDataSource, NSTableViewD
 		
 		let date = Date()
 		
-		if let message = chat.lastMessageBefore(date: date) {
+		if let message = chat.messages.last {
 			result.date.stringValue = dateFormatter.string(from: message.date)
 			result.text.stringValue = message.text ?? "Attachment: {} images"
 		} else {

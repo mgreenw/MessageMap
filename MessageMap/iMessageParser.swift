@@ -8,7 +8,7 @@
 
 import Cocoa
 import SQLite
-import RealmSwift
+//import RealmSwift
 import Contacts
 
 class iMessageParser: NSObject {
@@ -43,15 +43,21 @@ class iMessageParser: NSObject {
 	
 	// Define table and columns for "chat_handle_join" table
 	let chatHandleJoinTable = Table("chat_handle_join")
+	
+	
 
 	override init() {
-		let realm = try! Realm()
+//		let realm = try! Realm()
+//
+//		try! realm.write {
+//			realm.deleteAll()
+//		}
 		
-		try! realm.write {
-			realm.deleteAll()
-		}
+//		print("Realm Path : \(realm.configuration.fileURL?.absoluteURL)")
 		
-		print("Realm Path : \(realm.configuration.fileURL?.absoluteURL)")
+		let delegate = NSApplication.shared.delegate as! AppDelegate
+		
+		
 		let store = CNContactStore()
 		let keys = [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactEmailAddressesKey, CNContactPhoneNumbersKey]
 		let keysToFetch = keys.map {$0 as CNKeyDescriptor}
@@ -73,12 +79,11 @@ class iMessageParser: NSObject {
 		
 		var personDict = [String:Person]()
 		
-		let me = Person()
-		me.isMe = true
+		let me: Person
 		
 		if let meContact = try? store.unifiedMeContactWithKeys(toFetch: keysToFetch) {
-			me.firstName = meContact.givenName
-			me.lastName = meContact.familyName
+			me = Person(firstName: meContact.givenName, lastName: meContact.familyName)
+			me.isMe = true
 			
 			let emailAddresses = meContact.emailAddresses.map {sanitizeEmail(String($0.value))}
 			let phoneNumbers = meContact.phoneNumbers.map {sanitizePhone($0.value.stringValue)}
@@ -93,20 +98,14 @@ class iMessageParser: NSObject {
 			
 		} else {
 			print("Cannot get 'me' contact.")
-			me.firstName = "My"
-			me.lastName = "Self"
+			me = Person(firstName: "My", lastName: "Self")
 		}
 		
-		try! realm.write {
-			realm.add(me)
-		}
-		
+		Store.shared.me = me
 		
 		try? store.enumerateContacts(with: CNContactFetchRequest(keysToFetch: keysToFetch)) { (contact: CNContact, bool) in
 			
-			let newPerson = Person()
-			newPerson.firstName = contact.givenName
-			newPerson.lastName = contact.familyName
+			let newPerson = Person(firstName: contact.givenName, lastName: contact.familyName)
 			
 			let emailAddresses = contact.emailAddresses.map {sanitizeEmail(String($0.value))}
 			let phoneNumbers = contact.phoneNumbers.map {sanitizePhone($0.value.stringValue)}
@@ -119,9 +118,7 @@ class iMessageParser: NSObject {
 				personDict[phone] = newPerson
 			}
 			
-			try! realm.write {
-				realm.add(newPerson)
-			}
+			Store.shared.people.append(newPerson)
 		}
 		
 		let iMessageURL = home.appendingPathComponent("/Library/Messages/chat.db")
@@ -187,37 +184,28 @@ class iMessageParser: NSObject {
 				continue
 			}
 			
-			let newHandle = Handle()
-			newHandle.country = country
-			
 			if handleName.contains("@") {
 				handleName = sanitizeEmail(handleName)
 			} else {
 				handleName = sanitizePhone(handleName)
 			}
 			
-			newHandle.handle = handleName
+			let person: Person
 			
-			if let person = personDict[handleName] {
-				newHandle.person = person
+			if let p = personDict[handleName] {
+				person = p
 			} else {
 				
 				// If we do not have a person yet for this handle, make one
-				let newPerson = Person()
-				newPerson.firstName = handleName
+				let newPerson = Person(firstName: handleName, lastName: nil)
 				personDict[handleName] = newPerson
-				newHandle.person = newPerson
-				
-				try! realm.write {
-					realm.add(newPerson)
-				}
+				person = newPerson
+				Store.shared.people.append(newPerson)
 			}
 			
+			let newHandle = Handle(person: person, handle: handleName, country: country)
 			handlesDict[id] = newHandle
-			
-			try! realm.write {
-				realm.add(newHandle)
-			}
+			Store.shared.handles.append(newHandle)
 		}
 
 		// Iterate through all the chats and make new Chat Objects
@@ -238,15 +226,11 @@ class iMessageParser: NSObject {
 				continue
 			}
 			
-			let newChat = Chat()
-			newChat.displayName = displayName
+			let newChat = Chat(displayName: displayName)
 			newChat.isArchived = isArchived == 1 ? true : false
 			
 			chatsDict[id] = newChat
-			
-			try! realm.write {
-				realm.add(newChat)
-			}
+			Store.shared.chats.append(newChat)
 		}
 		
 		for chatMessageJoin in chatMessageJoins {
@@ -274,10 +258,7 @@ class iMessageParser: NSObject {
 			
 			if let person = handlesDict[handleId]?.person {
 				if let chat = chatsDict[chatId] {
-					try! realm.write {
-						chat.people.append(person)
-					}
-					
+					chat.add(person: person)
 				} else {
 					print("Couldn't find chat with id \(chatId)")
 				}
@@ -307,18 +288,14 @@ class iMessageParser: NSObject {
 				print("Could not get message's 'date' column, therefore skipping")
 				continue
 			}
-
-			let newMessage = Message()
-			newMessage.fromMe = isFromMe == 1 ? true : false
-			newMessage.text = text == "" ? nil : text
 			
-			date = date/1000000000
-			newMessage.date = Date(timeIntervalSinceReferenceDate: TimeInterval(date))
-			if (newMessage.fromMe) {
-				newMessage.sender = me
+			let sender: Person
+			
+			if (isFromMe == 1) {
+				sender = me
 			} else {
 				if let person = handlesDict[handleId]?.person {
-					newMessage.sender = person
+					sender = person
 				} else {
 					guard let otherHandleId = try? message.get(otherHandleIdCol) else {
 						print("Could not get message's 'other_handle' column, therefore skipping")
@@ -326,24 +303,39 @@ class iMessageParser: NSObject {
 					}
 					
 					if let person = handlesDict[otherHandleId]?.person {
-						newMessage.sender = person
+						sender = person
 					} else {
+						sender = Person(firstName: "Not Sure...", lastName: nil)
 						print("No handle for this message. Weird... Handle ID: \(handleId)")
 					}
 				}
 			}
 			
-			newMessage.chat = chatMessageJoinDict[id]
+			date = date/1000000000
+			let actualDate = Date(timeIntervalSinceReferenceDate: TimeInterval(date))
 			
-			messagesDict[id] = newMessage
+			let chat = chatMessageJoinDict[id] ?? Chat(displayName: "Unknown Chat")
+			
 
-			
-			try! realm.write {
-				realm.add(newMessage)
-			}
+			let newMessage = Message(sender: sender, chat: chat, date: actualDate, text: text == "" ? nil : text)
+			newMessage.fromMe = isFromMe == 1 ? true : false
+	
+			messagesDict[id] = newMessage
+			chat.add(message: newMessage)
+			sender.add(message: newMessage)
+			Store.shared.messages.append(newMessage)
 		}
 		
 		
 		print("Done!!")
+		print("Messages:")
+		print(Store.shared.messages.count)
+		print("People:")
+		print(Store.shared.people.count)
+		print("Chats:")
+		print(Store.shared.chats.count)
+		Store.shared.sortData()
+
+		delegate.chatsViewController.tableView.reloadData()
 	}
 }
