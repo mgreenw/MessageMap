@@ -1,3 +1,7 @@
+# WebStorm
+.idea/*
+.idea
+
 # Logs
 logs
 *.log
