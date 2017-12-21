@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>MessageMap</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<ul id="chats">
+</ul>
+<div id="loading" class="loader center"></div>
+
+<span id="helptext">Select a chat and day to get started!</span>
+<ul id="messages">
+
+</ul>
+<div id="mine">
+    <u>My Top 10</u>
+    <ul id="my-words">
+    </ul>
+</div>
+
+<div id="other">
+    <u>Their Top 10</u>
+<ul id="other-words">
+</ul>
+</div>
+<div id="calendar-labels">
+    <p class="day-label" id="sun"> Sun </p>
+    <p class="day-label"> Mon </p>
+    <p class="day-label"> Tue </p>
+    <p class="day-label"> Wed </p>
+    <p class="day-label"> Thu </p>
+    <p class="day-label"> Fri </p>
+    <p class="day-label"> Sat </p>
+</div>
+<div id="calendar-div">
+    <svg fill="gray" width="1900" id="calendar">
+        <g id="tooltip" visibility="hidden">
+            <!--<rect class="tool"-->
+            <!--x="0" y="0"-->
+            <!--width="52" height="16" visibility="visible"></rect>-->
+            <text id="tooltiptext" x="1" y="15" font-family="Verdana" font-size="35" fill="blue">Hello!</text>
+        </g>
+    </svg>
+</div>
+<script>
+    // You can also require other files to run in this process
+    require('./renderer.js');
+</script>
+</body>
+</html>

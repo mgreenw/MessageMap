@@ -1,0 +1,36 @@
+{
+  "name": "MessageMap",
+  "productName": "MessageMap",
+  "description": "An app to explore your iMessages!",
+  "version": "1.0.0",
+  "author": "Max Greenwald <maxgreenwald@me.com>",
+  "copyright": "© 2017 Max Greenwald",
+  "homepage": "http://maxgreenwald.me",
+  "license": "MIT",
+  "main": "app/app.js",
+  "build": {
+    "appId": "com.maxgreenwald.messagemap",
+    "files": [
+      "app/**/*",
+      "node_modules/**/*",
+      "package.json",
+      "ContactExport"
+    ],
+    "extraResources": [
+      "ContactExport"
+    ]
+  },
+  "scripts": {
+    "postinstall": "install-app-deps",
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "release": "build"
+  },
+  "dependencies": {
+    "sqlite3": "^3.1.8"
+  },
+  "devDependencies": {
+    "electron": "^1.4.10",
+    "electron-builder": "^10.8.1"
+  }
+}

@@ -57,3 +57,8 @@ typings/
 # dotenv environment variables file
 .env
 
+*.swp
+build
+node_modules
+dist
+npm-debug.log
