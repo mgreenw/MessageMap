@@ -7,8 +7,7 @@
 //
 
 import Cocoa
-import SnapKit
-//import RealmSwift
+//import SnapKit
 
 // Define Constants
 let chatsViewWidth = 250
@@ -16,13 +15,13 @@ let chatsViewWidth = 250
 class ChatsViewController: NSViewController, NSTableViewDataSource, NSTableViewDelegate {
 	
 	@IBOutlet weak var tableView:NSTableView!
+    @IBOutlet weak var progress: NSProgressIndicator!
 	let dateFormatter = DateFormatter()
-	var delegate: AppDelegate!
+	let delegate = NSApplication.shared.delegate as! AppDelegate
 	
     override func viewDidLoad() {
         super.viewDidLoad()
 		
-		delegate = NSApplication.shared.delegate as! AppDelegate
 		delegate.chatsViewController = self
 		
 		print(Store.shared)
@@ -33,9 +32,9 @@ class ChatsViewController: NSViewController, NSTableViewDataSource, NSTableViewD
 
 	
 		// Set the initial view constraints using SnapKit
-		self.view.snp.makeConstraints { (make) -> Void in
-			make.width.greaterThanOrEqualTo(chatsViewWidth)
-		}
+//		self.view.snp.makeConstraints { (make) -> Void in
+//			make.width.greaterThanOrEqualTo(chatsViewWidth)
+//		}
     }
 	
 	func numberOfRows(in tableView: NSTableView) -> Int {
@@ -70,7 +69,7 @@ class ChatsViewController: NSViewController, NSTableViewDataSource, NSTableViewD
 			}
 		}
 		
-		let date = Date()
+		let _ = Date()
 		
 		if let message = chat.messages.last {
 			result.date.stringValue = dateFormatter.string(from: message.date)
@@ -78,18 +77,21 @@ class ChatsViewController: NSViewController, NSTableViewDataSource, NSTableViewD
 		} else {
 			result.date.stringValue = "Never"
 		}
-		
-		
-//		if (result.backgroundStyle == NSView.BackgroundStyle.dark) {
-//			result.text.textColor = NSColor.white
-//			result.name.textColor = NSColor.white
-//			result.date.textColor = NSColor.white
-//		} else if (result.backgroundStyle == NSView.BackgroundStyle.light) {
-//			result.text.textColor = NSColor.gray
-//			result.name.textColor = NSColor.black
-//			result.date.textColor = NSColor.gray
-//		}
-		
+        
+        let graph = result.graph
+        var segments = [Segment]()
+        let meSegment = Segment(color: .blue, value: CGFloat(chat.messages.filter { $0.sender == Store.shared.me }.count))
+        segments.append(meSegment)
+        
+        for person in chat.people {
+            let count = (chat.messages.filter { $0.sender == person }).count
+            let segment = Segment(color: .orange, value: CGFloat(count))
+            segments.append(segment)
+        }
+        
+        
+        graph?.segments = segments
+
 
 		return result;
 	}
@@ -102,5 +104,6 @@ class ChatTableCellView: NSTableCellView {
 	@IBOutlet weak var name: NSTextField!
 	@IBOutlet weak var text: NSTextField!
 	@IBOutlet weak var date: NSTextField!
+    @IBOutlet weak var graph: ChatGraph!
 	
 }

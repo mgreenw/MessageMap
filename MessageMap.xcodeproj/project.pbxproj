@@ -8,55 +8,33 @@
 
 /* Begin PBXBuildFile section */
 		98046B4D1FBA13AF00ACCF79 /* ChatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98046B4C1FBA13AF00ACCF79 /* ChatsViewController.swift */; };
-		98046B4E1FBA13AF00ACCF79 /* ChatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98046B4C1FBA13AF00ACCF79 /* ChatsViewController.swift */; };
-		98046B4F1FBA13AF00ACCF79 /* ChatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98046B4C1FBA13AF00ACCF79 /* ChatsViewController.swift */; };
 		98046B511FBA13CE00ACCF79 /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98046B501FBA13CE00ACCF79 /* MessagesViewController.swift */; };
-		98046B521FBA13CE00ACCF79 /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98046B501FBA13CE00ACCF79 /* MessagesViewController.swift */; };
-		98046B531FBA13CE00ACCF79 /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98046B501FBA13CE00ACCF79 /* MessagesViewController.swift */; };
 		98046B551FBA140100ACCF79 /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98046B541FBA140100ACCF79 /* CalendarViewController.swift */; };
-		98046B561FBA140100ACCF79 /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98046B541FBA140100ACCF79 /* CalendarViewController.swift */; };
-		98046B571FBA140100ACCF79 /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98046B541FBA140100ACCF79 /* CalendarViewController.swift */; };
 		98046B591FBA190F00ACCF79 /* Cartfile in Resources */ = {isa = PBXBuildFile; fileRef = 98046B581FBA190F00ACCF79 /* Cartfile */; };
-		98046B5A1FBA190F00ACCF79 /* Cartfile in Resources */ = {isa = PBXBuildFile; fileRef = 98046B581FBA190F00ACCF79 /* Cartfile */; };
-		98046B5B1FBA190F00ACCF79 /* Cartfile in Resources */ = {isa = PBXBuildFile; fileRef = 98046B581FBA190F00ACCF79 /* Cartfile */; };
+		980D68B61FD50837002BEF3C /* CalendarDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 980D68B51FD50837002BEF3C /* CalendarDay.swift */; };
+		9837ED5D1FD70F3400947333 /* ChatGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9837ED5C1FD70F3400947333 /* ChatGraph.swift */; };
+		985E39021FCB4D79009BA3F2 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = 985E39011FCB4D79009BA3F2 /* Store.swift */; };
+		985E39041FCB4DE1009BA3F2 /* ContactParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 985E39031FCB4DE1009BA3F2 /* ContactParser.swift */; };
+		985E39071FCB4F39009BA3F2 /* DataCleaning.swift in Sources */ = {isa = PBXBuildFile; fileRef = 985E39061FCB4F39009BA3F2 /* DataCleaning.swift */; };
+		98857630206E8EEA000DB5CE /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9885762C206E8EE9000DB5CE /* RealmSwift.framework */; };
+		98857631206E8EEA000DB5CE /* RealmSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9885762C206E8EE9000DB5CE /* RealmSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		98857632206E8EEA000DB5CE /* SnapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9885762D206E8EE9000DB5CE /* SnapKit.framework */; };
+		98857633206E8EEA000DB5CE /* SnapKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9885762D206E8EE9000DB5CE /* SnapKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		98857634206E8EEA000DB5CE /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9885762E206E8EEA000DB5CE /* SQLite.framework */; };
+		98857635206E8EEA000DB5CE /* SQLite.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9885762E206E8EEA000DB5CE /* SQLite.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		98857636206E8EEA000DB5CE /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9885762F206E8EEA000DB5CE /* Realm.framework */; };
+		98857637206E8EEA000DB5CE /* Realm.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9885762F206E8EEA000DB5CE /* Realm.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9885763C206E8EF7000DB5CE /* SnapKit.framework.dSYM in Resources */ = {isa = PBXBuildFile; fileRef = 98857638206E8EF7000DB5CE /* SnapKit.framework.dSYM */; };
+		9885763D206E8EF7000DB5CE /* Realm.framework.dSYM in Resources */ = {isa = PBXBuildFile; fileRef = 98857639206E8EF7000DB5CE /* Realm.framework.dSYM */; };
+		9885763E206E8EF7000DB5CE /* SQLite.framework.dSYM in Resources */ = {isa = PBXBuildFile; fileRef = 9885763A206E8EF7000DB5CE /* SQLite.framework.dSYM */; };
+		9885763F206E8EF7000DB5CE /* RealmSwift.framework.dSYM in Resources */ = {isa = PBXBuildFile; fileRef = 9885763B206E8EF7000DB5CE /* RealmSwift.framework.dSYM */; };
 		988E76111FBB2D9000A782DF /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 988E76101FBB2D9000A782DF /* CalendarView.swift */; };
-		98B887421FBA1D5200D65C96 /* SnapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98B887411FBA1D5200D65C96 /* SnapKit.framework */; };
-		98B887431FBA1D5200D65C96 /* SnapKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 98B887411FBA1D5200D65C96 /* SnapKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		98B887471FBA1D9700D65C96 /* SnapKit.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 98B887461FBA1D9700D65C96 /* SnapKit.framework.dSYM */; };
 		98F275741FB91D1600EB1241 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F275731FB91D1600EB1241 /* AppDelegate.swift */; };
 		98F275781FB91D1600EB1241 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 98F275771FB91D1600EB1241 /* Assets.xcassets */; };
 		98F2757B1FB91D1600EB1241 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 98F275791FB91D1600EB1241 /* Main.storyboard */; };
-		98F275871FB91D1600EB1241 /* MessageMapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F275861FB91D1600EB1241 /* MessageMapTests.swift */; };
-		98F275921FB91D1600EB1241 /* MessageMapUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F275911FB91D1600EB1241 /* MessageMapUITests.swift */; };
-		98FAFCE71FBDF43A00F242AC /* RealmSwift.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 98FAFCE51FBDF43A00F242AC /* RealmSwift.framework.dSYM */; };
-		98FAFCED1FBDF51200F242AC /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98FAFCEB1FBDF51200F242AC /* Realm.framework */; };
-		98FAFCEE1FBDF51200F242AC /* Realm.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 98FAFCEB1FBDF51200F242AC /* Realm.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		98FAFCEF1FBDF51200F242AC /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98FAFCEC1FBDF51200F242AC /* RealmSwift.framework */; };
-		98FAFCF01FBDF51200F242AC /* RealmSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 98FAFCEC1FBDF51200F242AC /* RealmSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		98FAFCF21FBDF55B00F242AC /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98FAFCF11FBDF55B00F242AC /* Models.swift */; };
 		98FAFCF61FBE04D600F242AC /* iMessageParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98FAFCF51FBE04D600F242AC /* iMessageParser.swift */; };
-		98FAFCFA1FBE0DAB00F242AC /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98FAFCF91FBE0DAB00F242AC /* SQLite.framework */; };
-		98FAFCFC1FBE0DB500F242AC /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98FAFCFB1FBE0DB500F242AC /* SQLite.framework */; };
-		98FAFCFD1FBE0DB500F242AC /* SQLite.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 98FAFCFB1FBE0DB500F242AC /* SQLite.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		98FAFCFF1FBE0DBF00F242AC /* SQLite.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 98FAFCFE1FBE0DBF00F242AC /* SQLite.framework.dSYM */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		98F275831FB91D1600EB1241 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 98F275681FB91D1600EB1241 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 98F2756F1FB91D1600EB1241;
-			remoteInfo = MessageMap;
-		};
-		98F2758E1FB91D1600EB1241 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 98F275681FB91D1600EB1241 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 98F2756F1FB91D1600EB1241;
-			remoteInfo = MessageMap;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		98B887441FBA1D5200D65C96 /* Embed Frameworks */ = {
@@ -65,10 +43,10 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				98FAFCEE1FBDF51200F242AC /* Realm.framework in Embed Frameworks */,
-				98B887431FBA1D5200D65C96 /* SnapKit.framework in Embed Frameworks */,
-				98FAFCFD1FBE0DB500F242AC /* SQLite.framework in Embed Frameworks */,
-				98FAFCF01FBDF51200F242AC /* RealmSwift.framework in Embed Frameworks */,
+				98857637206E8EEA000DB5CE /* Realm.framework in Embed Frameworks */,
+				98857631206E8EEA000DB5CE /* RealmSwift.framework in Embed Frameworks */,
+				98857633206E8EEA000DB5CE /* SnapKit.framework in Embed Frameworks */,
+				98857635206E8EEA000DB5CE /* SQLite.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -79,9 +57,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 16;
 			files = (
-				98FAFCFF1FBE0DBF00F242AC /* SQLite.framework.dSYM in CopyFiles */,
-				98B887471FBA1D9700D65C96 /* SnapKit.framework.dSYM in CopyFiles */,
-				98FAFCE71FBDF43A00F242AC /* RealmSwift.framework.dSYM in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -92,33 +67,31 @@
 		98046B501FBA13CE00ACCF79 /* MessagesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesViewController.swift; sourceTree = "<group>"; };
 		98046B541FBA140100ACCF79 /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
 		98046B581FBA190F00ACCF79 /* Cartfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartfile; sourceTree = "<group>"; };
+		980D68B51FD50837002BEF3C /* CalendarDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDay.swift; sourceTree = "<group>"; };
+		9837ED5C1FD70F3400947333 /* ChatGraph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatGraph.swift; sourceTree = "<group>"; };
+		985E39011FCB4D79009BA3F2 /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
+		985E39031FCB4DE1009BA3F2 /* ContactParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactParser.swift; sourceTree = "<group>"; };
+		985E39061FCB4F39009BA3F2 /* DataCleaning.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataCleaning.swift; sourceTree = "<group>"; };
+		9885762C206E8EE9000DB5CE /* RealmSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RealmSwift.framework; path = Carthage/Build/Mac/RealmSwift.framework; sourceTree = "<group>"; };
+		9885762D206E8EE9000DB5CE /* SnapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SnapKit.framework; path = Carthage/Build/Mac/SnapKit.framework; sourceTree = "<group>"; };
+		9885762E206E8EEA000DB5CE /* SQLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SQLite.framework; path = Carthage/Build/Mac/SQLite.framework; sourceTree = "<group>"; };
+		9885762F206E8EEA000DB5CE /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Realm.framework; path = Carthage/Build/Mac/Realm.framework; sourceTree = "<group>"; };
+		98857638206E8EF7000DB5CE /* SnapKit.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = SnapKit.framework.dSYM; path = Carthage/Build/Mac/SnapKit.framework.dSYM; sourceTree = "<group>"; };
+		98857639206E8EF7000DB5CE /* Realm.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = Realm.framework.dSYM; path = Carthage/Build/Mac/Realm.framework.dSYM; sourceTree = "<group>"; };
+		9885763A206E8EF7000DB5CE /* SQLite.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = SQLite.framework.dSYM; path = Carthage/Build/Mac/SQLite.framework.dSYM; sourceTree = "<group>"; };
+		9885763B206E8EF7000DB5CE /* RealmSwift.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = RealmSwift.framework.dSYM; path = Carthage/Build/Mac/RealmSwift.framework.dSYM; sourceTree = "<group>"; };
 		988E76101FBB2D9000A782DF /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
-		98B887411FBA1D5200D65C96 /* SnapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SnapKit.framework; path = Carthage/Build/Mac/SnapKit.framework; sourceTree = "<group>"; };
-		98B887461FBA1D9700D65C96 /* SnapKit.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = SnapKit.framework.dSYM; path = Carthage/Build/Mac/SnapKit.framework.dSYM; sourceTree = "<group>"; };
 		98F275701FB91D1600EB1241 /* MessageMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MessageMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		98F275731FB91D1600EB1241 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		98F275771FB91D1600EB1241 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		98F2757A1FB91D1600EB1241 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		98F2757C1FB91D1600EB1241 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		98F2757D1FB91D1600EB1241 /* MessageMap.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MessageMap.entitlements; sourceTree = "<group>"; };
-		98F275821FB91D1600EB1241 /* MessageMapTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MessageMapTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		98F275861FB91D1600EB1241 /* MessageMapTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageMapTests.swift; sourceTree = "<group>"; };
-		98F275881FB91D1600EB1241 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		98F2758D1FB91D1600EB1241 /* MessageMapUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MessageMapUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		98F275911FB91D1600EB1241 /* MessageMapUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageMapUITests.swift; sourceTree = "<group>"; };
-		98F275931FB91D1600EB1241 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		98FAFCE11FBDF42500F242AC /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Realm.framework; path = Carthage/Build/Mac/Realm.framework; sourceTree = "<group>"; };
 		98FAFCE31FBDF42800F242AC /* RealmSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RealmSwift.framework; path = Carthage/Build/Mac/RealmSwift.framework; sourceTree = "<group>"; };
-		98FAFCE51FBDF43A00F242AC /* RealmSwift.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = RealmSwift.framework.dSYM; path = Carthage/Build/Mac/RealmSwift.framework.dSYM; sourceTree = "<group>"; };
-		98FAFCE91FBDF50400F242AC /* Realm.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = Realm.framework.dSYM; path = Carthage/Build/Mac/Realm.framework.dSYM; sourceTree = "<group>"; };
-		98FAFCEA1FBDF50700F242AC /* RealmSwift.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = RealmSwift.framework.dSYM; path = Carthage/Build/Mac/RealmSwift.framework.dSYM; sourceTree = "<group>"; };
-		98FAFCEB1FBDF51200F242AC /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Realm.framework; path = Carthage/Build/Mac/Realm.framework; sourceTree = "<group>"; };
-		98FAFCEC1FBDF51200F242AC /* RealmSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RealmSwift.framework; path = Carthage/Build/Mac/RealmSwift.framework; sourceTree = "<group>"; };
 		98FAFCF11FBDF55B00F242AC /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		98FAFCF51FBE04D600F242AC /* iMessageParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iMessageParser.swift; sourceTree = "<group>"; };
 		98FAFCF91FBE0DAB00F242AC /* SQLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SQLite.framework; path = Carthage/Build/Mac/SQLite.framework; sourceTree = "<group>"; };
-		98FAFCFB1FBE0DB500F242AC /* SQLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SQLite.framework; path = Carthage/Build/Mac/SQLite.framework; sourceTree = "<group>"; };
-		98FAFCFE1FBE0DBF00F242AC /* SQLite.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = SQLite.framework.dSYM; path = Carthage/Build/Mac/SQLite.framework.dSYM; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,47 +99,41 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				98FAFCED1FBDF51200F242AC /* Realm.framework in Frameworks */,
-				98FAFCEF1FBDF51200F242AC /* RealmSwift.framework in Frameworks */,
-				98B887421FBA1D5200D65C96 /* SnapKit.framework in Frameworks */,
-				98FAFCFC1FBE0DB500F242AC /* SQLite.framework in Frameworks */,
-				98FAFCFA1FBE0DAB00F242AC /* SQLite.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		98F2757F1FB91D1600EB1241 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		98F2758A1FB91D1600EB1241 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
+				98857636206E8EEA000DB5CE /* Realm.framework in Frameworks */,
+				98857630206E8EEA000DB5CE /* RealmSwift.framework in Frameworks */,
+				98857632206E8EEA000DB5CE /* SnapKit.framework in Frameworks */,
+				98857634206E8EEA000DB5CE /* SQLite.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		985E39051FCB4E76009BA3F2 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				985E39011FCB4D79009BA3F2 /* Store.swift */,
+				98FAFCF11FBDF55B00F242AC /* Models.swift */,
+				98FAFCF51FBE04D600F242AC /* iMessageParser.swift */,
+				985E39031FCB4DE1009BA3F2 /* ContactParser.swift */,
+				985E39061FCB4F39009BA3F2 /* DataCleaning.swift */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
 		98F275671FB91D1600EB1241 = {
 			isa = PBXGroup;
 			children = (
-				98FAFCFB1FBE0DB500F242AC /* SQLite.framework */,
-				98B887411FBA1D5200D65C96 /* SnapKit.framework */,
-				98FAFCEB1FBDF51200F242AC /* Realm.framework */,
-				98FAFCEC1FBDF51200F242AC /* RealmSwift.framework */,
-				98FAFCEA1FBDF50700F242AC /* RealmSwift.framework.dSYM */,
-				98FAFCFE1FBE0DBF00F242AC /* SQLite.framework.dSYM */,
-				98FAFCE91FBDF50400F242AC /* Realm.framework.dSYM */,
-				98FAFCE51FBDF43A00F242AC /* RealmSwift.framework.dSYM */,
-				98B887461FBA1D9700D65C96 /* SnapKit.framework.dSYM */,
+				9885762F206E8EEA000DB5CE /* Realm.framework */,
+				9885762C206E8EE9000DB5CE /* RealmSwift.framework */,
+				9885762D206E8EE9000DB5CE /* SnapKit.framework */,
+				9885762E206E8EEA000DB5CE /* SQLite.framework */,
+				98857639206E8EF7000DB5CE /* Realm.framework.dSYM */,
+				9885763B206E8EF7000DB5CE /* RealmSwift.framework.dSYM */,
+				98857638206E8EF7000DB5CE /* SnapKit.framework.dSYM */,
+				9885763A206E8EF7000DB5CE /* SQLite.framework.dSYM */,
 				98046B581FBA190F00ACCF79 /* Cartfile */,
 				98F275721FB91D1600EB1241 /* MessageMap */,
-				98F275851FB91D1600EB1241 /* MessageMapTests */,
-				98F275901FB91D1600EB1241 /* MessageMapUITests */,
 				98F275711FB91D1600EB1241 /* Products */,
 				98FAFCE01FBDF42500F242AC /* Frameworks */,
 			);
@@ -176,8 +143,6 @@
 			isa = PBXGroup;
 			children = (
 				98F275701FB91D1600EB1241 /* MessageMap.app */,
-				98F275821FB91D1600EB1241 /* MessageMapTests.xctest */,
-				98F2758D1FB91D1600EB1241 /* MessageMapUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -187,35 +152,18 @@
 			children = (
 				98F275791FB91D1600EB1241 /* Main.storyboard */,
 				98F275731FB91D1600EB1241 /* AppDelegate.swift */,
-				98FAFCF11FBDF55B00F242AC /* Models.swift */,
+				985E39051FCB4E76009BA3F2 /* Data */,
 				98046B4C1FBA13AF00ACCF79 /* ChatsViewController.swift */,
+				9837ED5C1FD70F3400947333 /* ChatGraph.swift */,
 				98046B501FBA13CE00ACCF79 /* MessagesViewController.swift */,
 				98046B541FBA140100ACCF79 /* CalendarViewController.swift */,
 				988E76101FBB2D9000A782DF /* CalendarView.swift */,
-				98FAFCF51FBE04D600F242AC /* iMessageParser.swift */,
+				980D68B51FD50837002BEF3C /* CalendarDay.swift */,
 				98F275771FB91D1600EB1241 /* Assets.xcassets */,
 				98F2757C1FB91D1600EB1241 /* Info.plist */,
 				98F2757D1FB91D1600EB1241 /* MessageMap.entitlements */,
 			);
 			path = MessageMap;
-			sourceTree = "<group>";
-		};
-		98F275851FB91D1600EB1241 /* MessageMapTests */ = {
-			isa = PBXGroup;
-			children = (
-				98F275861FB91D1600EB1241 /* MessageMapTests.swift */,
-				98F275881FB91D1600EB1241 /* Info.plist */,
-			);
-			path = MessageMapTests;
-			sourceTree = "<group>";
-		};
-		98F275901FB91D1600EB1241 /* MessageMapUITests */ = {
-			isa = PBXGroup;
-			children = (
-				98F275911FB91D1600EB1241 /* MessageMapUITests.swift */,
-				98F275931FB91D1600EB1241 /* Info.plist */,
-			);
-			path = MessageMapUITests;
 			sourceTree = "<group>";
 		};
 		98FAFCE01FBDF42500F242AC /* Frameworks */ = {
@@ -250,42 +198,6 @@
 			productReference = 98F275701FB91D1600EB1241 /* MessageMap.app */;
 			productType = "com.apple.product-type.application";
 		};
-		98F275811FB91D1600EB1241 /* MessageMapTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 98F275991FB91D1600EB1241 /* Build configuration list for PBXNativeTarget "MessageMapTests" */;
-			buildPhases = (
-				98F2757E1FB91D1600EB1241 /* Sources */,
-				98F2757F1FB91D1600EB1241 /* Frameworks */,
-				98F275801FB91D1600EB1241 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				98F275841FB91D1600EB1241 /* PBXTargetDependency */,
-			);
-			name = MessageMapTests;
-			productName = MessageMapTests;
-			productReference = 98F275821FB91D1600EB1241 /* MessageMapTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		98F2758C1FB91D1600EB1241 /* MessageMapUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 98F2759C1FB91D1600EB1241 /* Build configuration list for PBXNativeTarget "MessageMapUITests" */;
-			buildPhases = (
-				98F275891FB91D1600EB1241 /* Sources */,
-				98F2758A1FB91D1600EB1241 /* Frameworks */,
-				98F2758B1FB91D1600EB1241 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				98F2758F1FB91D1600EB1241 /* PBXTargetDependency */,
-			);
-			name = MessageMapUITests;
-			productName = MessageMapUITests;
-			productReference = 98F2758D1FB91D1600EB1241 /* MessageMapUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -305,16 +217,6 @@
 							};
 						};
 					};
-					98F275811FB91D1600EB1241 = {
-						CreatedOnToolsVersion = 9.1;
-						ProvisioningStyle = Automatic;
-						TestTargetID = 98F2756F1FB91D1600EB1241;
-					};
-					98F2758C1FB91D1600EB1241 = {
-						CreatedOnToolsVersion = 9.1;
-						ProvisioningStyle = Automatic;
-						TestTargetID = 98F2756F1FB91D1600EB1241;
-					};
 				};
 			};
 			buildConfigurationList = 98F2756B1FB91D1600EB1241 /* Build configuration list for PBXProject "MessageMap" */;
@@ -331,8 +233,6 @@
 			projectRoot = "";
 			targets = (
 				98F2756F1FB91D1600EB1241 /* MessageMap */,
-				98F275811FB91D1600EB1241 /* MessageMapTests */,
-				98F2758C1FB91D1600EB1241 /* MessageMapUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -344,23 +244,11 @@
 			files = (
 				98046B591FBA190F00ACCF79 /* Cartfile in Resources */,
 				98F275781FB91D1600EB1241 /* Assets.xcassets in Resources */,
+				9885763E206E8EF7000DB5CE /* SQLite.framework.dSYM in Resources */,
+				9885763D206E8EF7000DB5CE /* Realm.framework.dSYM in Resources */,
 				98F2757B1FB91D1600EB1241 /* Main.storyboard in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		98F275801FB91D1600EB1241 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				98046B5A1FBA190F00ACCF79 /* Cartfile in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		98F2758B1FB91D1600EB1241 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				98046B5B1FBA190F00ACCF79 /* Cartfile in Resources */,
+				9885763C206E8EF7000DB5CE /* SnapKit.framework.dSYM in Resources */,
+				9885763F206E8EF7000DB5CE /* RealmSwift.framework.dSYM in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -371,52 +259,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				980D68B61FD50837002BEF3C /* CalendarDay.swift in Sources */,
+				985E39071FCB4F39009BA3F2 /* DataCleaning.swift in Sources */,
 				98FAFCF61FBE04D600F242AC /* iMessageParser.swift in Sources */,
 				988E76111FBB2D9000A782DF /* CalendarView.swift in Sources */,
 				98046B551FBA140100ACCF79 /* CalendarViewController.swift in Sources */,
+				985E39021FCB4D79009BA3F2 /* Store.swift in Sources */,
 				98046B511FBA13CE00ACCF79 /* MessagesViewController.swift in Sources */,
 				98FAFCF21FBDF55B00F242AC /* Models.swift in Sources */,
+				9837ED5D1FD70F3400947333 /* ChatGraph.swift in Sources */,
 				98046B4D1FBA13AF00ACCF79 /* ChatsViewController.swift in Sources */,
 				98F275741FB91D1600EB1241 /* AppDelegate.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		98F2757E1FB91D1600EB1241 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				98046B561FBA140100ACCF79 /* CalendarViewController.swift in Sources */,
-				98046B521FBA13CE00ACCF79 /* MessagesViewController.swift in Sources */,
-				98046B4E1FBA13AF00ACCF79 /* ChatsViewController.swift in Sources */,
-				98F275871FB91D1600EB1241 /* MessageMapTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		98F275891FB91D1600EB1241 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				98046B571FBA140100ACCF79 /* CalendarViewController.swift in Sources */,
-				98046B531FBA13CE00ACCF79 /* MessagesViewController.swift in Sources */,
-				98046B4F1FBA13AF00ACCF79 /* ChatsViewController.swift in Sources */,
-				98F275921FB91D1600EB1241 /* MessageMapUITests.swift in Sources */,
+				985E39041FCB4DE1009BA3F2 /* ContactParser.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		98F275841FB91D1600EB1241 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 98F2756F1FB91D1600EB1241 /* MessageMap */;
-			targetProxy = 98F275831FB91D1600EB1241 /* PBXContainerItemProxy */;
-		};
-		98F2758F1FB91D1600EB1241 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 98F2756F1FB91D1600EB1241 /* MessageMap */;
-			targetProxy = 98F2758E1FB91D1600EB1241 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		98F275791FB91D1600EB1241 /* Main.storyboard */ = {
@@ -464,6 +322,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/**";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -547,9 +406,11 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/Mac/**",
 					"$(PROJECT_DIR)/Carthage/Build/Mac",
+					"$(SRCROOT)/**",
 				);
 				INFOPLIST_FILE = MessageMap/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				OTHER_SWIFT_FLAGS = "-Xfrontend -warn-long-function-bodies=500";
 				PRODUCT_BUNDLE_IDENTIFIER = com.maxgreenwald.MessageMap;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -567,78 +428,14 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/Mac/**",
 					"$(PROJECT_DIR)/Carthage/Build/Mac",
+					"$(SRCROOT)/**",
 				);
 				INFOPLIST_FILE = MessageMap/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				OTHER_SWIFT_FLAGS = "-Xfrontend -warn-long-function-bodies=500";
 				PRODUCT_BUNDLE_IDENTIFIER = com.maxgreenwald.MessageMap;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
-			};
-			name = Release;
-		};
-		98F2759A1FB91D1600EB1241 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = 23G6F4JB4G;
-				INFOPLIST_FILE = MessageMapTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.maxgreenwald.MessageMapTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MessageMap.app/Contents/MacOS/MessageMap";
-			};
-			name = Debug;
-		};
-		98F2759B1FB91D1600EB1241 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = 23G6F4JB4G;
-				INFOPLIST_FILE = MessageMapTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.maxgreenwald.MessageMapTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MessageMap.app/Contents/MacOS/MessageMap";
-			};
-			name = Release;
-		};
-		98F2759D1FB91D1600EB1241 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = 23G6F4JB4G;
-				INFOPLIST_FILE = MessageMapUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.maxgreenwald.MessageMapUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
-				TEST_TARGET_NAME = MessageMap;
-			};
-			name = Debug;
-		};
-		98F2759E1FB91D1600EB1241 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = 23G6F4JB4G;
-				INFOPLIST_FILE = MessageMapUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.maxgreenwald.MessageMapUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
-				TEST_TARGET_NAME = MessageMap;
 			};
 			name = Release;
 		};
@@ -659,24 +456,6 @@
 			buildConfigurations = (
 				98F275971FB91D1600EB1241 /* Debug */,
 				98F275981FB91D1600EB1241 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		98F275991FB91D1600EB1241 /* Build configuration list for PBXNativeTarget "MessageMapTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				98F2759A1FB91D1600EB1241 /* Debug */,
-				98F2759B1FB91D1600EB1241 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		98F2759C1FB91D1600EB1241 /* Build configuration list for PBXNativeTarget "MessageMapUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				98F2759D1FB91D1600EB1241 /* Debug */,
-				98F2759E1FB91D1600EB1241 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

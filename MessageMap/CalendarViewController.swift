@@ -7,21 +7,28 @@
 //
 
 import Cocoa
-import SnapKit
+//import SnapKit
+//
+//let calendarMinHeight = 150
+//let calendarMaxHeight = 300
 
-let calendarMinHeight = 150
-let calendarMaxHeight = 300
 
 class CalendarViewController: NSViewController {
-
+	
+	var startDay = Date()
+	var endDay = Date()
     override func viewDidLoad() {
         super.viewDidLoad()
-		
-		// Set the initial view constraints using SnapKit
-		self.view.snp.makeConstraints { (make) -> Void in
-			make.height.lessThanOrEqualTo(calendarMaxHeight)
-			make.height.greaterThanOrEqualTo(calendarMinHeight)
-		}
+				
+//		// Set the initial view constraints using SnapKit
+//		self.view.snp.makeConstraints { (make) -> Void in
+//			make.height.lessThanOrEqualTo(calendarMaxHeight)
+//			make.height.greaterThanOrEqualTo(calendarMinHeight)
+//		}
     }
-    
+	
+	@IBAction func buttonPressed(sender: CalendarDay) {
+		print("calendar day pressed")
+	}
+	
 }

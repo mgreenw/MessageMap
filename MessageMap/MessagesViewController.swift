@@ -7,7 +7,7 @@
 //
 
 import Cocoa
-import SnapKit
+//import SnapKit
 //import RealmSwift
 
 // Define Constants
@@ -29,9 +29,9 @@ class MessagesViewController: NSViewController, NSTableViewDataSource, NSTableVi
 		delegate.messagesViewController = self
 		
 		// Set the initial view constraints using SnapKit
-		self.view.snp.makeConstraints { (make) -> Void in
-			make.width.greaterThanOrEqualTo(minMessagesViewWidth)
-		}
+//		self.view.snp.makeConstraints { (make) -> Void in
+//			make.width.greaterThanOrEqualTo(minMessagesViewWidth)
+//		}
     }
 	
 	func setChat(chat: Chat) {
