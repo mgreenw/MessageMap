@@ -50,7 +50,6 @@ class ChatGraph: NSView {
 		
 		// enumerate the total value of the segments by using reduce to sum them
 		let valueCount = segments.reduce(0, {$0 + $1.value})
-		print("Value:", valueCount)
 		
 		// the starting angle is -90 degrees (top of the circle, as the context is flipped). By default, 0 is the right hand side of the circle, with the positive angle being in an anti-clockwise direction (same as a unit circle in maths).
 		var startAngle = -CGFloat.pi * 0.5
@@ -64,7 +63,7 @@ class ChatGraph: NSView {
 			let endAngle = startAngle + 2 * .pi * (segment.value / valueCount)
 			
 			
-			print("Start:", startAngle, "End:", endAngle)
+//			print("Start:", startAngle, "End:", endAngle)
 			
 			// move to the center of the pie chart
 			let arc = NSBezierPath()
@@ -72,10 +71,10 @@ class ChatGraph: NSView {
 			
 			// add arc from the center for each segment (anticlockwise is specified for the arc, but as the view flips the context, it will produce a clockwise arc)
 			arc.appendArc(withCenter: viewCenter, radius: radius, startAngle: radToDeg(rad: startAngle), endAngle: radToDeg(rad: endAngle), clockwise: false)
-			print("Arc:", arc)
-			print(self.convert(mouseLocation, to: self))
+//			print("Arc:", arc)
+//			print(self.convert(mouseLocation, to: self))
 			if arc.contains(self.convert(mouseLocation, to: self))	 {
-				print("CONTAINS LOCATION")
+//				print("CONTAINS LOCATION")
 				NSColor.white.setFill()
 			}
 			

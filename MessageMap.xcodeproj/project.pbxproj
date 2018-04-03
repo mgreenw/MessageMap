@@ -12,10 +12,14 @@
 		98046B551FBA140100ACCF79 /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98046B541FBA140100ACCF79 /* CalendarViewController.swift */; };
 		98046B591FBA190F00ACCF79 /* Cartfile in Resources */ = {isa = PBXBuildFile; fileRef = 98046B581FBA190F00ACCF79 /* Cartfile */; };
 		980D68B61FD50837002BEF3C /* CalendarDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 980D68B51FD50837002BEF3C /* CalendarDay.swift */; };
+		981A40282073BBE500F98511 /* EntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 981A40272073BBE500F98511 /* EntryViewController.swift */; };
+		98351C2B207254830002844E /* OpenDatabaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98351C29207254830002844E /* OpenDatabaseViewController.swift */; };
+		98351C2C207254830002844E /* OpenDatabaseViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 98351C2A207254830002844E /* OpenDatabaseViewController.xib */; };
 		9837ED5D1FD70F3400947333 /* ChatGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9837ED5C1FD70F3400947333 /* ChatGraph.swift */; };
 		985E39021FCB4D79009BA3F2 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = 985E39011FCB4D79009BA3F2 /* Store.swift */; };
 		985E39041FCB4DE1009BA3F2 /* ContactParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 985E39031FCB4DE1009BA3F2 /* ContactParser.swift */; };
 		985E39071FCB4F39009BA3F2 /* DataCleaning.swift in Sources */ = {isa = PBXBuildFile; fileRef = 985E39061FCB4F39009BA3F2 /* DataCleaning.swift */; };
+		9861C7ED206F92F20015430F /* Queries.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9861C7EC206F92F20015430F /* Queries.swift */; };
 		98857630206E8EEA000DB5CE /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9885762C206E8EE9000DB5CE /* RealmSwift.framework */; };
 		98857631206E8EEA000DB5CE /* RealmSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9885762C206E8EE9000DB5CE /* RealmSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		98857632206E8EEA000DB5CE /* SnapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9885762D206E8EE9000DB5CE /* SnapKit.framework */; };
@@ -68,10 +72,14 @@
 		98046B541FBA140100ACCF79 /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
 		98046B581FBA190F00ACCF79 /* Cartfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartfile; sourceTree = "<group>"; };
 		980D68B51FD50837002BEF3C /* CalendarDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDay.swift; sourceTree = "<group>"; };
+		981A40272073BBE500F98511 /* EntryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryViewController.swift; sourceTree = "<group>"; };
+		98351C29207254830002844E /* OpenDatabaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenDatabaseViewController.swift; sourceTree = "<group>"; };
+		98351C2A207254830002844E /* OpenDatabaseViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OpenDatabaseViewController.xib; sourceTree = "<group>"; };
 		9837ED5C1FD70F3400947333 /* ChatGraph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatGraph.swift; sourceTree = "<group>"; };
 		985E39011FCB4D79009BA3F2 /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
 		985E39031FCB4DE1009BA3F2 /* ContactParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactParser.swift; sourceTree = "<group>"; };
 		985E39061FCB4F39009BA3F2 /* DataCleaning.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataCleaning.swift; sourceTree = "<group>"; };
+		9861C7EC206F92F20015430F /* Queries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Queries.swift; sourceTree = "<group>"; };
 		9885762C206E8EE9000DB5CE /* RealmSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RealmSwift.framework; path = Carthage/Build/Mac/RealmSwift.framework; sourceTree = "<group>"; };
 		9885762D206E8EE9000DB5CE /* SnapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SnapKit.framework; path = Carthage/Build/Mac/SnapKit.framework; sourceTree = "<group>"; };
 		9885762E206E8EEA000DB5CE /* SQLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SQLite.framework; path = Carthage/Build/Mac/SQLite.framework; sourceTree = "<group>"; };
@@ -112,8 +120,11 @@
 		985E39051FCB4E76009BA3F2 /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				98351C29207254830002844E /* OpenDatabaseViewController.swift */,
+				98351C2A207254830002844E /* OpenDatabaseViewController.xib */,
 				985E39011FCB4D79009BA3F2 /* Store.swift */,
 				98FAFCF11FBDF55B00F242AC /* Models.swift */,
+				9861C7EC206F92F20015430F /* Queries.swift */,
 				98FAFCF51FBE04D600F242AC /* iMessageParser.swift */,
 				985E39031FCB4DE1009BA3F2 /* ContactParser.swift */,
 				985E39061FCB4F39009BA3F2 /* DataCleaning.swift */,
@@ -152,6 +163,7 @@
 			children = (
 				98F275791FB91D1600EB1241 /* Main.storyboard */,
 				98F275731FB91D1600EB1241 /* AppDelegate.swift */,
+				981A40272073BBE500F98511 /* EntryViewController.swift */,
 				985E39051FCB4E76009BA3F2 /* Data */,
 				98046B4C1FBA13AF00ACCF79 /* ChatsViewController.swift */,
 				9837ED5C1FD70F3400947333 /* ChatGraph.swift */,
@@ -205,13 +217,16 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0910;
-				LastUpgradeCheck = 0910;
+				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = "Max Greenwald";
 				TargetAttributes = {
 					98F2756F1FB91D1600EB1241 = {
 						CreatedOnToolsVersion = 9.1;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
+							com.apple.ApplicationGroups.Mac = {
+								enabled = 1;
+							};
 							com.apple.Sandbox = {
 								enabled = 0;
 							};
@@ -247,6 +262,7 @@
 				9885763E206E8EF7000DB5CE /* SQLite.framework.dSYM in Resources */,
 				9885763D206E8EF7000DB5CE /* Realm.framework.dSYM in Resources */,
 				98F2757B1FB91D1600EB1241 /* Main.storyboard in Resources */,
+				98351C2C207254830002844E /* OpenDatabaseViewController.xib in Resources */,
 				9885763C206E8EF7000DB5CE /* SnapKit.framework.dSYM in Resources */,
 				9885763F206E8EF7000DB5CE /* RealmSwift.framework.dSYM in Resources */,
 			);
@@ -263,12 +279,15 @@
 				985E39071FCB4F39009BA3F2 /* DataCleaning.swift in Sources */,
 				98FAFCF61FBE04D600F242AC /* iMessageParser.swift in Sources */,
 				988E76111FBB2D9000A782DF /* CalendarView.swift in Sources */,
+				98351C2B207254830002844E /* OpenDatabaseViewController.swift in Sources */,
 				98046B551FBA140100ACCF79 /* CalendarViewController.swift in Sources */,
 				985E39021FCB4D79009BA3F2 /* Store.swift in Sources */,
 				98046B511FBA13CE00ACCF79 /* MessagesViewController.swift in Sources */,
 				98FAFCF21FBDF55B00F242AC /* Models.swift in Sources */,
 				9837ED5D1FD70F3400947333 /* ChatGraph.swift in Sources */,
 				98046B4D1FBA13AF00ACCF79 /* ChatsViewController.swift in Sources */,
+				981A40282073BBE500F98511 /* EntryViewController.swift in Sources */,
+				9861C7ED206F92F20015430F /* Queries.swift in Sources */,
 				98F275741FB91D1600EB1241 /* AppDelegate.swift in Sources */,
 				985E39041FCB4DE1009BA3F2 /* ContactParser.swift in Sources */,
 			);
@@ -302,6 +321,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -309,6 +329,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -360,6 +381,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -367,6 +389,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -399,6 +422,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = MessageMap/MessageMap.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = 23G6F4JB4G;
@@ -421,6 +445,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = MessageMap/MessageMap.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = 23G6F4JB4G;

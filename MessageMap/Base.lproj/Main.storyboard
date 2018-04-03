@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="ntk-Jj-fVB">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="13771"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14109"/>
         <capability name="box content view" minToolsVersion="7.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -679,13 +679,13 @@
                 <customObject id="YLy-65-1bz" customClass="NSFontManager"/>
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="75" y="0.0"/>
+            <point key="canvasLocation" x="121" y="-562"/>
         </scene>
         <!--Window Controller-->
         <scene sceneID="R2V-B0-nI4">
             <objects>
                 <windowController id="B8D-0N-5wS" sceneMemberID="viewController">
-                    <window key="window" title="MessageMap" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" titlebarAppearsTransparent="YES" titleVisibility="hidden" id="IQv-IB-iLA">
+                    <window key="window" title="MessageMap - Welcome" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" titlebarAppearsTransparent="YES" titleVisibility="hidden" id="IQv-IB-iLA">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" fullSizeContentView="YES"/>
                         <rect key="contentRect" x="0.0" y="0.0" width="1000" height="600"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
@@ -699,7 +699,115 @@
                 </windowController>
                 <customObject id="Oky-zY-oP4" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="95" y="339"/>
+            <point key="canvasLocation" x="95" y="424"/>
+        </scene>
+        <!--Window Controller-->
+        <scene sceneID="lGU-ul-Jx3">
+            <objects>
+                <windowController id="ntk-Jj-fVB" sceneMemberID="viewController">
+                    <window key="window" title="MessageMap" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" frameAutosaveName="" animationBehavior="default" titlebarAppearsTransparent="YES" titleVisibility="hidden" id="R8x-x1-DXr">
+                        <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" fullSizeContentView="YES"/>
+                        <windowCollectionBehavior key="collectionBehavior" fullScreenNone="YES"/>
+                        <rect key="contentRect" x="-52" y="1113" width="480" height="480"/>
+                        <rect key="screenRect" x="-346" y="800" width="1920" height="1057"/>
+                        <value key="minSize" type="size" width="480" height="480"/>
+                        <value key="maxSize" type="size" width="480" height="480"/>
+                        <connections>
+                            <outlet property="delegate" destination="ntk-Jj-fVB" id="NAN-a4-DI9"/>
+                        </connections>
+                    </window>
+                    <connections>
+                        <segue destination="DVa-3g-wgj" kind="relationship" relationship="window.shadowedContentViewController" id="kfH-mI-QFt"/>
+                    </connections>
+                </windowController>
+                <customObject id="EJe-Dl-ogr" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-205" y="-239"/>
+        </scene>
+        <!--Entry View Controller-->
+        <scene sceneID="SrC-U7-yIe">
+            <objects>
+                <viewController id="DVa-3g-wgj" customClass="EntryViewController" customModule="MessageMap" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="DIj-uX-psV">
+                        <rect key="frame" x="0.0" y="0.0" width="480" height="400"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <box fixedFrame="YES" boxType="custom" borderType="none" title="Box" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="E7z-gn-EkA">
+                                <rect key="frame" x="0.0" y="0.0" width="480" height="400"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <view key="contentView" ambiguous="YES" id="ShB-WM-dHw">
+                                    <rect key="frame" x="0.0" y="0.0" width="480" height="400"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <progressIndicator hidden="YES" wantsLayer="YES" fixedFrame="YES" maxValue="100" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="O9k-qH-cGh">
+                                            <rect key="frame" x="116" y="175" width="243" height="20"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        </progressIndicator>
+                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ltc-tr-IQ8">
+                                            <rect key="frame" x="78" y="241" width="324" height="97"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="MessageMap" id="xMU-Hw-2Rf">
+                                                <font key="font" metaFont="systemBold" size="48"/>
+                                                <color key="textColor" red="0.32369780539999998" green="0.1063579395" blue="0.574860394" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lr4-Pz-lE5">
+                                            <rect key="frame" x="228" y="261" width="116" height="17"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="by Max Greenwald" id="61c-RO-a2G">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                        <textField hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YfV-oQ-8hI">
+                                            <rect key="frame" x="116" y="168" width="245" height="17"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Big Task" id="ml5-Cd-o1E">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                        <textField hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JCQ-qv-gNl">
+                                            <rect key="frame" x="128" y="143" width="233" height="17"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Minor Task" id="gv5-j6-n29">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dxJ-50-cGP">
+                                            <rect key="frame" x="151" y="54" width="172" height="32"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="push" title="Choose Database File" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="et8-hN-taO">
+                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                        </button>
+                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5JB-B4-Z8m">
+                                            <rect key="frame" x="102" y="114" width="277" height="119"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <textFieldCell key="cell" sendsActionOnEndEditing="YES" id="J9L-3b-nNg">
+                                                <font key="font" metaFont="system"/>
+                                                <string key="title">Welcome!  MessageMap uses your Contacts and iMessages stored on your local Mac and aggregates it into a local database on your Mac for viewing. MessageMap never connects to the Internet and will always ask you before using any of your personal information.</string>
+                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                    </subviews>
+                                </view>
+                                <color key="borderColor" red="0.0048598507420000003" green="0.096086271109999996" blue="0.57499289509999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="fillColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </box>
+                        </subviews>
+                    </view>
+                </viewController>
+                <customObject id="9BV-tD-1zY" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="423" y="-239"/>
         </scene>
         <!--Split View Controller-->
         <scene sceneID="4PL-av-wwa">
@@ -833,14 +941,9 @@
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
                                                                 </textField>
-                                                                <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bv9-sF-UoR" customClass="ChatGraph" customModule="MessageMap" customModuleProvider="target">
-                                                                    <rect key="frame" x="3" y="4" width="60" height="60"/>
-                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES"/>
-                                                                </customView>
                                                             </subviews>
                                                             <connections>
                                                                 <outlet property="date" destination="coG-4e-oF8" id="j7w-Ke-ilk"/>
-                                                                <outlet property="graph" destination="bv9-sF-UoR" id="yVs-ap-9wr"/>
                                                                 <outlet property="image" destination="rC6-56-UaZ" id="xyd-gv-sql"/>
                                                                 <outlet property="name" destination="wm6-LJ-lVh" id="TBb-Ac-JaH"/>
                                                                 <outlet property="text" destination="bOL-kW-pUj" id="6my-7Z-B4K"/>
@@ -869,17 +972,9 @@
                                     <segue destination="7Fb-Bq-DJO" kind="embed" id="LcD-uB-bxg"/>
                                 </connections>
                             </containerView>
-                            <progressIndicator wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" maxValue="100" bezeled="NO" indeterminate="YES" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="45D-wE-dMu">
-                                <rect key="frame" x="109" y="234" width="32" height="32"/>
-                            </progressIndicator>
                         </subviews>
-                        <constraints>
-                            <constraint firstItem="45D-wE-dMu" firstAttribute="centerY" secondItem="ks9-Ea-Xld" secondAttribute="centerY" id="S1X-J1-Md0"/>
-                            <constraint firstItem="45D-wE-dMu" firstAttribute="centerX" secondItem="ks9-Ea-Xld" secondAttribute="centerX" id="cBe-87-1cf"/>
-                        </constraints>
                     </view>
                     <connections>
-                        <outlet property="progress" destination="45D-wE-dMu" id="rXl-dR-5qu"/>
                         <outlet property="tableView" destination="eSg-Hq-ceK" id="vWo-tF-lEi"/>
                     </connections>
                 </viewController>

@@ -39,8 +39,9 @@ class MessagesViewController: NSViewController, NSTableViewDataSource, NSTableVi
 		tableView.reloadData()
 	}
 
-	
+
 	func numberOfRows(in tableView: NSTableView) -> Int {
+		return 0
 		if let c = chat {
 			return c.messages.count
 		} else {

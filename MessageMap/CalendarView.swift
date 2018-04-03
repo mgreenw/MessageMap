@@ -37,7 +37,6 @@ class CalendarView: NSView {
 	
 	func setup(rect: NSRect) {
 		let dayDim = (rect.height - monthHeight - (daySpacing * 7)) / 7
-		print(dayDim)
 		for i in 0...6 {
             let day = self.days[i]
             day.frame = NSRect(x: dayDim, y: (CGFloat(i) * dayDim) + (CGFloat(i+1) * daySpacing), width: dayDim, height: dayDim)

@@ -10,25 +10,49 @@ import Cocoa
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
-	
+
 	var chatsViewController: ChatsViewController!
 	var messagesViewController: MessagesViewController!
+
 	
 	func applicationDidFinishLaunching(_ aNotification: Notification) {
-        
-		let defaults = UserDefaults.standard
-		defaults.set(false, forKey: "loadedData")
-		if (defaults.bool(forKey: "loadedData")) {
-			// Already loaded data, so reloading from file
-			readStoreFromFile()
-			print("Loaded from store")
-		} else {
-			print("Parsing Data")
-			
-            updateData()
-			
-		}
 		
+		// TEMPORARY: Delete realm before starting
+		// Figured out that this method may be leaving some artifacts, so
+		// I switched to using realm.deleteAll()
+//		let realmURL = Realm.Configuration.defaultConfiguration.fileURL!
+//		let realmURLs = [
+//			realmURL,
+//			realmURL.appendingPathExtension("lock"),
+//			realmURL.appendingPathExtension("note"),
+//			realmURL.appendingPathExtension("management")
+//		]
+//		for URL in realmURLs {
+//			do {
+//				try FileManager.default.removeItem(at: URL)
+//			} catch {
+//				print("Failed to delete realm file at \(URL)")
+//				// handle error
+//			}
+//		}
+		
+		
+//		let realm = try! Realm()
+//		try! realm.write {
+//			realm.deleteAll()
+//		}
+//
+//		print("Before contact")
+//		let contactParser = ContactParser()
+//		contactParser.parse()
+//		print("After Contact")
+//
+//		let messageParser = iMessageParser()
+//		messageParser.parse(completion: {
+//			print("After Message")
+//
+//			self.chatsViewController.tableView.reloadData()
+//		})
 		
 	}
 	
@@ -38,122 +62,122 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		
 	}
     
-    func updateData() {
-        // Get all contacts
-        chatsViewController.progress.isHidden = false
-        chatsViewController.progress.startAnimation(nil)
-        DispatchQueue.global(qos: .userInitiated).async {
-            // Do some time consuming task in this background thread
-            // Mobile app will remain to be responsive to user actions
-            
-            print("Performing time consuming task in this background thread")
-            
-            let contactParser = ContactParser()
-            contactParser.parse()
-            
-            // Parse iMessages
-            let messageParser = iMessageParser()
-            messageParser.parse()
-            
-            // Make sure the store is sorted and up to date
-            
-            Store.shared.sortData()
-            
-            DispatchQueue.main.async {
-                // Task consuming task has completed
-                // Update UI from this block of code
-
-                self.chatsViewController.progress.isHidden = true
-                self.chatsViewController.progress.stopAnimation(nil)
-                print("Time consuming task has completed. From here we are allowed to update user interface.")
-                
-                // Refresh the chats table view with the new data
-                self.chatsViewController.tableView.reloadData()
-            }
-        }
-    }
-    
-    private func urlForDataStorage() -> URL? {
-        let fileManager = FileManager.default
-        guard let folder = fileManager.urls(for: .applicationSupportDirectory,
-                                            in: .userDomainMask).first else {
-                                                return nil
-        }
-        let appFolder = folder.appendingPathComponent("MessageMap")
-        var isDirectory: ObjCBool = false
-        let folderExists = fileManager.fileExists(atPath: appFolder.path,
-                                                  isDirectory: &isDirectory)
-        if !folderExists || !isDirectory.boolValue {
-            do {
-                try fileManager.createDirectory(at: appFolder,
-                                                withIntermediateDirectories: true,
-                                                attributes: nil)
-            } catch {
-                return nil
-            }
-        }
-        
-        let dataFileUrl = appFolder.appendingPathComponent("store.mm")
-        return dataFileUrl
-    }
-	
-	func saveStoreToFile() {
-	
-		guard let url = urlForDataStorage() else {
-			print("couldn't save because couldn't get url for data storage" )
-			return
-		}
-		
-		print("Saving to file", url.path)
-		let sharedStore = Store.shared
-		
-		let data = NSKeyedArchiver.archivedData(withRootObject: sharedStore.people[0])
-
-		do {
-			try data.write(to: url)
-		} catch {
-			print("Failed to write store to file")
-		}
-		
-//		let encoder = JSONEncoder()
-//		if let encoded = try? encoder.encode("Hell yea") {
-//			do {
-//				try encoded.write(to: url)
-//			} catch {
-//				print("Failed to write store to file")
-//			}
+//    func updateData() {
+//        // Get all contacts
+//        chatsViewController.progress.isHidden = false
+//        chatsViewController.progress.startAnimation(nil)
+//        DispatchQueue.global(qos: .userInitiated).async {
+//            // Do some time consuming task in this background thread
+//            // Mobile app will remain to be responsive to user actions
+//            
+//            print("Performing time consuming task in this background thread")
+//            
+//            let contactParser = ContactParser()
+//            contactParser.parse()
+//            
+//            // Parse iMessages
+//            let messageParser = iMessageParser()
+//            messageParser.parse()
+//            
+//            // Make sure the store is sorted and up to date
+//            
+//            Store.shared.sortData()
+//            
+//            DispatchQueue.main.async {
+//                // Task consuming task has completed
+//                // Update UI from this block of code
+//
+//                self.chatsViewController.progress.isHidden = true
+//                self.chatsViewController.progress.stopAnimation(nil)
+//                print("Time consuming task has completed. From here we are allowed to update user interface.")
+//                
+//                // Refresh the chats table view with the new data
+//                self.chatsViewController.tableView.reloadData()
+//            }
+//        }
+//    }
+//    
+//    private func urlForDataStorage() -> URL? {
+//        let fileManager = FileManager.default
+//        guard let folder = fileManager.urls(for: .applicationSupportDirectory,
+//                                            in: .userDomainMask).first else {
+//                                                return nil
+//        }
+//        let appFolder = folder.appendingPathComponent("MessageMap")
+//        var isDirectory: ObjCBool = false
+//        let folderExists = fileManager.fileExists(atPath: appFolder.path,
+//                                                  isDirectory: &isDirectory)
+//        if !folderExists || !isDirectory.boolValue {
+//            do {
+//                try fileManager.createDirectory(at: appFolder,
+//                                                withIntermediateDirectories: true,
+//                                                attributes: nil)
+//            } catch {
+//                return nil
+//            }
+//        }
+//        
+//        let dataFileUrl = appFolder.appendingPathComponent("store.mm")
+//        return dataFileUrl
+//    }
+//	
+//	func saveStoreToFile() {
+//	
+//		guard let url = urlForDataStorage() else {
+//			print("couldn't save because couldn't get url for data storage" )
+//			return
 //		}
-		UserDefaults.standard.set(true, forKey: "loadedData")
-		print("Data Saved")
-	}
-	
-	func readStoreFromFile() {
-		guard let url = urlForDataStorage() else {
-			print("couldn't save because couldn't get url for data storage")
-			return
-		}
-		
-		print("reading from file", url)
-		
-//		if let data = NSKeyedUnarchiver.unarchiveObject(withFile: url.path) as? Store {
-//			Store.shared = data
-//			print("Successfully read data!")
-//		} else {
-//			print("Failed to read")
+//		
+//		print("Saving to file", url.path)
+//		let sharedStore = Store.shared
+//		
+//		let data = NSKeyedArchiver.archivedData(withRootObject: sharedStore.people[0])
+//
+//		do {
+//			try data.write(to: url)
+//		} catch {
+//			print("Failed to write store to file")
 //		}
-		
-		let decoder = JSONDecoder()
-		guard let data = try? Data.init(contentsOf: url) else {
-			print("Could not read file")
-			return
-		}
-		if let decoded = try? decoder.decode(Store.self, from: data) {
-			Store.shared = decoded
-		}
-		UserDefaults.standard.set(true, forKey: "loadedData")
-		print("Data Saved")
-	}
-	
+//		
+////		let encoder = JSONEncoder()
+////		if let encoded = try? encoder.encode("Hell yea") {
+////			do {
+////				try encoded.write(to: url)
+////			} catch {
+////				print("Failed to write store to file")
+////			}
+////		}
+//		UserDefaults.standard.set(true, forKey: "loadedData")
+//		print("Data Saved")
+//	}
+//	
+//	func readStoreFromFile() {
+//		guard let url = urlForDataStorage() else {
+//			print("couldn't save because couldn't get url for data storage")
+//			return
+//		}
+//		
+//		print("reading from file", url)
+//		
+////		if let data = NSKeyedUnarchiver.unarchiveObject(withFile: url.path) as? Store {
+////			Store.shared = data
+////			print("Successfully read data!")
+////		} else {
+////			print("Failed to read")
+////		}
+//		
+//		let decoder = JSONDecoder()
+//		guard let data = try? Data.init(contentsOf: url) else {
+//			print("Could not read file")
+//			return
+//		}
+//		if let decoded = try? decoder.decode(Store.self, from: data) {
+//			Store.shared = decoded
+//		}
+//		UserDefaults.standard.set(true, forKey: "loadedData")
+//		print("Data Saved")
+//	}
+//	
 	func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
 		return true
 	}
