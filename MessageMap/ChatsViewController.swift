@@ -46,9 +46,9 @@ class ChatsViewController: NSViewController, NSTableViewDataSource, NSTableViewD
 	}
 	
 	
-//	func tableViewSelectionDidChange(_ notification: Notification) {
-//		delegate.messagesViewController.setChat(chat: Store.shared.chats[tableView.selectedRow])
-//	}
+	func tableViewSelectionDidChange(_ notification: Notification) {
+		delegate.messagesViewController.setChat(chat: chats[tableView.selectedRow])
+	}
 	
 	func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView?{
 		
@@ -60,7 +60,6 @@ class ChatsViewController: NSViewController, NSTableViewDataSource, NSTableViewD
 		} else {
 			if chat.participants.count == 0 {
 				result.name.stringValue = chat.messages.count == 0 ? "Myself and none" : "Myself"
-				print(chat.messages)
 			} else if chat.participants.count == 1 {
 				let person = chat.participants[0]
 				result.name.stringValue = "\(person.firstName ?? "") \(person.lastName ?? "")"

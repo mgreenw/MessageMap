@@ -13,52 +13,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
 	var chatsViewController: ChatsViewController!
 	var messagesViewController: MessagesViewController!
-
 	
 	func applicationDidFinishLaunching(_ aNotification: Notification) {
-		
-		// TEMPORARY: Delete realm before starting
-		// Figured out that this method may be leaving some artifacts, so
-		// I switched to using realm.deleteAll()
-//		let realmURL = Realm.Configuration.defaultConfiguration.fileURL!
-//		let realmURLs = [
-//			realmURL,
-//			realmURL.appendingPathExtension("lock"),
-//			realmURL.appendingPathExtension("note"),
-//			realmURL.appendingPathExtension("management")
-//		]
-//		for URL in realmURLs {
-//			do {
-//				try FileManager.default.removeItem(at: URL)
-//			} catch {
-//				print("Failed to delete realm file at \(URL)")
-//				// handle error
-//			}
-//		}
-		
-		
-//		let realm = try! Realm()
-//		try! realm.write {
-//			realm.deleteAll()
-//		}
-//
-//		print("Before contact")
-//		let contactParser = ContactParser()
-//		contactParser.parse()
-//		print("After Contact")
-//
-//		let messageParser = iMessageParser()
-//		messageParser.parse(completion: {
-//			print("After Message")
-//
-//			self.chatsViewController.tableView.reloadData()
-//		})
 		
 	}
 	
 	func applicationWillTerminate(_ aNotification: Notification) {
-		// Insert code here to tear down your application
-		//saveStoreToFile()
 		
 	}
     

@@ -8,10 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		98046B4D1FBA13AF00ACCF79 /* ChatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98046B4C1FBA13AF00ACCF79 /* ChatsViewController.swift */; };
-		98046B511FBA13CE00ACCF79 /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98046B501FBA13CE00ACCF79 /* MessagesViewController.swift */; };
 		98046B551FBA140100ACCF79 /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98046B541FBA140100ACCF79 /* CalendarViewController.swift */; };
 		98046B591FBA190F00ACCF79 /* Cartfile in Resources */ = {isa = PBXBuildFile; fileRef = 98046B581FBA190F00ACCF79 /* Cartfile */; };
 		980D68B61FD50837002BEF3C /* CalendarDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 980D68B51FD50837002BEF3C /* CalendarDay.swift */; };
+		981605BE20742FC500D8E8F2 /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 981605BD20742FC500D8E8F2 /* MessagesViewController.swift */; };
+		981605C02075003C00D8E8F2 /* SplitViewControllers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 981605BF2075003C00D8E8F2 /* SplitViewControllers.swift */; };
+		981605C22075129200D8E8F2 /* MessageItem.xib in Resources */ = {isa = PBXBuildFile; fileRef = 981605C12075129200D8E8F2 /* MessageItem.xib */; };
 		981A40282073BBE500F98511 /* EntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 981A40272073BBE500F98511 /* EntryViewController.swift */; };
 		98351C2B207254830002844E /* OpenDatabaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98351C29207254830002844E /* OpenDatabaseViewController.swift */; };
 		98351C2C207254830002844E /* OpenDatabaseViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 98351C2A207254830002844E /* OpenDatabaseViewController.xib */; };
@@ -33,6 +35,8 @@
 		9885763E206E8EF7000DB5CE /* SQLite.framework.dSYM in Resources */ = {isa = PBXBuildFile; fileRef = 9885763A206E8EF7000DB5CE /* SQLite.framework.dSYM */; };
 		9885763F206E8EF7000DB5CE /* RealmSwift.framework.dSYM in Resources */ = {isa = PBXBuildFile; fileRef = 9885763B206E8EF7000DB5CE /* RealmSwift.framework.dSYM */; };
 		988E76111FBB2D9000A782DF /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 988E76101FBB2D9000A782DF /* CalendarView.swift */; };
+		989D394320754C3F007E73D4 /* MessageItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989D394220754C3F007E73D4 /* MessageItem.swift */; };
+		98EF7A8420753BB70007858D /* Seal_of_the_United_States_Department_of_Justice.svg.png in Resources */ = {isa = PBXBuildFile; fileRef = 98EF7A8320753BB60007858D /* Seal_of_the_United_States_Department_of_Justice.svg.png */; };
 		98F275741FB91D1600EB1241 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F275731FB91D1600EB1241 /* AppDelegate.swift */; };
 		98F275781FB91D1600EB1241 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 98F275771FB91D1600EB1241 /* Assets.xcassets */; };
 		98F2757B1FB91D1600EB1241 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 98F275791FB91D1600EB1241 /* Main.storyboard */; };
@@ -68,10 +72,12 @@
 
 /* Begin PBXFileReference section */
 		98046B4C1FBA13AF00ACCF79 /* ChatsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatsViewController.swift; sourceTree = "<group>"; };
-		98046B501FBA13CE00ACCF79 /* MessagesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesViewController.swift; sourceTree = "<group>"; };
 		98046B541FBA140100ACCF79 /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
 		98046B581FBA190F00ACCF79 /* Cartfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartfile; sourceTree = "<group>"; };
 		980D68B51FD50837002BEF3C /* CalendarDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDay.swift; sourceTree = "<group>"; };
+		981605BD20742FC500D8E8F2 /* MessagesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesViewController.swift; sourceTree = "<group>"; };
+		981605BF2075003C00D8E8F2 /* SplitViewControllers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitViewControllers.swift; sourceTree = "<group>"; };
+		981605C12075129200D8E8F2 /* MessageItem.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MessageItem.xib; sourceTree = "<group>"; };
 		981A40272073BBE500F98511 /* EntryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryViewController.swift; sourceTree = "<group>"; };
 		98351C29207254830002844E /* OpenDatabaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenDatabaseViewController.swift; sourceTree = "<group>"; };
 		98351C2A207254830002844E /* OpenDatabaseViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OpenDatabaseViewController.xib; sourceTree = "<group>"; };
@@ -89,6 +95,8 @@
 		9885763A206E8EF7000DB5CE /* SQLite.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = SQLite.framework.dSYM; path = Carthage/Build/Mac/SQLite.framework.dSYM; sourceTree = "<group>"; };
 		9885763B206E8EF7000DB5CE /* RealmSwift.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = RealmSwift.framework.dSYM; path = Carthage/Build/Mac/RealmSwift.framework.dSYM; sourceTree = "<group>"; };
 		988E76101FBB2D9000A782DF /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
+		989D394220754C3F007E73D4 /* MessageItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageItem.swift; sourceTree = "<group>"; };
+		98EF7A8320753BB60007858D /* Seal_of_the_United_States_Department_of_Justice.svg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Seal_of_the_United_States_Department_of_Justice.svg.png; sourceTree = "<group>"; };
 		98F275701FB91D1600EB1241 /* MessageMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MessageMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		98F275731FB91D1600EB1241 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		98F275771FB91D1600EB1241 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -144,6 +152,7 @@
 				98857638206E8EF7000DB5CE /* SnapKit.framework.dSYM */,
 				9885763A206E8EF7000DB5CE /* SQLite.framework.dSYM */,
 				98046B581FBA190F00ACCF79 /* Cartfile */,
+				98EF7A8320753BB60007858D /* Seal_of_the_United_States_Department_of_Justice.svg.png */,
 				98F275721FB91D1600EB1241 /* MessageMap */,
 				98F275711FB91D1600EB1241 /* Products */,
 				98FAFCE01FBDF42500F242AC /* Frameworks */,
@@ -166,11 +175,14 @@
 				981A40272073BBE500F98511 /* EntryViewController.swift */,
 				985E39051FCB4E76009BA3F2 /* Data */,
 				98046B4C1FBA13AF00ACCF79 /* ChatsViewController.swift */,
+				981605BD20742FC500D8E8F2 /* MessagesViewController.swift */,
+				989D394220754C3F007E73D4 /* MessageItem.swift */,
+				981605C12075129200D8E8F2 /* MessageItem.xib */,
 				9837ED5C1FD70F3400947333 /* ChatGraph.swift */,
-				98046B501FBA13CE00ACCF79 /* MessagesViewController.swift */,
 				98046B541FBA140100ACCF79 /* CalendarViewController.swift */,
 				988E76101FBB2D9000A782DF /* CalendarView.swift */,
 				980D68B51FD50837002BEF3C /* CalendarDay.swift */,
+				981605BF2075003C00D8E8F2 /* SplitViewControllers.swift */,
 				98F275771FB91D1600EB1241 /* Assets.xcassets */,
 				98F2757C1FB91D1600EB1241 /* Info.plist */,
 				98F2757D1FB91D1600EB1241 /* MessageMap.entitlements */,
@@ -262,7 +274,9 @@
 				9885763E206E8EF7000DB5CE /* SQLite.framework.dSYM in Resources */,
 				9885763D206E8EF7000DB5CE /* Realm.framework.dSYM in Resources */,
 				98F2757B1FB91D1600EB1241 /* Main.storyboard in Resources */,
+				98EF7A8420753BB70007858D /* Seal_of_the_United_States_Department_of_Justice.svg.png in Resources */,
 				98351C2C207254830002844E /* OpenDatabaseViewController.xib in Resources */,
+				981605C22075129200D8E8F2 /* MessageItem.xib in Resources */,
 				9885763C206E8EF7000DB5CE /* SnapKit.framework.dSYM in Resources */,
 				9885763F206E8EF7000DB5CE /* RealmSwift.framework.dSYM in Resources */,
 			);
@@ -275,14 +289,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				981605BE20742FC500D8E8F2 /* MessagesViewController.swift in Sources */,
 				980D68B61FD50837002BEF3C /* CalendarDay.swift in Sources */,
 				985E39071FCB4F39009BA3F2 /* DataCleaning.swift in Sources */,
+				989D394320754C3F007E73D4 /* MessageItem.swift in Sources */,
+				981605C02075003C00D8E8F2 /* SplitViewControllers.swift in Sources */,
 				98FAFCF61FBE04D600F242AC /* iMessageParser.swift in Sources */,
 				988E76111FBB2D9000A782DF /* CalendarView.swift in Sources */,
 				98351C2B207254830002844E /* OpenDatabaseViewController.swift in Sources */,
 				98046B551FBA140100ACCF79 /* CalendarViewController.swift in Sources */,
 				985E39021FCB4D79009BA3F2 /* Store.swift in Sources */,
-				98046B511FBA13CE00ACCF79 /* MessagesViewController.swift in Sources */,
 				98FAFCF21FBDF55B00F242AC /* Models.swift in Sources */,
 				9837ED5D1FD70F3400947333 /* ChatGraph.swift in Sources */,
 				98046B4D1FBA13AF00ACCF79 /* ChatsViewController.swift in Sources */,

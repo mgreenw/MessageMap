@@ -15,7 +15,13 @@ class ContactParser {
 	let contactKeys = [CNContactGivenNameKey, CNContactFamilyNameKey,
 					   CNContactEmailAddressesKey, CNContactPhoneNumbersKey]
 	
+	weak var delegate: ParserDelegate?
+	
 	func parse() {
+		
+		delegate?.setProgressSection(to: "Import Contacts")
+		delegate?.setShortProgressMessage(to: "Import 'me' contact")
+		
 		let realm = try! Realm()
 		let keysToFetch = contactKeys.map {$0 as CNKeyDescriptor}
 
@@ -47,6 +53,9 @@ class ContactParser {
 			}
 		}
 		
+		delegate?.incrementProgress(by: 1)
+		
+		
 		try? contactStore.enumerateContacts(with: CNContactFetchRequest(keysToFetch: keysToFetch)) { (contact: CNContact, bool) in
 			
 			let person: Person
@@ -61,6 +70,8 @@ class ContactParser {
 					realm.add(person)
 				}
 			}
+			
+			self.delegate?.setShortProgressMessage(to: "Importing \(contact.givenName) \(contact.familyName)")
 			
 			try! realm.write {
 				person.firstName = contact.givenName
@@ -87,6 +98,8 @@ class ContactParser {
 			}
 			
 		}
+		
+		delegate?.incrementProgress(by: 9)
 	}
 }
 
