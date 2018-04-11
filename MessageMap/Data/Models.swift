@@ -9,8 +9,6 @@
 import Foundation
 import RealmSwift
 
-
-
 class Person: Object {
 	@objc dynamic var id = UUID().uuidString
 	@objc dynamic var firstName: String? = nil
@@ -19,6 +17,9 @@ class Person: Object {
 	let messages = LinkingObjects(fromType: Message.self, property: "sender")
 	let chats = LinkingObjects(fromType: Chat.self, property: "participants")
 	let handles = LinkingObjects(fromType: Handle.self, property: "person")
+	@objc dynamic var contactID: String? = nil
+	@objc dynamic var photo: Data? = nil
+
 	
 }
 
@@ -60,9 +61,20 @@ class Message: Object {
 	@objc dynamic var month = 0
 	@objc dynamic var hour = 0
 	@objc dynamic var minute = 0
-	@objc dynamic var dayOfWeek = 0
+	@objc dynamic var weekday = 0
 	@objc dynamic var dayOfMonth = 0
+	let attachments = LinkingObjects(fromType: Attachment.self, property: "message")
+	
 	let iMessageID = RealmOptional<Int>()
+	
+	// Layout Precalculations
+	@objc dynamic var textFieldX: Double = 0.0
+	@objc dynamic var textFieldWidth: Double = 0.0
+	@objc dynamic var textFieldHeight: Double = 0.0
+	@objc dynamic var bubbleX: Double = 0.0
+	@objc dynamic var bubbleWidth: Double = 0.0
+	@objc dynamic var bubbleHeight: Double = 0.0
+	@objc dynamic var layoutHeight: Double = 0.0
 }
 
 class Handle: Object {
@@ -75,7 +87,10 @@ class Handle: Object {
 class Attachment: Object {
 	@objc dynamic var id = UUID().uuidString
 	@objc dynamic var message: Message?
-	@objc dynamic var path = ""
+	@objc dynamic var filename = ""
+	@objc dynamic var uti: String? = nil
+	@objc dynamic var mimeType: String? = nil
+	@objc dynamic var transferName = ""
 	let iMessageID = RealmOptional<Int>()
 }
 

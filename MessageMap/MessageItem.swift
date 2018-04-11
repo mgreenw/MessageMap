@@ -8,21 +8,6 @@
 
 import Cocoa
 
-extension NSView {
-	func addConstraintsWithFormat(format: String, views: NSView...) {
-		
-		var viewsDict = [String: NSView]()
-		for (index, view) in views.enumerated() {
-			let key = "v\(index)"
-			viewsDict[key] = view
-			view.translatesAutoresizingMaskIntoConstraints = false
-		}
-		
-		addConstraints(NSLayoutConstraint.constraints(withVisualFormat: format, options: NSLayoutConstraint.FormatOptions(), metrics: nil, views: viewsDict))
-		
-	}
-}
-
 class MessageItem: NSCollectionViewItem {
 	
 	let messageTextField: NSTextField = {
@@ -47,8 +32,12 @@ class MessageItem: NSCollectionViewItem {
 	let profileImageView: NSImageView = {
 		let imageView = NSImageView()
 		imageView.imageScaling = .scaleAxesIndependently // In place of .scaleAspectFill
+		imageView.wantsLayer = true
+		imageView.layer?.masksToBounds = true
+		imageView.canDrawSubviewsIntoLayer = true
 		imageView.layer?.cornerRadius = 15
-		imageView.image = NSImage(named: NSImage.Name(rawValue: "Seal_of_the_United_States_Department_of_Justice.svg"))
+
+		//imageView.image = NSImage(named: NSImage.Name(rawValue: "Seal_of_the_United_States_Department_of_Justice.svg"))
 		return imageView
 	}()
 	

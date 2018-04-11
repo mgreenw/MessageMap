@@ -13,7 +13,7 @@ import RealmSwift
 class ContactParser {
 	let contactStore = CNContactStore()
 	let contactKeys = [CNContactGivenNameKey, CNContactFamilyNameKey,
-					   CNContactEmailAddressesKey, CNContactPhoneNumbersKey]
+					   CNContactEmailAddressesKey, CNContactPhoneNumbersKey, CNContactIdentifierKey, CNContactThumbnailImageDataKey]
 	
 	weak var delegate: ParserDelegate?
 	
@@ -32,6 +32,8 @@ class ContactParser {
 			try! realm.write {
 				me.firstName = meContact.givenName != "" ? meContact.givenName : nil
 				me.lastName = meContact.familyName != "" ? meContact.familyName : nil
+				me.contactID = meContact.identifier
+				me.photo = meContact.thumbnailImageData
 			}
 			
 			let emailAddresses = meContact.emailAddresses.map {sanitizeEmail(String($0.value))}
@@ -76,6 +78,8 @@ class ContactParser {
 			try! realm.write {
 				person.firstName = contact.givenName
 				person.lastName = contact.familyName
+				person.contactID = contact.identifier
+				person.photo = contact.thumbnailImageData
 			}
 			let emailAddresses = contact.emailAddresses.map {sanitizeEmail(String($0.value))}
 			let phoneNumbers = contact.phoneNumbers.map {sanitizePhone($0.value.stringValue)}

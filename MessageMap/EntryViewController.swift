@@ -12,6 +12,8 @@ import RealmSwift
 
 class EntryViewController: NSViewController, ParserDelegate {
 	
+	let debug = false // Set this to true to recreate database
+	
 	@IBOutlet var progress: NSProgressIndicator!
 	@IBOutlet var programDescription: NSTextField!
 	@IBOutlet var progressSection: NSTextField!
@@ -39,9 +41,12 @@ class EntryViewController: NSViewController, ParserDelegate {
 		
 		if defaults.bool(forKey: "dataImportComplete") {
 			
-//			setWelcomeState() // Debug
-			// Uncomment this for normal functioning
-			 setFinishedParsingDataState()
+			// Debug -> Reset data
+			if debug {
+				setWelcomeState()
+			} else {
+				setFinishedParsingDataState()
+			}
 		} else {
 			setWelcomeState()
 		}

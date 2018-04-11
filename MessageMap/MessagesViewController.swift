@@ -14,11 +14,16 @@ class MessagesViewController: NSViewController, NSCollectionViewDataSource, NSCo
 	@IBOutlet weak var collectionView: NSCollectionView!
 	private let cellId = "messageCell"
 	let realm = try! Realm()
+	@IBOutlet var progress: NSProgressIndicator!
 	var chat: Chat? = nil
 	var messages: Results<Message>!
-
+	
+	let panelWidth = 465.0
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		
+		self.view.window?.isOpaque = false
 		
 		messages = realm.objects(Message.self)
 		
@@ -26,8 +31,7 @@ class MessagesViewController: NSViewController, NSCollectionViewDataSource, NSCo
 		delegate.messagesViewController = self
 		
 		collectionView.backgroundColors.append(NSColor.white)
-		collectionView.register(MessageItem.self, forItemWithIdentifier: NSUserInterfaceItemIdentifier(rawValue: cellId))
-		
+		collectionView.register(MessageItem.self, forItemWithIdentifier: NSUserInterfaceItemIdentifier(rawValue: cellId))		
 	}
 	
 	func setChat(chat: Chat) {
@@ -41,62 +45,54 @@ class MessagesViewController: NSViewController, NSCollectionViewDataSource, NSCo
 	}
 	
 	func collectionView(_ collectionView: NSCollectionView, numberOfItemsInSection section: Int) -> Int {
+		
 		return chat?.messages.count ?? 0
 	}
 	
 	func collectionView(_ itemForRepresentedObjectAtcollectionView: NSCollectionView, itemForRepresentedObjectAt indexPath: IndexPath) -> NSCollectionViewItem {
 		
-		let item = collectionView.makeItem(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: cellId), for: indexPath)
-			
-		guard let messageItem = item as? MessageItem else {print("Returning");return item}
+		let item: MessageItem = collectionView.makeItem(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: cellId), for: indexPath) as! MessageItem
 		
 		let message = messages[indexPath.item]
 		
 		if let messageText = message.text {
-			messageItem.messageTextField.stringValue = messageText
-			
-			let size = CGSize(width: 250, height: 1000)
-			let options = NSString.DrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
-			let estimatedFrame = NSString(string: messageText).boundingRect(with: size, options: options, attributes: [NSAttributedStringKey.font : NSFont.systemFont(ofSize: 13.0)], context: nil)
+			item.messageTextField.stringValue = messageText
+			item.profileImageView.image = nil
 			
 			if message.fromMe {
 				
-				messageItem.profileImageView.isHidden = true
-				messageItem.messageTextField.textColor = NSColor.white
-				messageItem.messageBubble.fillColor = NSColor(red: 0, green: 137/255, blue: 249/255, alpha: 1.0)
+
+				item.profileImageView.isHidden = true
+				item.messageTextField.textColor = NSColor.white
+				item.messageBubble.fillColor = NSColor(red: 0, green: 137/255, blue: 249/255, alpha: 1.0)
 
 				
-				messageItem.messageTextField.frame = CGRect(x: view.frame.width - estimatedFrame.width - 35 + 6, y: 2, width: estimatedFrame.width + 8, height: estimatedFrame.height + 5)
-				messageItem.messageBubble.frame = CGRect(x: view.frame.width - estimatedFrame.width - 35, y: 0, width: estimatedFrame.width + 18, height: estimatedFrame.height + 5 + 6)
+				item.messageTextField.frame = CGRect(x: message.textFieldX, y: 2.0, width: message.textFieldWidth, height: message.textFieldHeight)
+				item.messageBubble.frame = CGRect(x: message.bubbleX, y: 0.0, width: message.bubbleWidth, height: message.bubbleHeight)
 				
 			} else {
 				
-				messageItem.profileImageView.isHidden = false
-				messageItem.messageTextField.textColor = NSColor.black
-				messageItem.messageBubble.fillColor = NSColor(red: 229/255, green: 229/255, blue: 234/255, alpha: 1.0)
+				item.profileImageView.isHidden = false
+				if let photo = message.sender?.photo {
+					item.profileImageView.image = NSImage(data: photo)
+				}
+				item.messageTextField.textColor = NSColor.black
+				item.messageBubble.fillColor = NSColor(red: 229/255, green: 229/255, blue: 234/255, alpha: 1.0)
 
-				
-				messageItem.messageBubble.fillColor = NSColor(white: 0.92, alpha: 1.0)
-				messageItem.messageTextField.frame = CGRect(x: 6 + 40, y: 2, width: estimatedFrame.width + 8, height: estimatedFrame.height + 5)
-				messageItem.messageBubble.frame = CGRect(x: 40, y: 0, width: estimatedFrame.width + 18, height: estimatedFrame.height + 5 + 6)
+				item.messageTextField.frame = CGRect(x: 46.0, y: 2.0, width: message.textFieldWidth, height: message.textFieldHeight)
+				item.messageBubble.frame = CGRect(x: 40.0, y: 0.0, width: message.bubbleWidth, height: message.bubbleHeight)
 			}
 		} else {
-			messageItem.messageTextField.stringValue = "Test"
+			item.messageTextField.stringValue = "Error"
 		}
 		
 		return item
 	}
 	
 	func collectionView(_ collectionView: NSCollectionView, layout collectionViewLayout: NSCollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> NSSize {
-		if let messageText = messages[indexPath.item].text {
-			let size = CGSize(width: 250, height: 1000)
-			let options = NSString.DrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
-			let estimatedFrame = NSString(string: messageText).boundingRect(with: size, options: options, attributes: [NSAttributedStringKey.font : NSFont.systemFont(ofSize: 13.0)], context: nil)
-			
-			return CGSize(width: view.frame.width, height: estimatedFrame.height + 5 + 6)
-			
-		}
-		return CGSize(width: self.view.frame.width, height: 100)
+		
+		// Use precalculated height
+		return CGSize(width: panelWidth, height: messages[indexPath.item].layoutHeight)
 	}
 	
 	func collectionView(_ collectionView: NSCollectionView, layout collectionViewLayout: NSCollectionViewLayout, insetForSectionAt section: Int) -> NSEdgeInsets {
@@ -105,3 +101,5 @@ class MessagesViewController: NSViewController, NSCollectionViewDataSource, NSCo
 
     
 }
+
+

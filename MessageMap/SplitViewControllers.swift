@@ -15,8 +15,13 @@ class MainSplitViewController: NSSplitViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+		NSLayoutConstraint(item: graphsPane.viewController.view, attribute: NSLayoutConstraint.Attribute.width, relatedBy: NSLayoutConstraint.Relation.greaterThanOrEqual, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: 400).isActive = true
         // Do view setup here.
     }
+	
+	override func splitView(_ splitView: NSSplitView, effectiveRect proposedEffectiveRect: NSRect, forDrawnRect drawnRect: NSRect, ofDividerAt dividerIndex: Int) -> NSRect {
+		return NSZeroRect
+	}
     
 }
 
@@ -29,7 +34,11 @@ class ChatMessageCalendarSplitViewController: NSSplitViewController {
 		super.viewDidLoad()
 		// Do view setup here.
 		
-		NSLayoutConstraint(item: calendarPane.viewController.view, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: 150).isActive = true
+		NSLayoutConstraint(item: calendarPane.viewController.view, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: 198).isActive = true
+	}
+	
+	override func splitView(_ splitView: NSSplitView, effectiveRect proposedEffectiveRect: NSRect, forDrawnRect drawnRect: NSRect, ofDividerAt dividerIndex: Int) -> NSRect {
+		return NSZeroRect
 	}
 	
 }
@@ -45,6 +54,10 @@ class ChatMessageSplitViewController: NSSplitViewController {
 		
 		NSLayoutConstraint(item: chatPane.viewController.view, attribute: NSLayoutConstraint.Attribute.width, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: 270).isActive = true
 		NSLayoutConstraint(item: messagePane.viewController.view, attribute: NSLayoutConstraint.Attribute.width, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: 465).isActive = true
+	}
+	
+	override func splitView(_ splitView: NSSplitView, effectiveRect proposedEffectiveRect: NSRect, forDrawnRect drawnRect: NSRect, ofDividerAt dividerIndex: Int) -> NSRect {
+		return NSZeroRect
 	}
 	
 }

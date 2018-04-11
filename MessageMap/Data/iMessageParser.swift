@@ -18,21 +18,6 @@ protocol ParserDelegate: AnyObject {
 	func incrementProgress(by amount: Double) -> Void
 }
 
-extension Array where Element: Comparable {
-	func containsSameElements(as other: [Element]) -> Bool {
-		return self.count == other.count && self.sorted() == other.sorted()
-	}
-}
-
-extension Array where Element:Person {
-	func unique() -> [Person] {
-		
-		// Great solution from here https://stackoverflow.com/questions/27624331/unique-values-of-array-in-swift
-		var seen: [String: Bool] = [:]
-		return self.filter { seen.updateValue(true, forKey: $0.id) == nil }
-	}
-}
-
 class iMessageParser {
 	let realm = try! Realm()
 	
@@ -44,6 +29,9 @@ class iMessageParser {
 	var handlesDict = [Int:Person]() // Maps a handleID to a Person
 	var messagesDict = [Int:Message]() // Maps a messageId to a Message
 	var chatMessageJoinDict = [Int:Chat]() // Maps a messageId to a Chat
+	
+	var attachmentsDict = [Int:Attachment]() // Maps an attachmentId to an attachment
+	var attachmentMessageJoinDict = [Int:Attachment]() // Maps a messageId to an Attachment
 
 	// Define generic "ROWID" column
 	let idCol = Expression<Int64>("ROWID")
@@ -65,7 +53,16 @@ class iMessageParser {
 	let isFromMeCol = Expression<Int>("is_from_me")
 	let dateCol = Expression<Int>("date")
 	let otherHandleIdCol = Expression<Int>("other_handle")
+	
+	let attachmentTable = Table("attachment")
+	let filenameCol = Expression<String>("filename")
+	let utiCol = Expression<String>("uti")
+	let mimeTypeCol = Expression<String>("mime_type")
+	let transferNameCol = Expression<String>("transfer_name")
 
+	let attachmentMessageJoinTable = Table("message_attachment_join")
+	let attachmentIdCol = Expression<Int>("attachment_id")
+	
 	// Define table and columns for "chat_message_join" table
 	let chatMessageJoinTable = Table("chat_message_join")
 	let chatIdCol = Expression<Int>("chat_id")
@@ -118,6 +115,20 @@ class iMessageParser {
 		let messagesCount = try! db.scalar(messageTable.count)
 		guard let messages = try? db.prepare(messageTable.select(idCol, textCol, handleIdCol, isFromMeCol, dateCol)) else {
 			print("Failed to get handles table")
+			return
+		}
+		
+		delegate?.setShortProgressMessage(to: "Querying for Attachments")
+		let attachmentsCount = try! db.scalar(attachmentTable.count)
+		guard let attachments = try? db.prepare(attachmentTable.select(idCol, filenameCol, utiCol, mimeTypeCol, transferNameCol)) else {
+			print("Failed to get attachments table")
+			return
+		}
+		
+		delegate?.setShortProgressMessage(to: "Querying for Attachment -> Message links")
+		let attachmentMessageJoinsCount = try! db.scalar(attachmentMessageJoinTable.count)
+		guard let attachmentMessageJoins = try? db.prepare(attachmentMessageJoinTable.select(messageIdCol, attachmentIdCol)) else {
+			print("Failed to get message_attachment_join table")
 			return
 		}
 
@@ -290,6 +301,54 @@ class iMessageParser {
 			delegate?.setShortProgressMessage(to: "Join handle \(handleId) with chat")
 			delegate?.incrementProgress(by: progressCount)
 		}
+		
+		
+		//////// ATTACHMENTS ////////
+		
+		print("Start attachmets")
+		
+		delegate?.setProgressSection(to: "Process Attachments")
+		progressCount = 5.0 / Double(attachmentsCount)
+		
+		for (index, attachment) in attachments.enumerated() {
+			
+			guard let id = try? Int(attachment.get(idCol)) else {
+				print("Attachment has no ID, therefore skipping.")
+				continue
+			}
+			
+			guard let filename = try? attachment.get(filenameCol).trimmingCharacters(in: .whitespacesAndNewlines) else {
+				print("Could not get attachment filename, therefore skipping.")
+				continue
+			}
+			
+			if filename == "" {
+				print("Filename is empty, therefore skipping")
+				continue
+			}
+			
+			let uti = try? attachment.get(utiCol)
+			let mimeType = try? attachment.get(mimeTypeCol)
+			let transferName = try? attachment.get(transferNameCol)
+			
+			let newAttachment = Attachment()
+			newAttachment.iMessageID.value = id
+			newAttachment.filename = filename
+			newAttachment.uti = uti
+			newAttachment.mimeType = mimeType
+			newAttachment.transferName = transferName ?? filename.components(separatedBy: "/").last ?? "UnknownFileAttachment"
+			
+			attachmentsDict[id] = newAttachment
+			
+			try! realm.write {
+				realm.add(newAttachment)
+			}
+			
+			if (index % 10 == 0) {
+				delegate?.setShortProgressMessage(to: "Import attachment \(transferName ?? "")")
+				delegate?.incrementProgress(by: progressCount * 10)
+			}
+		}
 
 		print("Parse Messages")
 
@@ -301,6 +360,10 @@ class iMessageParser {
 		var chatLastMessageDate = [Chat: Date?]()
 		delegate?.setProgressSection(to: "Process Messages")
 		
+		let size = CGSize(width: 250.0, height: 1500.0)
+		let messagePaneWidth = 465.0
+		let options = NSString.DrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
+
 		progressCount = (30.0 / Double(messagesCount)) * 10.0
 		
 		for (index, message) in messages.enumerated() {
@@ -362,7 +425,7 @@ class iMessageParser {
 					realm.add(chat)
 				}
 			}
-
+			
 			//let newMessage = Message(sender: sender, chat: chat, date: actualDate, text: text == "" ? nil : text)
 			let newMessage = Message()
 			newMessage.sender = sender
@@ -373,12 +436,36 @@ class iMessageParser {
 			}
 			
 			newMessage.date = actualDate
+			newMessage.year = actualDate.year
+			newMessage.month = actualDate.month
+			newMessage.dayOfMonth = actualDate.day
+			newMessage.weekday = actualDate.weekday
+			newMessage.hour = actualDate.hour
+			newMessage.minute = actualDate.minute
 			newMessage.text = text == "" ? nil : text
 			newMessage.iMessageID.value = id
 
-			newMessage.fromMe = isFromMe == 1 ? true : false
+			let fromMe = isFromMe == 1 ? true : false
+			newMessage.fromMe = fromMe
+			
+			// Do message layout precalculations
+			let estimatedFrame = NSString(string: text ?? "").boundingRect(with: size, options: options, attributes: [NSAttributedStringKey.font : NSFont.systemFont(ofSize: 13.0)], context: nil)
 
-			//messagesDict[id] = newMessage
+			let width = Double(estimatedFrame.width)
+			let height = Double(estimatedFrame.height)
+			
+			newMessage.textFieldWidth = width + 8
+			newMessage.textFieldHeight = height + 5
+			newMessage.bubbleWidth = width + 18
+			newMessage.bubbleHeight = height + 11
+			newMessage.layoutHeight = height + 11
+			
+			if fromMe {
+				newMessage.textFieldX = messagePaneWidth - width - 35 + 6
+				newMessage.bubbleX = messagePaneWidth - width - 35
+			}
+
+			messagesDict[id] = newMessage
 			newMessages.append(newMessage)
 			
 			// This is a bit awkward, but we need to do this 
@@ -414,6 +501,40 @@ class iMessageParser {
 			}
 		}
 		
+		
+		//////// ATTACHMENT MESSAGE JOINS /////////
+		delegate?.setProgressSection(to: "Process Message Attachments")
+		progressCount = 5.0 / Double(attachmentMessageJoinsCount)
+		
+		try! realm.write {
+			
+			for attachmentMessageJoin in attachmentMessageJoins {
+				guard let attachmentId = try? attachmentMessageJoin.get(attachmentIdCol) else {
+					print("Could not get 'message_attachment_join's attachment_id column, therefore skipping")
+					continue
+				}
+				guard let messageId = try? attachmentMessageJoin.get(messageIdCol) else {
+					print("Could not get 'message_attachment_join's message_id column, therefore skipping")
+					continue
+				}
+				
+				if let attachment = attachmentsDict[attachmentId] {
+					if let message = messagesDict[messageId] {
+						attachment.message = message
+						
+						delegate?.setShortProgressMessage(to: "Join message \(messageId) with attachment")
+						delegate?.incrementProgress(by: progressCount)
+						continue
+					}
+				}
+				
+				
+				print("Error: could not find attachment in realm with iMessageID \(attachmentId)")
+
+			}
+			
+		}
+		
 		// Clean the data
 		delegate?.setProgressSection(to: "Cleanup...")
 		
@@ -437,7 +558,7 @@ class iMessageParser {
 		
 		let chats = realm.objects(Chat.self)
 		
-		let progressCount = 5.0 / Double(chats.count)
+		let progressCount = 2.5 / Double(chats.count)
 		for chat in chats {
 			let potentialParticipants = chat.participantsCalculated + Array(chat.participants)
 			toAdd[chat] = potentialParticipants.unique()
@@ -470,7 +591,7 @@ class iMessageParser {
 			peopleDict[person.id] = index // Important, need this
 		}
 		
-		var progressCount = 10.0 / Double(chats.count)
+		var progressCount = 2.5 / Double(chats.count)
 		
 		for chat in chats {
 			// Take an array of integers representing participants in PeopleIDs and turn them into strings like "10-13-40-900", where the ints are sorted
