@@ -11,7 +11,6 @@ import RealmSwift
 
 class CalendarViewController: NSViewController, MGCalendarViewDelegate, MGCalendarViewDataSource {
 	
-
 	@IBOutlet var calendarView: MGCalendarView!
 	let realm = try! Realm()
 	var messages: Results<Message>!
@@ -35,6 +34,8 @@ class CalendarViewController: NSViewController, MGCalendarViewDelegate, MGCalend
 				values[dayID] = 1
 			}
 		}
+		
+		calendarView.reloadCalendar()
 	}
 	
 	func setChat(chat: Chat) {
@@ -78,14 +79,6 @@ class CalendarViewController: NSViewController, MGCalendarViewDelegate, MGCalend
 		} else {
 			return 0.0
 		}
-//		if let chatSafe = chat {
-//			let value = chatSafe.messages.filter("year == \(year) AND month == \(month) AND dayOfMonth == \(day)").count
-//			return Double(value)
-//		} else {
-//			let value = realm.objects(Message.self).filter("year == \(year) AND month == \(month) AND dayOfMonth == \(day)").count
-//			return Double(value)
-//		}
-		
 	}
 }
 

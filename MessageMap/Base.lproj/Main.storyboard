@@ -922,42 +922,32 @@
                         <rect key="frame" x="0.0" y="0.0" width="735" height="198"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7hS-f4-FcL" customClass="MGCalendarView" customModule="MessageMap" customModuleProvider="target">
+                            <scrollView fixedFrame="YES" borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasVerticalScroller="NO" horizontalScrollElasticity="none" verticalScrollElasticity="none" translatesAutoresizingMaskIntoConstraints="NO" id="WGi-ev-ShC">
                                 <rect key="frame" x="0.0" y="0.0" width="735" height="198"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <subviews>
-                                    <scrollView fixedFrame="YES" borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasVerticalScroller="NO" horizontalScrollElasticity="none" verticalScrollElasticity="none" translatesAutoresizingMaskIntoConstraints="NO" id="WGi-ev-ShC">
-                                        <rect key="frame" x="35" y="0.0" width="700" height="198"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                        <clipView key="contentView" ambiguous="YES" copiesOnScroll="NO" id="ALA-9r-nFK">
-                                            <rect key="frame" x="0.0" y="0.0" width="700" height="198"/>
+                                <clipView key="contentView" ambiguous="YES" copiesOnScroll="NO" id="ALA-9r-nFK">
+                                    <rect key="frame" x="0.0" y="0.0" width="735" height="198"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <view fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XbY-ls-QdR" customClass="MGCalendarView" customModule="MessageMap" customModuleProvider="target">
+                                            <rect key="frame" x="0.0" y="0.0" width="935" height="198"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                            <subviews>
-                                                <view fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XbY-ls-QdR" customClass="MGCalendarContentView" customModule="MessageMap" customModuleProvider="target">
-                                                    <rect key="frame" x="0.0" y="0.0" width="900" height="198"/>
-                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                                </view>
-                                            </subviews>
-                                        </clipView>
-                                        <scroller key="horizontalScroller" verticalHuggingPriority="750" horizontal="YES" id="pWe-Ld-ml5">
-                                            <rect key="frame" x="0.0" y="182" width="700" height="16"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </scroller>
-                                        <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="J3v-e2-Q6B">
-                                            <rect key="frame" x="-100" y="-100" width="16" height="198"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </scroller>
-                                    </scrollView>
-                                </subviews>
-                                <connections>
-                                    <outlet property="contentView" destination="XbY-ls-QdR" id="mdm-kB-0Xa"/>
-                                    <outlet property="scrollView" destination="WGi-ev-ShC" id="AqO-XY-iNL"/>
-                                </connections>
-                            </customView>
+                                        </view>
+                                    </subviews>
+                                </clipView>
+                                <scroller key="horizontalScroller" verticalHuggingPriority="750" horizontal="YES" id="pWe-Ld-ml5">
+                                    <rect key="frame" x="0.0" y="182" width="735" height="16"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </scroller>
+                                <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="J3v-e2-Q6B">
+                                    <rect key="frame" x="-100" y="-100" width="16" height="198"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </scroller>
+                            </scrollView>
                         </subviews>
                     </view>
                     <connections>
-                        <outlet property="calendarView" destination="7hS-f4-FcL" id="tCX-Tm-R3u"/>
+                        <outlet property="calendarView" destination="XbY-ls-QdR" id="Q1o-Rf-qaX"/>
                     </connections>
                 </viewController>
                 <customObject id="n8A-RM-gst" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
