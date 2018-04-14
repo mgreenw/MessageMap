@@ -23,6 +23,3 @@ func getMe() -> Person {
 		return me
 	}
 }
-
-
-

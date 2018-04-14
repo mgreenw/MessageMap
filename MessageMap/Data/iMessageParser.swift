@@ -13,14 +13,14 @@ import RealmSwift
 
 protocol ParserDelegate: AnyObject {
 	// Progress updators
-	func setShortProgressMessage(to text: String) -> Void
-	func setProgressSection(to text: String) -> Void
-	func incrementProgress(by amount: Double) -> Void
+	func setShortProgressMessage(to text: String)
+	func setProgressSection(to text: String)
+	func incrementProgress(by amount: Double)
 }
 
 class iMessageParser {
 	let realm = try! Realm()
-	
+
 	let home = FileManager.default.homeDirectoryForCurrentUser
 	let fileManager = FileManager.default
 
@@ -29,7 +29,7 @@ class iMessageParser {
 	var handlesDict = [Int:Person]() // Maps a handleID to a Person
 	var messagesDict = [Int:Message]() // Maps a messageId to a Message
 	var chatMessageJoinDict = [Int:Chat]() // Maps a messageId to a Chat
-	
+
 	var attachmentsDict = [Int:Attachment]() // Maps an attachmentId to an attachment
 	var attachmentMessageJoinDict = [Int:Attachment]() // Maps a messageId to an Attachment
 
@@ -51,9 +51,10 @@ class iMessageParser {
 	let textCol = Expression<String>("text")
 	let handleIdCol = Expression<Int>("handle_id")
 	let isFromMeCol = Expression<Int>("is_from_me")
+	let serviceCol = Expression<String>("service")
 	let dateCol = Expression<Int>("date")
 	let otherHandleIdCol = Expression<Int>("other_handle")
-	
+
 	let attachmentTable = Table("attachment")
 	let filenameCol = Expression<String>("filename")
 	let utiCol = Expression<String>("uti")
@@ -62,7 +63,7 @@ class iMessageParser {
 
 	let attachmentMessageJoinTable = Table("message_attachment_join")
 	let attachmentIdCol = Expression<Int>("attachment_id")
-	
+
 	// Define table and columns for "chat_message_join" table
 	let chatMessageJoinTable = Table("chat_message_join")
 	let chatIdCol = Expression<Int>("chat_id")
@@ -70,12 +71,12 @@ class iMessageParser {
 
 	// Define table and columns for "chat_handle_join" table
 	let chatHandleJoinTable = Table("chat_handle_join")
-	
+
 	weak var delegate: ParserDelegate?
-		
+
 	func parseDatabase(_ iMessageURL: URL, completion: () -> Void) {
 		print(iMessageURL.path)
-		
+
 		delegate?.setProgressSection(to: "Query iMessage Database")
 		delegate?.setShortProgressMessage(to: "Ensure database file exists")
 		guard fileManager.fileExists(atPath: iMessageURL.path) == true else {
@@ -88,15 +89,15 @@ class iMessageParser {
 			print("Failed to connect to iMessage database")
 			return
 		}
-		
+
 		delegate?.incrementProgress(by: 1)
-		
+
 		print("Initialized iMesasge database")
 
 		////////////////////////////////////////
 		////////// QUERY THE DATABASE //////////
 		////////////////////////////////////////
-		
+
 		delegate?.setShortProgressMessage(to: "Query for Chats")
 		let chatsCount = try! db.scalar(chatTable.count)
 		guard let chats = try? db.prepare(chatTable.select(idCol, displayNameCol, isArchivedCol)) else {
@@ -113,18 +114,18 @@ class iMessageParser {
 
 		delegate?.setShortProgressMessage(to: "Query for Messages")
 		let messagesCount = try! db.scalar(messageTable.count)
-		guard let messages = try? db.prepare(messageTable.select(idCol, textCol, handleIdCol, isFromMeCol, dateCol)) else {
+		guard let messages = try? db.prepare(messageTable.select(idCol, textCol, handleIdCol, isFromMeCol, dateCol, serviceCol)) else {
 			print("Failed to get handles table")
 			return
 		}
-		
+
 		delegate?.setShortProgressMessage(to: "Querying for Attachments")
 		let attachmentsCount = try! db.scalar(attachmentTable.count)
 		guard let attachments = try? db.prepare(attachmentTable.select(idCol, filenameCol, utiCol, mimeTypeCol, transferNameCol)) else {
 			print("Failed to get attachments table")
 			return
 		}
-		
+
 		delegate?.setShortProgressMessage(to: "Querying for Attachment -> Message links")
 		let attachmentMessageJoinsCount = try! db.scalar(attachmentMessageJoinTable.count)
 		guard let attachmentMessageJoins = try? db.prepare(attachmentMessageJoinTable.select(messageIdCol, attachmentIdCol)) else {
@@ -152,9 +153,9 @@ class iMessageParser {
 		////////////////////////////////////////
 
 		//////// HANDLES /////////
-		
+
 		delegate?.setProgressSection(to: "Process Handles")
-		
+
 		var progressCount = 10.0 / Double(handlesCount)
 		for handle in handles {
 			guard let id = try? Int(handle.get(idCol)) else {
@@ -176,8 +177,6 @@ class iMessageParser {
 			} else {
 				handleName = sanitizePhone(handleName)
 			}
-
-
 
 			// If the person already exists, then set our person to be that one
 			if let handle = realm.objects(Handle.self).filter("handle = '\(handleName)'" ).first {
@@ -202,7 +201,7 @@ class iMessageParser {
 					realm.add(newPerson)
 				}
 			}
-			
+
 			delegate?.setShortProgressMessage(to: "Import handle: \(handleName)")
 			delegate?.incrementProgress(by: progressCount)
 		}
@@ -212,7 +211,7 @@ class iMessageParser {
 
 		delegate?.setProgressSection(to: "Process Chats")
 		progressCount = 5.0 / Double(chatsCount)
-		
+
 		for chat in chats {
 
 			guard let id = try? Int(chat.get(idCol)) else {
@@ -240,11 +239,10 @@ class iMessageParser {
 			try! realm.write {
 				realm.add(newChat)
 			}
-			
+
 			delegate?.setShortProgressMessage(to: "Import chat \(displayName ?? "")")
 			delegate?.incrementProgress(by: progressCount)
 		}
-
 
 		//////// CHAT MESSAGE JOINS /////////
 		delegate?.setProgressSection(to: "Process Chat Messages")
@@ -260,13 +258,12 @@ class iMessageParser {
 				continue
 			}
 
-
 			if let chat = chatsDict[chatId] {
 				chatMessageJoinDict[messageId] = chat
 			} else {
 				print("Error: could not find chat in realm with iMessageID \(chatId)")
 			}
-			
+
 			delegate?.setShortProgressMessage(to: "Join message \(messageId) with chat")
 			delegate?.incrementProgress(by: progressCount)
 		}
@@ -275,7 +272,7 @@ class iMessageParser {
 
 		//////// CHAT HANDLE JOINS /////////
 		delegate?.setProgressSection(to: "Process Chat Participants")
-		
+
 		progressCount = 10.0 / Double(chatHandleJoinsCount)
 		for chatHandleJoin in chatHandleJoins {
 			guard let chatId = try? chatHandleJoin.get(chatIdCol) else {
@@ -301,49 +298,48 @@ class iMessageParser {
 			delegate?.setShortProgressMessage(to: "Join handle \(handleId) with chat")
 			delegate?.incrementProgress(by: progressCount)
 		}
-		
-		
+
 		//////// ATTACHMENTS ////////
-		
+
 		print("Start attachmets")
-		
+
 		delegate?.setProgressSection(to: "Process Attachments")
 		progressCount = 5.0 / Double(attachmentsCount)
-		
+
 		for (index, attachment) in attachments.enumerated() {
-			
+
 			guard let id = try? Int(attachment.get(idCol)) else {
 				print("Attachment has no ID, therefore skipping.")
 				continue
 			}
-			
+
 			guard let filename = try? attachment.get(filenameCol).trimmingCharacters(in: .whitespacesAndNewlines) else {
 				print("Could not get attachment filename, therefore skipping.")
 				continue
 			}
-			
+
 			if filename == "" {
 				print("Filename is empty, therefore skipping")
 				continue
 			}
-			
+
 			let uti = try? attachment.get(utiCol)
 			let mimeType = try? attachment.get(mimeTypeCol)
 			let transferName = try? attachment.get(transferNameCol)
-			
+
 			let newAttachment = Attachment()
 			newAttachment.iMessageID.value = id
 			newAttachment.filename = filename
 			newAttachment.uti = uti
 			newAttachment.mimeType = mimeType
 			newAttachment.transferName = transferName ?? filename.components(separatedBy: "/").last ?? "UnknownFileAttachment"
-			
+
 			attachmentsDict[id] = newAttachment
-			
+
 			try! realm.write {
 				realm.add(newAttachment)
 			}
-			
+
 			if (index % 10 == 0) {
 				delegate?.setShortProgressMessage(to: "Import attachment \(transferName ?? "")")
 				delegate?.incrementProgress(by: progressCount * 10)
@@ -359,13 +355,13 @@ class iMessageParser {
 		var newMessages = [Message]()
 		var chatLastMessageDate = [Chat: Date?]()
 		delegate?.setProgressSection(to: "Process Messages")
-		
+
 		let size = CGSize(width: 250.0, height: 1500.0)
 		let messagePaneWidth = 465.0
 		let options = NSString.DrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
 
 		progressCount = (30.0 / Double(messagesCount)) * 10.0
-		
+
 		for (index, message) in messages.enumerated() {
 			guard let id = try? Int(message.get(idCol)) else {
 				print("Handle has no ROWID, therefore skipping.")
@@ -387,7 +383,16 @@ class iMessageParser {
 				print("Could not get message's 'date' column, therefore skipping")
 				continue
 			}
-
+			
+			guard var service = try? message.get(serviceCol) else {
+				print("Could not get message's 'service' column, therefore skipping")
+				continue
+			}
+			
+			if service.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
+				service = "iMessage"
+			}
+			
 			let sender: Person
 
 			if (isFromMe == 1) {
@@ -425,16 +430,16 @@ class iMessageParser {
 					realm.add(chat)
 				}
 			}
-			
+
 			//let newMessage = Message(sender: sender, chat: chat, date: actualDate, text: text == "" ? nil : text)
 			let newMessage = Message()
 			newMessage.sender = sender
 			newMessage.chat = chat
-			
+
 			if !chat.participants.contains(sender) {
-				
+
 			}
-			
+
 			newMessage.date = actualDate
 			newMessage.year = actualDate.year
 			newMessage.month = actualDate.month
@@ -442,24 +447,36 @@ class iMessageParser {
 			newMessage.weekday = actualDate.weekday
 			newMessage.hour = actualDate.hour
 			newMessage.minute = actualDate.minute
+			
+			switch service {
+			case "iMessage":
+				newMessage.service = .iMessage
+			case "SMS":
+				newMessage.service = .SMS
+			case "Facebook":
+				newMessage.service = .Facebook
+			default:
+				newMessage.service = .Unknown
+			}
+			
 			newMessage.text = text == "" ? nil : text
 			newMessage.iMessageID.value = id
 
 			let fromMe = isFromMe == 1 ? true : false
 			newMessage.fromMe = fromMe
-			
+
 			// Do message layout precalculations
 			let estimatedFrame = NSString(string: text ?? "").boundingRect(with: size, options: options, attributes: [NSAttributedStringKey.font : NSFont.systemFont(ofSize: 13.0)], context: nil)
 
 			let width = Double(estimatedFrame.width)
 			let height = Double(estimatedFrame.height)
-			
+
 			newMessage.textFieldWidth = width + 8
 			newMessage.textFieldHeight = height + 5
 			newMessage.bubbleWidth = width + 18
 			newMessage.bubbleHeight = height + 11
 			newMessage.layoutHeight = height + 11
-			
+
 			if fromMe {
 				newMessage.textFieldX = messagePaneWidth - width - 35 + 6
 				newMessage.bubbleX = messagePaneWidth - width - 35
@@ -467,7 +484,7 @@ class iMessageParser {
 
 			messagesDict[id] = newMessage
 			newMessages.append(newMessage)
-			
+
 			// This is a bit awkward, but we need to do this 
 			if let lastMessageDate = chatLastMessageDate[chat] {
 				if let lastMessageDateSafe = lastMessageDate {
@@ -478,36 +495,34 @@ class iMessageParser {
 			} else {
 				chatLastMessageDate[chat] = actualDate
 			}
-			
+
 			if index % 10 == 0 {
 				delegate?.setShortProgressMessage(to: "Import message \((text ?? "").prefix(10))")
 				delegate?.incrementProgress(by: progressCount)
 			}
-			
+
 		}
 
 		progressCount = 10.0 / Double(messagesCount)
 		delegate?.setShortProgressMessage(to: "Write all messages to database")
 		try! realm.write {
-			
-			
+
 			for newMessage in newMessages {
 				delegate?.incrementProgress(by: progressCount)
 				realm.add(newMessage)
 			}
-			
+
 			for (chat, lastMessageDate) in chatLastMessageDate {
 				chat.lastMessageDate = lastMessageDate
 			}
 		}
-		
-		
+
 		//////// ATTACHMENT MESSAGE JOINS /////////
 		delegate?.setProgressSection(to: "Process Message Attachments")
 		progressCount = 5.0 / Double(attachmentMessageJoinsCount)
-		
+
 		try! realm.write {
-			
+
 			for attachmentMessageJoin in attachmentMessageJoins {
 				guard let attachmentId = try? attachmentMessageJoin.get(attachmentIdCol) else {
 					print("Could not get 'message_attachment_join's attachment_id column, therefore skipping")
@@ -517,27 +532,26 @@ class iMessageParser {
 					print("Could not get 'message_attachment_join's message_id column, therefore skipping")
 					continue
 				}
-				
+
 				if let attachment = attachmentsDict[attachmentId] {
 					if let message = messagesDict[messageId] {
 						attachment.message = message
-						
+
 						delegate?.setShortProgressMessage(to: "Join message \(messageId) with attachment")
 						delegate?.incrementProgress(by: progressCount)
 						continue
 					}
 				}
-				
-				
+
 				print("Error: could not find attachment in realm with iMessageID \(attachmentId)")
 
 			}
-			
+
 		}
-		
+
 		// Clean the data
 		delegate?.setProgressSection(to: "Cleanup...")
-		
+
 		fixChatParticipants()
 		mergeChatDuplicates()
 
@@ -546,74 +560,72 @@ class iMessageParser {
 		print("Messages:", realm.objects(Message.self).count)
 		print("People:", realm.objects(Person.self).count)
 		print("Chats:", realm.objects(Chat.self).count)
-		
+
 		completion()
 
 	}
-	
+
 	func fixChatParticipants() {
 		print("Fix Chat Participants")
 		delegate?.setShortProgressMessage(to: "Ensure all chat participants are included")
 		var toAdd = [Chat: [Person]]()
-		
+
 		let chats = realm.objects(Chat.self)
-		
+
 		let progressCount = 2.5 / Double(chats.count)
 		for chat in chats {
 			let potentialParticipants = chat.participantsCalculated + Array(chat.participants)
 			toAdd[chat] = potentialParticipants.unique()
 			delegate?.incrementProgress(by: progressCount)
 		}
-		
+
 		try! realm.write {
 			for (chat, participants) in toAdd {
-				chat.participants.removeAll();
+				chat.participants.removeAll()
 				chat.participants.append(objectsIn: participants)
 				delegate?.incrementProgress(by: progressCount)
 			}
 		}
 	}
-	
+
 	// Thanks to this answer: https://stackoverflow.com/questions/36714522/how-do-i-check-in-swift-if-two-arrays-contain-the-same-elements-regardless-of-th
 
-	
 	func mergeChatDuplicates() {
 		delegate?.setShortProgressMessage(to: "Merge Chat Duplicates")
 		print("Begin Merging chat duplicates")
-		
+
 		let chats = realm.objects(Chat.self)
 		let people = realm.objects(Person.self)
-		
+
 		var peopleDict = [String: Int]()
 		var participantChatsMap = [String: [String]]() // Maps a
-		
+
 		for (index, person) in people.enumerated() {
 			peopleDict[person.id] = index // Important, need this
 		}
-		
+
 		var progressCount = 2.5 / Double(chats.count)
-		
+
 		for chat in chats {
 			// Take an array of integers representing participants in PeopleIDs and turn them into strings like "10-13-40-900", where the ints are sorted
 			let participantsString = Array(chat.participants.map { peopleDict[$0.id]! }).sorted().map { String($0) }.joined(separator: "-")
-			
+
 			if let _ = participantChatsMap[participantsString] {
 				participantChatsMap[participantsString]!.append(chat.id)
 			} else {
 				participantChatsMap[participantsString] = [chat.id]
 			}
-			
+
 			delegate?.incrementProgress(by: progressCount)
 		}
-		
+
 		print("Found duplicate chats, merging...")
-		
-		
+
 		let chatsToMerge = participantChatsMap.values.filter { $0.count > 1 }
-		
+
 		progressCount = 5.0 / Double(chats.count)
 		try! realm.write {
-			
+
 			for chatIDs in chatsToMerge {
 				guard let parentID = chatIDs.first else {
 					print("Parent chat ID is nil in merge, skipping")
@@ -623,29 +635,28 @@ class iMessageParser {
 					print("Couldn't find parent chat with id \(parentID) in merge, skipping.")
 					continue
 				}
-				
+
 				for childID in chatIDs.dropFirst() {
 					guard let childChat = realm.objects(Chat.self).filter("id = '\(childID)'").first else {
 						print("Couldn't find child chat with id \(childID) in merge, skipping.")
 						continue
 					}
-					
+
 					for message in childChat.messages {
 						message.chat = parentChat
 					}
-					
+
 					if childChat.lastMessageDateSafe > parentChat.lastMessageDateSafe {
 						parentChat.lastMessageDate = childChat.lastMessageDate
 					}
-					
+
 					childChat.archived = true
 					childChat.displayName = "Old, merged into \(parentID)"
 				}
 			}
 		}
-		
+
 		delegate?.incrementProgress(by: 5.0)
 	}
 
 }
-

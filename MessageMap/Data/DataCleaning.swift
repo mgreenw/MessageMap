@@ -9,7 +9,6 @@
 import Foundation
 import RealmSwift
 
-
 func sanitizeEmail(_ email: String) -> String {
 	let sanitized = email.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
 	return sanitized
@@ -21,6 +20,6 @@ func sanitizePhone(_ phone: String) -> String {
 	if !num.hasPrefix("+") {
 		num = "+1" + num
 	}
-	
+
 	return num
 }

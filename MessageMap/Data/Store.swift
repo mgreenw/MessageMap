@@ -9,7 +9,7 @@
 import Foundation
 
 class Store {
-	
+
 	// Initialize shared store that all classes will have access to
 	static var shared = Store()
 
