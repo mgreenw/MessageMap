@@ -19,40 +19,32 @@ class ChatsViewController: NSViewController, NSTableViewDataSource, NSTableViewD
 	let dateFormatter = DateFormatter()
 	let delegate = NSApplication.shared.delegate as! AppDelegate
 	let realm = try! Realm()
-	var dayFilter = [(year: Int, month: Int, day: Int)]()
-
-	var chats: Results<Chat>!
-
+	var selectedChat: Chat? = nil
+	
     override func viewDidLoad() {
         super.viewDidLoad()
 
 		delegate.chatsViewController = self
+		
+		Store.shared.addChatsChangedListener(chatsChanged)
 
 		self.tableView.delegate = self
 		self.tableView.dataSource = self
 		dateFormatter.dateFormat = "MM/dd/yy"
 
-		chats = realm.objects(Chat.self).filter("messages.@count > 0").sorted(byKeyPath: "lastMessageDate", ascending: false)
     }
 	
-	func setDayFilter(_ filter: [(year: Int, month: Int, day: Int)]) {
-		self.dayFilter = filter
+	func chatsChanged() {
 		self.tableView.reloadData()
+		if let selected = selectedChat {
+			if let index = Store.shared.chats.index(of: selected){
+				tableView.selectRowIndexes(IndexSet(integer: index), byExtendingSelection: false)
+			}
+		}
 	}
 
 	func numberOfRows(in tableView: NSTableView) -> Int {
-		print("Reload chat table")
-		chats = realm.objects(Chat.self).filter("messages.@count > 0").sorted(byKeyPath: "lastMessageDate", ascending: false)
-		
-//		if dayFilter.count > 0 {
-//			let predicate = "SUBQUERY(messages, $message, " + dayFilter.map({ filter in
-//				return "($message.year = \(filter.year) AND $message.month = \(filter.month) AND $message.dayOfMonth = \(filter.day))"
-//			}).joined(separator: " OR ") + ").@count > 0"
-//			
-//			chats = chats.filter(predicate)
-//		}
-		
-		return chats.count
+		return Store.shared.chats.count
 	}
 
 	func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
@@ -64,15 +56,21 @@ class ChatsViewController: NSViewController, NSTableViewDataSource, NSTableViewD
 	}
 
 	func tableViewSelectionDidChange(_ notification: Notification) {
-		self.view.window!.makeFirstResponder(self.tableView)
-		delegate.messagesViewController.setChat(chat: chats[tableView.selectedRow])
-		delegate.calendarViewControler.setChat(chat: chats[tableView.selectedRow])
+		if selectedChat == Store.shared.chats[tableView.selectedRow] {
+			// Clear selected chat
+		} else {
+			self.view.window!.makeFirstResponder(self.tableView)
+			let chat = Store.shared.chats[tableView.selectedRow]
+			Store.shared.setChat(to: chat)
+			selectedChat = chat
+		}
+		
 	}
 
 	func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
 
 		let cell: ChatTableCellView = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "chatRow"), owner: self) as! ChatTableCellView
-		let chat = chats[row]
+		let chat = Store.shared.chats[row]
 
 		cell.image.image = nil
 

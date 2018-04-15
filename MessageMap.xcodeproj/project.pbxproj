@@ -27,6 +27,7 @@
 		9885763D206E8EF7000DB5CE /* Realm.framework.dSYM in Resources */ = {isa = PBXBuildFile; fileRef = 98857639206E8EF7000DB5CE /* Realm.framework.dSYM */; };
 		9885763E206E8EF7000DB5CE /* SQLite.framework.dSYM in Resources */ = {isa = PBXBuildFile; fileRef = 9885763A206E8EF7000DB5CE /* SQLite.framework.dSYM */; };
 		9885763F206E8EF7000DB5CE /* RealmSwift.framework.dSYM in Resources */ = {isa = PBXBuildFile; fileRef = 9885763B206E8EF7000DB5CE /* RealmSwift.framework.dSYM */; };
+		988AFB792082C3A6006A83E6 /* Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 988AFB782082C3A6006A83E6 /* Filter.swift */; };
 		988E76111FBB2D9000A782DF /* MGCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 988E76101FBB2D9000A782DF /* MGCalendarView.swift */; };
 		989D394320754C3F007E73D4 /* MessageItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989D394220754C3F007E73D4 /* MessageItem.swift */; };
 		98E43912207CF63C0055F462 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E43911207CF63C0055F462 /* Extensions.swift */; };
@@ -80,6 +81,7 @@
 		98857639206E8EF7000DB5CE /* Realm.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = Realm.framework.dSYM; path = Carthage/Build/Mac/Realm.framework.dSYM; sourceTree = "<group>"; };
 		9885763A206E8EF7000DB5CE /* SQLite.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = SQLite.framework.dSYM; path = Carthage/Build/Mac/SQLite.framework.dSYM; sourceTree = "<group>"; };
 		9885763B206E8EF7000DB5CE /* RealmSwift.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = RealmSwift.framework.dSYM; path = Carthage/Build/Mac/RealmSwift.framework.dSYM; sourceTree = "<group>"; };
+		988AFB782082C3A6006A83E6 /* Filter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Filter.swift; sourceTree = "<group>"; };
 		988E76101FBB2D9000A782DF /* MGCalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MGCalendarView.swift; sourceTree = "<group>"; };
 		989D394220754C3F007E73D4 /* MessageItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageItem.swift; sourceTree = "<group>"; };
 		98E43911207CF63C0055F462 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
@@ -114,8 +116,9 @@
 			isa = PBXGroup;
 			children = (
 				985E39011FCB4D79009BA3F2 /* Store.swift */,
-				98FAFCF11FBDF55B00F242AC /* Models.swift */,
+				988AFB782082C3A6006A83E6 /* Filter.swift */,
 				9861C7EC206F92F20015430F /* Queries.swift */,
+				98FAFCF11FBDF55B00F242AC /* Models.swift */,
 				98FAFCF51FBE04D600F242AC /* iMessageParser.swift */,
 				985E39031FCB4DE1009BA3F2 /* ContactParser.swift */,
 				985E39061FCB4F39009BA3F2 /* DataCleaning.swift */,
@@ -278,6 +281,7 @@
 				98046B4D1FBA13AF00ACCF79 /* ChatsViewController.swift in Sources */,
 				981A40282073BBE500F98511 /* EntryViewController.swift in Sources */,
 				9861C7ED206F92F20015430F /* Queries.swift in Sources */,
+				988AFB792082C3A6006A83E6 /* Filter.swift in Sources */,
 				98F275741FB91D1600EB1241 /* AppDelegate.swift in Sources */,
 				985E39041FCB4DE1009BA3F2 /* ContactParser.swift in Sources */,
 			);

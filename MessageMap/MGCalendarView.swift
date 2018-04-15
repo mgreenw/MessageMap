@@ -43,9 +43,9 @@ class MGCalendarView: NSView {
 	var selectionStart: Day?
 	var selectionEnd: Day?
 	private var selectedDays: Set<Day> = Set<Day>()
-	public var selection: [(year: Int, month: Int, day: Int)] {
+	public var selection: [DayID] {
 		return selectedDays.map { day in
-			(year: day.year, month: day.month, day: day.day)
+			DayID(year: day.year, month: day.month, day: day.day)
 		}
 	}
 
@@ -415,8 +415,6 @@ class MGCalendarView: NSView {
 			let week = Week(index: index, dateInWeek: startDate.add(weeks: index))
 			weeks.append(week)
 		}
-
-		self.reloadValues()
 	}
 	
 	private func translate(week: Int, day: Int) -> NSPoint {
@@ -506,6 +504,14 @@ class MGCalendarView: NSView {
 	
 	func setRangeDeselected(from: Day, to: Day) {
 		iterateDaysBetween(from, and: to, with: { day in
+			day.selected = false
+			selectedDays.remove(day)
+		})
+		selectionChanged()
+	}
+	
+	public func setAllDeselected() {
+		iterateDaysBetween(weeks[0][0], and: weeks.last![6], with: { day in
 			day.selected = false
 			selectedDays.remove(day)
 		})

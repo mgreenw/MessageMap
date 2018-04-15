@@ -13,8 +13,6 @@ class CalendarViewController: NSViewController, MGCalendarViewDelegate, MGCalend
 
 	@IBOutlet var calendarView: MGCalendarView!
 	let realm = try! Realm()
-	var messages: Results<Message>!
-	var chat: Chat?
 	var values = [String:Int]()
 	let delegate = NSApplication.shared.delegate as! AppDelegate
 
@@ -24,44 +22,40 @@ class CalendarViewController: NSViewController, MGCalendarViewDelegate, MGCalend
 
 		delegate.calendarViewControler = self
 		print("view did load")
-		messages = realm.objects(Message.self).sorted(byKeyPath: "date", ascending: true)
-		values.removeAll()
-		for message in messages {
-			let dayID = "\(message.year)-\(message.month)-\(message.dayOfMonth)"
-			if let dayValue = values[dayID] {
-				values[dayID] = dayValue + 1
-			} else {
-				values[dayID] = 1
-			}
-		}
-
+		
+		Store.shared.addMessagesChangedListener(messagesChanged)
+		
 		calendarView.reloadCalendar()
+		messagesChanged()
 	}
-
-	func setChat(chat: Chat) {
-		self.chat = chat
+	
+	func messagesChanged() {
 		values.removeAll()
-		for message in chat.messages {
+		Store.shared.enumerateMessagesForFilter(FilterType.day, { message in
 			let dayID = "\(message.year)-\(message.month)-\(message.dayOfMonth)"
 			if let dayValue = values[dayID] {
 				values[dayID] = dayValue + 1
 			} else {
 				values[dayID] = 1
 			}
-		}
+		})
+		print("Calendar View messages Changed")
 		self.calendarView.reloadValues()
 	}
 
 	func dateRange(for calendarView: MGCalendarView) -> (Date, Date) {
 
 		let now = Date()
-		guard let first: Date = messages.first?.date else {
+		
+		print("Count:\(Store.shared.countForFilter(FilterType.day))")
+		
+		guard let firstMessage: Message = Store.shared.messageForFilter(FilterType.day, at: 0) else {
 			print("Could not find the date of the first message sent")
 			return (now, now)
 		}
 
 		// We always return "now" to ensure the calendar includes the current date
-		return (first, now)
+		return (firstMessage.date, now)
 	}
 
 	func colorRange(for calendarView: MGCalendarView) -> (NSColor, NSColor) {
@@ -78,7 +72,15 @@ class CalendarViewController: NSViewController, MGCalendarViewDelegate, MGCalend
 	}
 	
 	func calendarViewSelectionDidChange(_ notification: Notification) {
-		delegate.chatsViewController.setDayFilter(calendarView.selection)
-		delegate.messagesViewController.setDayFilter(calendarView.selection)
+		if calendarView.selection.count > 0 {
+			Store.shared.addFilter(.day, by: calendarView.selection.map { selection in
+				selection.int
+			})
+		}
+	}
+	
+	@IBAction func clearSelection(sender: NSButton) {
+		calendarView.setAllDeselected()
+		Store.shared.removeAllFiltersFor(FilterType.day)
 	}
 }

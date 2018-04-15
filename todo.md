@@ -2,7 +2,7 @@
 
 Ranking: 1-5 for SIMPLICITY, 1-10 for IMPORTANCE. Then, add for score.
 
-- [ ] 14 (5, 9) MessageList: change coloring of Message depending on the service
+- [x] 14 (5, 9) MessageList: change coloring of Message depending on the service
 - [ ] 13 (3, 10) Setup Filter class singleton to delegate new filtering information
 - [ ] 13 (5, 8) Remove profile picture in one-person chats
 - [ ] 13 (4, 7) Add clear button to calendar

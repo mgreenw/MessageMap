@@ -12,7 +12,7 @@ import RealmSwift
 
 class EntryViewController: NSViewController, ParserDelegate {
 
-	let debug = true // Set this to true to recreate database
+	let debug = false // Set this to true to recreate database
 
 	@IBOutlet var progress: NSProgressIndicator!
 	@IBOutlet var programDescription: NSTextField!

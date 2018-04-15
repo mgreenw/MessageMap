@@ -554,6 +554,9 @@ class iMessageParser {
 
 		fixChatParticipants()
 		mergeChatDuplicates()
+		
+		// Refilter the messages
+		Store.shared.newMessagesAdded()
 
 		// Print the statistics
 		print("\n----------------\nDone parsing iMessages!\n")

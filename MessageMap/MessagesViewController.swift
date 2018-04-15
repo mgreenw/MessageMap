@@ -15,8 +15,6 @@ class MessagesViewController: NSViewController, NSCollectionViewDataSource, NSCo
 	private let cellId = "messageCell"
 	let realm = try! Realm()
 	@IBOutlet var progress: NSProgressIndicator!
-	var chat: Chat?
-	var messages: Results<Message>!
 	var dayFilter = [(year: Int, month: Int, day: Int)]()
 
 	let panelWidth = 465.0
@@ -26,36 +24,17 @@ class MessagesViewController: NSViewController, NSCollectionViewDataSource, NSCo
 
 		self.view.window?.isOpaque = false
 
-		messages = realm.objects(Message.self)
-
 		let delegate = NSApplication.shared.delegate as! AppDelegate
 		delegate.messagesViewController = self
+		
+		Store.shared.addMessagesChangedListener(messagesChanged)
 
 		collectionView.backgroundColors.append(NSColor.white)
 		collectionView.register(MessageItem.self, forItemWithIdentifier: NSUserInterfaceItemIdentifier(rawValue: cellId))
 	}
-
-	func setChat(chat: Chat) {
-		self.chat = chat
-		getMessages()
-		self.collectionView.reloadData()
-	}
 	
-	func setDayFilter(_ filter: [(year: Int, month: Int, day: Int)]) {
-		self.dayFilter = filter
-		getMessages()
+	func messagesChanged() {
 		self.collectionView.reloadData()
-	}
-	
-	func getMessages() {
-		guard let chatSafe = chat else {
-			return
-		}
-		let predicate = dayFilter.map({ filter in
-			return "(year = \(filter.year) AND month = \(filter.month) AND dayOfMonth = \(filter.day))"
-		}).joined(separator: " OR ")
-		
-		self.messages = chatSafe.sortedMessages.filter(predicate)
 	}
 
 	func numberOfSections(in collectionView: NSCollectionView) -> Int {
@@ -63,9 +42,8 @@ class MessagesViewController: NSViewController, NSCollectionViewDataSource, NSCo
 	}
 
 	func collectionView(_ collectionView: NSCollectionView, numberOfItemsInSection section: Int) -> Int {
-
-		if chat != nil {
-			return self.messages.count ?? 0
+		if Store.shared.chat != nil {
+			return Store.shared.count()
 		}
 		return 0
 	}
@@ -74,7 +52,8 @@ class MessagesViewController: NSViewController, NSCollectionViewDataSource, NSCo
 
 		let item: MessageItem = collectionView.makeItem(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: cellId), for: indexPath) as! MessageItem
 
-		let message = messages[indexPath.item]
+		
+		let message = Store.shared.message(at: indexPath.item)!
 
 		if let messageText = message.text {
 			item.messageTextField.stringValue = messageText
@@ -122,7 +101,7 @@ class MessagesViewController: NSViewController, NSCollectionViewDataSource, NSCo
 	func collectionView(_ collectionView: NSCollectionView, layout collectionViewLayout: NSCollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> NSSize {
 
 		// Use precalculated height
-		return CGSize(width: panelWidth, height: messages[indexPath.item].layoutHeight)
+		return CGSize(width: panelWidth, height: Store.shared.message(at: indexPath.item)!.layoutHeight)
 	}
 
 	func collectionView(_ collectionView: NSCollectionView, layout collectionViewLayout: NSCollectionViewLayout, insetForSectionAt section: Int) -> NSEdgeInsets {

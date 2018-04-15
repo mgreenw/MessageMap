@@ -16,7 +16,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	var calendarViewControler: CalendarViewController!
 
 	func applicationDidFinishLaunching(_ aNotification: Notification) {
-
+		Store.shared.startStore()
 	}
 
 	func applicationWillTerminate(_ aNotification: Notification) {
