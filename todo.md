@@ -3,7 +3,7 @@
 Ranking: 1-5 for SIMPLICITY, 1-10 for IMPORTANCE. Then, add for score.
 
 - [x] 14 (5, 9) MessageList: change coloring of Message depending on the service
-- [ ] 13 (3, 10) Setup Filter class singleton to delegate new filtering information
+- [x] 13 (1, 10) Setup Filter class singleton to delegate new filtering information
 - [ ] 13 (5, 8) Remove profile picture in one-person chats
 - [ ] 13 (4, 7) Add clear button to calendar
 - [ ] 13 (5, 8) MessageList: Add hover over message to show date & time
@@ -17,7 +17,7 @@ Ranking: 1-5 for SIMPLICITY, 1-10 for IMPORTANCE. Then, add for score.
 - [ ] 10 (2, 8) PieChart: Number of Messages OR number of words OR number of characters sent between participants in chat (use a segmented control to control this). This could transform into a Squarified treemap if no chat is selected
 - [ ] 10 (4, 6) Add dummy profile picture for chats/people with no profile picture
 - [ ] 9 (2, 7) Improve phone number formatting based on the country (probably do this is pre-parsing)
-- [ ] 9 (4, 5) Chat List: Improve date formatting to include hour if recent, "yesterday" if yesterday, otherwise the date
+- [ ] 9 (4, 5) Chat List: Improve date formatting to include hour if recent, "yesterday" if yesterday, otherwise the date. Also, if filtering, only show last message in filter window
 - [ ] 9 (2, 7) Implement attatchment viewing (with Quicklook, don't go crazy)
 - [ ] 8 (2, 6) Calendar: show Message List scrolling position in the calendar
 - [ ] 8 (4, 4) MessageList: Add chat name above the messagelist, and display all the filters

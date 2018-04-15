@@ -51,8 +51,6 @@ class MessagesViewController: NSViewController, NSCollectionViewDataSource, NSCo
 	func collectionView(_ itemForRepresentedObjectAtcollectionView: NSCollectionView, itemForRepresentedObjectAt indexPath: IndexPath) -> NSCollectionViewItem {
 
 		let item: MessageItem = collectionView.makeItem(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: cellId), for: indexPath) as! MessageItem
-
-		
 		let message = Store.shared.message(at: indexPath.item)!
 
 		if let messageText = message.text {
@@ -78,7 +76,7 @@ class MessagesViewController: NSViewController, NSCollectionViewDataSource, NSCo
 
 			} else {
 
-				item.profileImageView.isHidden = false
+				
 				if let photo = message.sender?.photo {
 					item.profileImageView.image = NSImage(data: photo)
 				}
@@ -87,9 +85,19 @@ class MessagesViewController: NSViewController, NSCollectionViewDataSource, NSCo
 				
 				
 				item.messageBubble.fillColor = NSColor(red: 229/255, green: 229/255, blue: 234/255, alpha: 1.0)
-
-				item.messageTextField.frame = CGRect(x: 46.0, y: 2.0, width: message.textFieldWidth, height: message.textFieldHeight)
-				item.messageBubble.frame = CGRect(x: 40.0, y: 0.0, width: message.bubbleWidth, height: message.bubbleHeight)
+				
+				if Store.shared.chat!.participants.count > 1 {
+					item.profileImageView.isHidden = false
+					item.messageTextField.frame = CGRect(x: 46.0, y: 2.0, width: message.textFieldWidth, height: message.textFieldHeight)
+					item.messageBubble.frame = CGRect(x: 40.0, y: 0.0, width: message.bubbleWidth, height: message.bubbleHeight)
+				} else {
+					
+					// Not positive if this is the best value, may want to change this
+					item.profileImageView.isHidden = true
+					item.messageTextField.frame = CGRect(x: 26.0, y: 2.0, width: message.textFieldWidth, height: message.textFieldHeight)
+					item.messageBubble.frame = CGRect(x: 20.0, y: 0.0, width: message.bubbleWidth, height: message.bubbleHeight)
+				}
+				
 			}
 		} else {
 			item.messageTextField.stringValue = "Error"
