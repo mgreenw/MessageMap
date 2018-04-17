@@ -31,15 +31,14 @@ class iMessageParser {
 	var chatMessageJoinDict = [Int:Chat]() // Maps a messageId to a Chat
 
 	var attachmentsDict = [Int:Attachment]() // Maps an attachmentId to an attachment
-	var attachmentMessageJoinDict = [Int:Attachment]() // Maps a messageId to an Attachment
 
 	// Define generic "ROWID" column
-	let idCol = Expression<Int64>("ROWID")
+	let idCol = Expression<Int>("ROWID")
 
 	// Define table and columns for "chat" table
 	let chatTable = Table("chat")
 	let displayNameCol = Expression<String>("display_name")
-	let isArchivedCol = Expression<Int64>("is_archived")
+	let isArchivedCol = Expression<Int>("is_archived")
 
 	// Define table and columns for "handle" table
 	let handleTable = Table("handle")
@@ -100,42 +99,49 @@ class iMessageParser {
 
 		delegate?.setShortProgressMessage(to: "Query for Chats")
 		let chatsCount = try! db.scalar(chatTable.count)
-		guard let chats = try? db.prepare(chatTable.select(idCol, displayNameCol, isArchivedCol)) else {
+		var chatIds: [Int] = Array(realm.objects(Chat.self).filter("iMessageID != nil ")).map({ Int($0.iMessageID.value!) }) + Array(realm.objects(ChatJoin.self).filter("service == \(Service.iMessage.rawValue)").map { Int($0.originalChatID) })
+		guard let chats = try? db.prepare(chatTable.filter(!chatIds.contains(idCol)).select(idCol, displayNameCol, isArchivedCol)) else {
 			print("Failed to get chats table")
 			return
 		}
-
+		
+		print(type(of: chats))
+		
 		delegate?.setShortProgressMessage(to: "Query for Handles")
 		let handlesCount = try! db.scalar(handleTable.count)
-		guard let handles = try? db.prepare(handleTable.select(idCol, handleCol, countryCol)) else {
+		var handleIds: [Int] = Array(realm.objects(Handle.self).filter("iMessageID != nil ")).map({ Int($0.iMessageID.value!) })
+		guard let handles = try? db.prepare(handleTable.filter(!handleIds.contains(idCol)).select(idCol, handleCol, countryCol)) else {
 			print("Failed to get handles table")
 			return
 		}
 
 		delegate?.setShortProgressMessage(to: "Query for Messages")
 		let messagesCount = try! db.scalar(messageTable.count)
-		guard let messages = try? db.prepare(messageTable.select(idCol, textCol, handleIdCol, isFromMeCol, dateCol, serviceCol)) else {
+		var messageIds: [Int] = Array(realm.objects(Message.self).filter("iMessageID != nil ")).map({ Int($0.iMessageID.value!) })
+		guard let messages = try? db.prepare(messageTable.filter(!messageIds.contains(idCol)).select(idCol, textCol, handleIdCol, isFromMeCol, dateCol, serviceCol)) else {
 			print("Failed to get handles table")
 			return
 		}
 
 		delegate?.setShortProgressMessage(to: "Querying for Attachments")
 		let attachmentsCount = try! db.scalar(attachmentTable.count)
-		guard let attachments = try? db.prepare(attachmentTable.select(idCol, filenameCol, utiCol, mimeTypeCol, transferNameCol)) else {
+		var attachmentIds: [Int] = Array(realm.objects(Attachment.self).filter("iMessageID != nil ")).map({ Int($0.iMessageID.value!) })
+
+		guard let attachments = try? db.prepare(attachmentTable.filter(!attachmentIds.contains(idCol)).select(idCol, filenameCol, utiCol, mimeTypeCol, transferNameCol)) else {
 			print("Failed to get attachments table")
 			return
 		}
 
 		delegate?.setShortProgressMessage(to: "Querying for Attachment -> Message links")
 		let attachmentMessageJoinsCount = try! db.scalar(attachmentMessageJoinTable.count)
-		guard let attachmentMessageJoins = try? db.prepare(attachmentMessageJoinTable.select(messageIdCol, attachmentIdCol)) else {
+		guard let attachmentMessageJoins = try? db.prepare(attachmentMessageJoinTable.filter(!attachmentIds.contains(attachmentIdCol)).select(messageIdCol, attachmentIdCol)) else {
 			print("Failed to get message_attachment_join table")
 			return
 		}
 
 		delegate?.setShortProgressMessage(to: "Query for Chat -> Message links")
 		let chatMessageJoinsCount = try! db.scalar(chatMessageJoinTable.count)
-		guard let chatMessageJoins = try? db.prepare(chatMessageJoinTable.select(chatIdCol, messageIdCol)) else {
+		guard let chatMessageJoins = try? db.prepare(chatMessageJoinTable.filter(!messageIds.contains(messageIdCol)).select(chatIdCol, messageIdCol)) else {
 			print("Failed to get chat_message_join table")
 			return
 		}
@@ -155,8 +161,19 @@ class iMessageParser {
 		//////// HANDLES /////////
 
 		delegate?.setProgressSection(to: "Process Handles")
+		
+		for handle in realm.objects(Handle.self) {
+			if let id = handle.iMessageID.value {
+				handlesDict[id] = handle.person
+			}
+		}
 
 		var progressCount = 10.0 / Double(handlesCount)
+		
+		var handlesToUpdate = [(handle: Handle, iMessageID: Int)]()
+		var handlesToAdd = [Handle]()
+		var peopleToAdd = [Person]()
+
 		for handle in handles {
 			guard let id = try? Int(handle.get(idCol)) else {
 				print("Handle has no ROWID, therefore skipping.")
@@ -181,9 +198,8 @@ class iMessageParser {
 			// If the person already exists, then set our person to be that one
 			if let handle = realm.objects(Handle.self).filter("handle = '\(handleName)'" ).first {
 				handlesDict[id] = handle.person
-				try! realm.write {
-					handle.iMessageID.value = id
-				}
+				
+				handlesToUpdate.append((handle: handle, iMessageID: id))
 			} else {
 				//If we do not have a person yet for this handle, make one
 				let newHandle = Handle()
@@ -196,10 +212,8 @@ class iMessageParser {
 
 				handlesDict[id] = newPerson
 
-				try! realm.write {
-					realm.add(newHandle)
-					realm.add(newPerson)
-				}
+				handlesToAdd.append(newHandle)
+				peopleToAdd.append(newPerson)
 			}
 
 			delegate?.setShortProgressMessage(to: "Import handle: \(handleName)")
@@ -211,6 +225,8 @@ class iMessageParser {
 
 		delegate?.setProgressSection(to: "Process Chats")
 		progressCount = 5.0 / Double(chatsCount)
+		
+		var chatsToAdd = [Chat]()
 
 		for chat in chats {
 
@@ -236,12 +252,23 @@ class iMessageParser {
 
 			chatsDict[id] = newChat
 
-			try! realm.write {
-				realm.add(newChat)
-			}
+			
+			chatsToAdd.append(newChat)
 
 			delegate?.setShortProgressMessage(to: "Import chat \(displayName ?? "")")
 			delegate?.incrementProgress(by: progressCount)
+		}
+
+		for chat in realm.objects(Chat.self) {
+			if let id = chat.iMessageID.value {
+				chatsDict[id] = chat
+			}
+		}
+		
+		for chatJoin in realm.objects(ChatJoin.self) {
+			if let chat = chatJoin.chat {
+				chatsDict[chatJoin.originalChatID] = chat
+			}
 		}
 
 		//////// CHAT MESSAGE JOINS /////////
@@ -272,7 +299,9 @@ class iMessageParser {
 
 		//////// CHAT HANDLE JOINS /////////
 		delegate?.setProgressSection(to: "Process Chat Participants")
-
+		
+		var participantsToAdd = [(chat: Chat, participant: Person)]()
+		
 		progressCount = 10.0 / Double(chatHandleJoinsCount)
 		for chatHandleJoin in chatHandleJoins {
 			guard let chatId = try? chatHandleJoin.get(chatIdCol) else {
@@ -286,9 +315,7 @@ class iMessageParser {
 
 			if let person = handlesDict[handleId] {
 				if let chat = chatsDict[chatId] {
-					try! realm.write {
-						chat.participants.append(person)
-					}
+					participantsToAdd.append((chat: chat, participant: person))
 				} else {
 					print("Couldn't find chat with id \(chatId)")
 				}
@@ -305,6 +332,14 @@ class iMessageParser {
 
 		delegate?.setProgressSection(to: "Process Attachments")
 		progressCount = 5.0 / Double(attachmentsCount)
+		
+		for attachment in realm.objects(Attachment.self) {
+			if let id = attachment.iMessageID.value {
+				attachmentsDict[id] = attachment
+			}
+		}
+		
+		var attachmentsToAdd = [Attachment]()
 
 		for (index, attachment) in attachments.enumerated() {
 
@@ -336,9 +371,7 @@ class iMessageParser {
 
 			attachmentsDict[id] = newAttachment
 
-			try! realm.write {
-				realm.add(newAttachment)
-			}
+			attachmentsToAdd.append(newAttachment)
 
 			if (index % 10 == 0) {
 				delegate?.setShortProgressMessage(to: "Import attachment \(transferName ?? "")")
@@ -349,7 +382,17 @@ class iMessageParser {
 		print("Parse Messages")
 
 		//////// MESSAGES /////////
-		let me = getMe()
+		let me: Person
+		if let meSafe = realm.objects(Person.self).filter("isMe = 1").first {
+			me = meSafe
+		} else {
+			print("Make 'me' with no properties")
+			me = Person()
+			me.isMe = true
+			try! realm.write {
+				realm.add(me)
+			}
+		}
 
 		// Bundled write transaction helpers
 		var newMessages = [Message]()
@@ -361,6 +404,18 @@ class iMessageParser {
 		let options = NSString.DrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
 
 		progressCount = (30.0 / Double(messagesCount)) * 10.0
+		
+		for message in realm.objects(Message.self) {
+			if let id = message.iMessageID.value {
+				messagesDict[id] = message
+			}
+		}
+		
+		for chat in realm.objects(Chat.self) {
+			if let date = chat.lastMessageDate {
+				chatLastMessageDate[chat] = date
+			}
+		}
 
 		for (index, message) in messages.enumerated() {
 			guard let id = try? Int(message.get(idCol)) else {
@@ -426,9 +481,7 @@ class iMessageParser {
 				chat = potentialChat
 			} else {
 				chat = Chat()
-				try! realm.write {
-					realm.add(chat)
-				}
+				chatsToAdd.append(chat)
 			}
 
 			//let newMessage = Message(sender: sender, chat: chat, date: actualDate, text: text == "" ? nil : text)
@@ -505,8 +558,61 @@ class iMessageParser {
 
 		progressCount = 10.0 / Double(messagesCount)
 		delegate?.setShortProgressMessage(to: "Write all messages to database")
-		try! realm.write {
+		
+		//////// ATTACHMENT MESSAGE JOINS /////////
+		delegate?.setProgressSection(to: "Process Message Attachments")
+		progressCount = 5.0 / Double(attachmentMessageJoinsCount)
 
+		for attachmentMessageJoin in attachmentMessageJoins {
+			guard let attachmentId = try? attachmentMessageJoin.get(attachmentIdCol) else {
+				print("Could not get 'message_attachment_join's attachment_id column, therefore skipping")
+				continue
+			}
+			guard let messageId = try? attachmentMessageJoin.get(messageIdCol) else {
+				print("Could not get 'message_attachment_join's message_id column, therefore skipping")
+				continue
+			}
+			
+			if let attachment = attachmentsDict[attachmentId] {
+				if let message = messagesDict[messageId] {
+					attachment.message = message
+					
+					delegate?.setShortProgressMessage(to: "Join message \(messageId) with attachment")
+					delegate?.incrementProgress(by: progressCount)
+					continue
+				}
+			}
+			
+			print("Error: could not find attachment in realm with iMessageID \(attachmentId)")
+			
+		}
+				
+		try! realm.write {
+			
+			for handle in handlesToUpdate {
+				handle.handle.iMessageID.value = handle.iMessageID
+			}
+			
+			for handle in handlesToAdd {
+				realm.add(handle)
+			}
+			
+			for person in peopleToAdd {
+				realm.add(person)
+			}
+			
+			for chat in chatsToAdd {
+				realm.add(chat)
+			}
+			
+			for chat in participantsToAdd {
+				chat.chat.participants.append(chat.participant)
+			}
+			
+			for attachment in attachmentsToAdd {
+				realm.add(attachment)
+			}
+			
 			for newMessage in newMessages {
 				delegate?.incrementProgress(by: progressCount)
 				realm.add(newMessage)
@@ -517,46 +623,19 @@ class iMessageParser {
 			}
 		}
 
-		//////// ATTACHMENT MESSAGE JOINS /////////
-		delegate?.setProgressSection(to: "Process Message Attachments")
-		progressCount = 5.0 / Double(attachmentMessageJoinsCount)
-
-		try! realm.write {
-
-			for attachmentMessageJoin in attachmentMessageJoins {
-				guard let attachmentId = try? attachmentMessageJoin.get(attachmentIdCol) else {
-					print("Could not get 'message_attachment_join's attachment_id column, therefore skipping")
-					continue
-				}
-				guard let messageId = try? attachmentMessageJoin.get(messageIdCol) else {
-					print("Could not get 'message_attachment_join's message_id column, therefore skipping")
-					continue
-				}
-
-				if let attachment = attachmentsDict[attachmentId] {
-					if let message = messagesDict[messageId] {
-						attachment.message = message
-
-						delegate?.setShortProgressMessage(to: "Join message \(messageId) with attachment")
-						delegate?.incrementProgress(by: progressCount)
-						continue
-					}
-				}
-
-				print("Error: could not find attachment in realm with iMessageID \(attachmentId)")
-
-			}
-
-		}
+		
 
 		// Clean the data
 		delegate?.setProgressSection(to: "Cleanup...")
 
 		fixChatParticipants()
 		mergeChatDuplicates()
+		fixChatParticipants()
 		
 		// Refilter the messages
-		Store.shared.newMessagesAdded()
+		DispatchQueue.main.async {
+			Store.shared.newMessagesAdded()
+		}
 
 		// Print the statistics
 		print("\n----------------\nDone parsing iMessages!\n")
@@ -601,7 +680,7 @@ class iMessageParser {
 		let people = realm.objects(Person.self)
 
 		var peopleDict = [String: Int]()
-		var participantChatsMap = [String: [String]]() // Maps a
+		var participantChatsMap = [String: [String]]() // Maps a string of participants to a chat
 
 		for (index, person) in people.enumerated() {
 			peopleDict[person.id] = index // Important, need this
@@ -626,6 +705,8 @@ class iMessageParser {
 
 		let chatsToMerge = participantChatsMap.values.filter { $0.count > 1 }
 
+		// What I need to do: go through all chats marked with a "joinedInto" and redo that join
+		
 		progressCount = 5.0 / Double(chats.count)
 		try! realm.write {
 
@@ -652,9 +733,19 @@ class iMessageParser {
 					if childChat.lastMessageDateSafe > parentChat.lastMessageDateSafe {
 						parentChat.lastMessageDate = childChat.lastMessageDate
 					}
-
-					childChat.archived = true
-					childChat.displayName = "Old, merged into \(parentID)"
+					
+					if let id = childChat.iMessageID.value {
+						let join = ChatJoin()
+						join.chat = parentChat
+						join.originalChatID = id
+						join.service = .iMessage
+						
+						realm.add(join)
+						realm.delete(childChat)
+					} else {
+						print("Could not delete the child chat: no associated iMessage ID")
+					}
+					
 				}
 			}
 		}

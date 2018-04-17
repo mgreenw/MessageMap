@@ -120,7 +120,7 @@ class Store {
 		} else {
 			print("No chat selected")
 			messages = Array(realm.objects(Message.self).sorted(byKeyPath: "date"))
-			let fullIndexArray = Array(0...messages.count-1)
+			let fullIndexArray = messages.count > 0 ? Array(0...messages.count-1) : []
 			filteredMessages = fullIndexArray
 			for filter in filters {
 				if filter.generateWithout {

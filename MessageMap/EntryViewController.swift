@@ -40,82 +40,84 @@ class EntryViewController: NSViewController, ParserDelegate {
         super.viewDidLoad()
 
 		if defaults.bool(forKey: "dataImportComplete") {
-
-			// Debug -> Reset data
-			if debug {
-				setWelcomeState()
-			} else {
-				setFinishedParsingDataState()
-			}
+			print("Data import is complete, skipping database selecting")
+			setState(to: .promptingContactUsage)
+//			// Debug -> Reset data
+//			if debug {
+//				setState(to: .welcome)
+//			} else {
+//				setState(to: .finishedParsingData)
+//			}
 		} else {
-			setWelcomeState()
+			setState(to: .welcome)
 		}
 	}
 
 	// Entry States UI Updates
-
-	func setWelcomeState() {
-		state = .welcome
-
-		DispatchQueue.main.async {
-			self.progress.isHidden = true
-			self.progressSection.isHidden = true
-			self.progressIndividual.isHidden = true
-			self.continueButton.isEnabled = true
-			self.continueButton.title = "Choose Database File"
-			self.programDescription.stringValue = "Welcome!  MessageMap uses your Contacts and iMessages stored on your local Mac and aggregates it into a local database for viewing. MessageMap never connects to the Internet and will always ask you before using any of your personal information."
-			self.programDescription.isHidden = false
-		}
-	}
-
-	func setPromptingContactUsageState() {
-		state = .promptingContactUsage
-
-		if CNContactStore.authorizationStatus(for: CNEntityType.contacts) == CNAuthorizationStatus.authorized {
-			parseDatabase()
-		} else {
-
+	
+	func setState(to newState: EntryState) {
+		switch newState {
+		case .welcome:
+			DispatchQueue.main.async {
+				self.progress.isHidden = true
+				self.progress.doubleValue = 0.0
+				self.progressSection.isHidden = true
+				self.progressIndividual.isHidden = true
+				self.continueButton.isEnabled = true
+				self.continueButton.title = "Choose Database File"
+				self.programDescription.stringValue = "Welcome!  MessageMap uses your Contacts and iMessages stored on your local Mac and aggregates it into a local database for viewing. MessageMap never connects to the Internet and will always ask you before using any of your personal information."
+				self.programDescription.isHidden = false
+			}
+		case .selectingDatabase:
+			self.progress.doubleValue = 0.0
+		case .promptingContactUsage:
+			if CNContactStore.authorizationStatus(for: CNEntityType.contacts) == CNAuthorizationStatus.authorized {
+				parseDatabase()
+			} else {
+				
+				DispatchQueue.main.async {
+					self.progress.isHidden = true
+					self.progress.doubleValue = 0.0
+					self.progressSection.isHidden = true
+					self.progressIndividual.isHidden = true
+					self.continueButton.title = "Allow Contact Access"
+					self.continueButton.isEnabled = true
+					self.programDescription.stringValue = "MessageMap uses your Contacts to greatly improve your experince! It can, however, function without access to your Contacts - you decide!"
+					self.programDescription.isHidden = false
+				}
+			}
+		case .approvingContactUsage:
+			self.progress.doubleValue = 0.0
+		case .parsingData:
+			DispatchQueue.main.async {
+				self.progress.isHidden = false
+				self.progress.doubleValue = 0.0
+				self.progressSection.isHidden = false
+				self.progressIndividual.isHidden = false
+				self.continueButton.title = "Go to MessageMap"
+				self.continueButton.isEnabled = false
+				self.programDescription.stringValue = ""
+				self.programDescription.isHidden = true
+			}
+		case .finishedParsingData:
+			// Debug:
+			switchToMainWindow()
+			
 			DispatchQueue.main.async {
 				self.progress.isHidden = true
 				self.progressSection.isHidden = true
 				self.progressIndividual.isHidden = true
-				self.continueButton.title = "Allow Contact Access"
+				self.continueButton.title = "Go to MessageMap"
 				self.continueButton.isEnabled = true
-				self.programDescription.stringValue = "MessageMap uses your Contacts to greatly improve your experince! It can, however, function without access to your Contacts - you decide!"
+				self.programDescription.stringValue = "Your Message history has been imported!"
 				self.programDescription.isHidden = false
 			}
+		default:
+			print("No state set, so setting to welcome state")
+			setState(to: .welcome)
 		}
-	}
-
-	func setParsingDataState() {
-		state = .parsingData
-
-		DispatchQueue.main.async {
-			self.progress.isHidden = false
-			self.progressSection.isHidden = false
-			self.progressIndividual.isHidden = false
-			self.continueButton.title = "Go to MessageMap"
-			self.continueButton.isEnabled = false
-			self.programDescription.stringValue = ""
-			self.programDescription.isHidden = true
-		}
-	}
-
-	func setFinishedParsingDataState() {
-		state = .finishedParsingData
-
-		// Debug:
-		switchToMainWindow()
-
-		DispatchQueue.main.async {
-			self.progress.isHidden = true
-			self.progressSection.isHidden = true
-			self.progressIndividual.isHidden = true
-			self.continueButton.title = "Go to MessageMap"
-			self.continueButton.isEnabled = true
-			self.programDescription.stringValue = "Your Message history has been imported!"
-			self.programDescription.isHidden = false
-		}
+		
+		state = newState
 	}
 
 	// Continue Button Decision Making
@@ -139,8 +141,14 @@ class EntryViewController: NSViewController, ParserDelegate {
 	// Main Actions
 
 	func selectDatabase() {
-		state = .selectingDatabase
-
+		setState(to: .selectingDatabase)
+		
+		if let _ = defaults.url(forKey: "iMessageURL") {
+			setState(to: .promptingContactUsage)
+			return
+		}
+		
+		
 		print("Choose database File")
 
 		let home = FileManager.default.homeDirectoryForCurrentUser
@@ -171,21 +179,21 @@ class EntryViewController: NSViewController, ParserDelegate {
 					}
 
 					self.databaseURL = chatDBURL
-					self.setPromptingContactUsageState()
+					self.setState(to: .promptingContactUsage)
 
 				} else {
-					self.setWelcomeState()
+					self.setState(to: .welcome)
 					print("Error: user did not select the chat db url")
 				}
 			} else {
-				self.setWelcomeState()
+				self.setState(to: .welcome)
 				print("Cancelled Database selection Process")
 			}
 		})
 	}
 
 	func askToUseContacts(completion: @escaping () -> Void) {
-		state = .approvingContactUsage
+		setState(to: .approvingContactUsage)
 
 		contactStore.requestAccess(for: CNEntityType.contacts) { (isGranted, error) in
 
@@ -229,24 +237,30 @@ class EntryViewController: NSViewController, ParserDelegate {
 	// Progress Updators
 	func parseDatabase() {
 
+		var newURL: URL? = self.databaseURL
+		if let storedURL = defaults.url(forKey: "iMessageURL") {
+			if let newURLSafe = newURL {
+				if newURLSafe != storedURL {
+					// Prompt the user to choose which database to use
+				}
+			} else {
+				newURL = storedURL
+			}
+		}
+
 		// Ensure the database url is set
-		guard let url = self.databaseURL else {
+		guard let url = newURL else {
 			print("No database URL set, resetting...")
 
 			// If it is not set, go back to the welcome state
-			self.setWelcomeState()
+			setState(to: .welcome)
 			return
 		}
+		
+		defaults.set(newURL, forKey: "iMessageURL")
 
 		// Unhide progress elements
-		self.setParsingDataState()
-
-		print("Parsing Data")
-
-		let realm = try! Realm()
-		try! realm.write {
-			realm.deleteAll()
-		}
+		setState(to: .parsingData)
 
 		print("Before contact")
 

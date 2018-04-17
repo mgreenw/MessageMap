@@ -46,7 +46,6 @@ class Chat: Object {
 	var sortedMessages: Results<Message> {
 		return messages.sorted(byKeyPath: "date")
 	}
-
 }
 
 @objc enum Service: Int {
@@ -55,6 +54,20 @@ class Chat: Object {
 	case Facebook
 	case Unknown
 }
+
+class ChatJoin: Object {
+	@objc dynamic var id = UUID().uuidString
+	@objc dynamic var service: Service = .iMessage
+	@objc dynamic var originalChatID = 0
+	@objc dynamic var chat: Chat?
+}
+
+// Represents a grouping of multiple chats based on the same participants
+//class SuperChat: Object {
+//	@objc dynamic var id = UUID().uuidString
+//}
+
+
 
 class Message: Object {
 	@objc dynamic var id = UUID().uuidString

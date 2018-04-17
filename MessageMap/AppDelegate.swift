@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import RealmSwift
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
@@ -25,6 +26,35 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
 	func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
 		return true
+	}
+	
+	@IBAction func updateDatabase(sender: NSMenuItem) {
+		// Open the main MessageMap Window
+		DispatchQueue.main.async {
+			for window in NSApplication.shared.windows {
+				if let entry =  window.contentViewController as? EntryViewController {
+					entry.setState(to: EntryViewController.EntryState.promptingContactUsage)
+					entry.view.window?.makeKeyAndOrderFront(nil)
+				}
+				
+				if let main = window.contentViewController as? MainSplitViewController {
+					main.view.window?.close()
+				}
+			}
+//			let mainWindowController = NSStoryboard(name: NSStoryboard.Name(rawValue: "Main"), bundle: nil).instantiateController(withIdentifier: NSStoryboard.SceneIdentifier(rawValue: "main")) as! NSWindowController
+//			mainWindowController.showWindow(self)
+//
+//			// Close the Welcome window
+//			self.view.window?.close()
+		}
+		print("Update databases!")
+	}
+	
+	@IBAction func realmDeleteAll(sender: NSMenuItem) {
+		let realm = try! Realm()
+		try! realm.write {
+			realm.deleteAll()
+		}
 	}
 
 }

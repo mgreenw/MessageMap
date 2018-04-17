@@ -16,6 +16,11 @@ class MessagesViewController: NSViewController, NSCollectionViewDataSource, NSCo
 	let realm = try! Realm()
 	@IBOutlet var progress: NSProgressIndicator!
 	var dayFilter = [(year: Int, month: Int, day: Int)]()
+	let dateFormatter:DateFormatter = {
+		let formatter = DateFormatter()
+		formatter.dateFormat = "M/d/yy, h:mm:ss a"
+		return formatter
+	}()
 
 	let panelWidth = 465.0
 
@@ -56,6 +61,8 @@ class MessagesViewController: NSViewController, NSCollectionViewDataSource, NSCo
 		if let messageText = message.text {
 			item.messageTextField.stringValue = messageText
 			item.profileImageView.image = nil
+			
+			item.view.toolTip = dateFormatter.string(from: message.date)
 
 			if message.fromMe {
 
@@ -81,7 +88,6 @@ class MessagesViewController: NSViewController, NSCollectionViewDataSource, NSCo
 					item.profileImageView.image = NSImage(data: photo)
 				}
 				item.messageTextField.textColor = NSColor.black
-				
 				
 				
 				item.messageBubble.fillColor = NSColor(red: 229/255, green: 229/255, blue: 234/255, alpha: 1.0)

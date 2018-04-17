@@ -14,6 +14,7 @@
 		981605C02075003C00D8E8F2 /* SplitViewControllers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 981605BF2075003C00D8E8F2 /* SplitViewControllers.swift */; };
 		981605C22075129200D8E8F2 /* MessageItem.xib in Resources */ = {isa = PBXBuildFile; fileRef = 981605C12075129200D8E8F2 /* MessageItem.xib */; };
 		981A40282073BBE500F98511 /* EntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 981A40272073BBE500F98511 /* EntryViewController.swift */; };
+		984EED91208416A80004A4D4 /* iMessageDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 984EED90208416A80004A4D4 /* iMessageDatabase.swift */; };
 		985E39021FCB4D79009BA3F2 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = 985E39011FCB4D79009BA3F2 /* Store.swift */; };
 		985E39041FCB4DE1009BA3F2 /* ContactParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 985E39031FCB4DE1009BA3F2 /* ContactParser.swift */; };
 		985E39071FCB4F39009BA3F2 /* DataCleaning.swift in Sources */ = {isa = PBXBuildFile; fileRef = 985E39061FCB4F39009BA3F2 /* DataCleaning.swift */; };
@@ -71,6 +72,7 @@
 		981605BF2075003C00D8E8F2 /* SplitViewControllers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitViewControllers.swift; sourceTree = "<group>"; };
 		981605C12075129200D8E8F2 /* MessageItem.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MessageItem.xib; sourceTree = "<group>"; };
 		981A40272073BBE500F98511 /* EntryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryViewController.swift; sourceTree = "<group>"; };
+		984EED90208416A80004A4D4 /* iMessageDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iMessageDatabase.swift; sourceTree = "<group>"; };
 		985E39011FCB4D79009BA3F2 /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
 		985E39031FCB4DE1009BA3F2 /* ContactParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactParser.swift; sourceTree = "<group>"; };
 		985E39061FCB4F39009BA3F2 /* DataCleaning.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataCleaning.swift; sourceTree = "<group>"; };
@@ -120,6 +122,7 @@
 				9861C7EC206F92F20015430F /* Queries.swift */,
 				98FAFCF11FBDF55B00F242AC /* Models.swift */,
 				98FAFCF51FBE04D600F242AC /* iMessageParser.swift */,
+				984EED90208416A80004A4D4 /* iMessageDatabase.swift */,
 				985E39031FCB4DE1009BA3F2 /* ContactParser.swift */,
 				985E39061FCB4F39009BA3F2 /* DataCleaning.swift */,
 			);
@@ -272,6 +275,7 @@
 				98E43912207CF63C0055F462 /* Extensions.swift in Sources */,
 				985E39071FCB4F39009BA3F2 /* DataCleaning.swift in Sources */,
 				989D394320754C3F007E73D4 /* MessageItem.swift in Sources */,
+				984EED91208416A80004A4D4 /* iMessageDatabase.swift in Sources */,
 				981605C02075003C00D8E8F2 /* SplitViewControllers.swift in Sources */,
 				98FAFCF61FBE04D600F242AC /* iMessageParser.swift in Sources */,
 				988E76111FBB2D9000A782DF /* MGCalendarView.swift in Sources */,
