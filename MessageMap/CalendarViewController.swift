@@ -73,7 +73,7 @@ class CalendarViewController: NSViewController, MGCalendarViewDelegate, MGCalend
 	
 	func calendarViewSelectionDidChange(_ notification: Notification) {
 		if calendarView.selection.count > 0 {
-			Store.shared.addFilter(.day, by: calendarView.selection.map { selection in
+			Store.shared.setFilter(.day, to: calendarView.selection.map { selection in
 				selection.int
 			})
 		}

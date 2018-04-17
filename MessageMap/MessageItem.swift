@@ -40,6 +40,30 @@ class MessageItem: NSCollectionViewItem {
 		//imageView.image = NSImage(named: NSImage.Name(rawValue: "Seal_of_the_United_States_Department_of_Justice.svg"))
 		return imageView
 	}()
+	
+	let nameTextField: NSTextField = {
+		let textField = NSTextField()
+		textField.font = NSFont.systemFont(ofSize: 11.0)
+		textField.textColor = NSColor(red: 142.0/255.0, green: 131.0/255.0, blue: 141.0/255.0, alpha: 1.0)
+		textField.isEditable = false
+		textField.isSelectable = false
+		textField.alignment = .left
+		textField.backgroundColor = NSColor.clear
+		textField.isBordered = false
+		return textField
+	}()
+	
+	let dateTextField: NSTextField = {
+		let textField = NSTextField()
+		textField.font = NSFont.boldSystemFont(ofSize: 11.0)
+		textField.textColor = NSColor(red: 131.0/255.0, green: 131.0/255.0, blue: 136.0/255.0, alpha: 1.0)
+		textField.isEditable = false
+		textField.isSelectable = false
+		textField.alignment = .center
+		textField.backgroundColor = NSColor.clear
+		textField.isBordered = false
+		return textField
+	}()
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -47,6 +71,8 @@ class MessageItem: NSCollectionViewItem {
 		self.view.addSubview(messageBubble)
 		self.view.addSubview(messageTextField)
 		self.view.addSubview(profileImageView)
+		self.view.addSubview(nameTextField)
+		self.view.addSubview(dateTextField)
 
 		self.view.addConstraintsWithFormat(format: "H:|-8-[v0(28)]", views: profileImageView)
 		self.view.addConstraintsWithFormat(format: "V:[v0(28)]|", views: profileImageView)

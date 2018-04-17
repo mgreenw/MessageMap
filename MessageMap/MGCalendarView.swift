@@ -495,11 +495,18 @@ class MGCalendarView: NSView {
 	}
 	
 	func setRangeSelected(from: Day, to: Day) {
+		var allSelected = true
 		iterateDaysBetween(from, and: to, with: { day in
+			allSelected = allSelected && day.selected
 			day.selected = true
 			selectedDays.insert(day)
 		})
-		selectionChanged()
+		if allSelected {
+			setRangeDeselected(from: from, to: to)
+		} else {
+			selectionChanged()
+		}
+		
 	}
 	
 	func setRangeDeselected(from: Day, to: Day) {
@@ -519,6 +526,7 @@ class MGCalendarView: NSView {
 	}
 	
 	private func selectionChanged() {
+		print("selection changed")
 		delegate?.calendarViewSelectionDidChange(Notification(name: Notification.Name(rawValue: "selectionDidChange")))
 	}
 	

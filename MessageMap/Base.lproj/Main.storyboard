@@ -680,7 +680,7 @@
                                         <collectionView ambiguous="YES" id="UBv-NR-Nr1">
                                             <rect key="frame" x="0.0" y="0.0" width="465" height="246"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
-                                            <collectionViewFlowLayout key="collectionViewLayout" minimumInteritemSpacing="10" minimumLineSpacing="10" id="Wn3-hh-V9C">
+                                            <collectionViewFlowLayout key="collectionViewLayout" minimumInteritemSpacing="1" minimumLineSpacing="1" id="Wn3-hh-V9C">
                                                 <size key="itemSize" width="50" height="50"/>
                                             </collectionViewFlowLayout>
                                             <color key="primaryBackgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>

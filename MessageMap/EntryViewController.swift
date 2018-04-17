@@ -41,7 +41,7 @@ class EntryViewController: NSViewController, ParserDelegate {
 
 		if defaults.bool(forKey: "dataImportComplete") {
 			print("Data import is complete, skipping database selecting")
-			setState(to: .promptingContactUsage)
+			setState(to: .finishedParsingData) // change to promptingContactUsage
 //			// Debug -> Reset data
 //			if debug {
 //				setState(to: .welcome)

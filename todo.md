@@ -8,7 +8,10 @@ Ranking: 1-5 for SIMPLICITY, 1-10 for IMPORTANCE. Then, add for score.
 - [x] 13 (4, 7) Add clear button to calendar
 - [x] 13 (5, 8) MessageList: Add hover over message to show date & time
 - [x] 12 (3, 9) Ability to reload iMessages automatically when the app starts & manually while in the app
-- [ ] 11 (4, 7) Add "deselect" behavoir to the calendar
+- [x] 11 (4, 7) Add "deselect" behavoir to the calendar
+^^ STILL A BIT BUGGY
+
+
 - [ ] 10 (3, 7) MessageList: Add name in Multi-person chat
 - [ ] 10 (3, 7) MessageList: Add date/time above messages sent more than an hour apart
 - [ ] 11 (3, 8) Analysis: Add "top word list" functionality

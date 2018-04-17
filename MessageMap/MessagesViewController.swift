@@ -16,9 +16,10 @@ class MessagesViewController: NSViewController, NSCollectionViewDataSource, NSCo
 	let realm = try! Realm()
 	@IBOutlet var progress: NSProgressIndicator!
 	var dayFilter = [(year: Int, month: Int, day: Int)]()
+	var heightAdditions = [(quick: Bool, showHour: Bool, showName: Bool)]()
 	let dateFormatter:DateFormatter = {
 		let formatter = DateFormatter()
-		formatter.dateFormat = "M/d/yy, h:mm:ss a"
+		formatter.dateFormat = "M/d/yy, h:mm a" // Add :ss to add the milliseconds
 		return formatter
 	}()
 
@@ -39,7 +40,35 @@ class MessagesViewController: NSViewController, NSCollectionViewDataSource, NSCo
 	}
 	
 	func messagesChanged() {
+		// Generate new heights
+		generateHeightAdditions()
 		self.collectionView.reloadData()
+	}
+	
+	func generateHeightAdditions() {
+		var prevMessage: Message? = nil
+		heightAdditions.removeAll()
+		let groupChat = (Store.shared.chat?.participants.count ?? 0) > 1
+		Store.shared.enumerateMessages { message in
+			if let prev = prevMessage {
+				let interval = message.date.timeIntervalSince(prev.date)
+				let quick = interval < 60
+				let showHour = interval > 3600
+				let differentSender = (prev.sender?.id != message.sender?.id)
+				let showName: Bool = {
+					if message.fromMe || (!groupChat) {
+						return false
+					}
+					return showHour ? true : differentSender
+				}()
+				
+				heightAdditions.append((quick: quick && (!showName) && !differentSender, showHour: showHour, showName: showName))
+			} else {
+				heightAdditions.append((quick: false, showHour: true, showName: groupChat && !message.fromMe))
+			}
+			
+			prevMessage = message
+		}
 	}
 
 	func numberOfSections(in collectionView: NSCollectionView) -> Int {
@@ -57,13 +86,23 @@ class MessagesViewController: NSViewController, NSCollectionViewDataSource, NSCo
 
 		let item: MessageItem = collectionView.makeItem(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: cellId), for: indexPath) as! MessageItem
 		let message = Store.shared.message(at: indexPath.item)!
-
+		item.nameTextField.isHidden = true
+		item.dateTextField.isHidden = true
+		
 		if let messageText = message.text {
 			item.messageTextField.stringValue = messageText
 			item.profileImageView.image = nil
 			
-			item.view.toolTip = dateFormatter.string(from: message.date)
+			let dateString = dateFormatter.string(from: message.date)
+			item.view.toolTip = dateString
+			let additionalHeight = heightAdditions[indexPath.item]
 
+			if additionalHeight.showHour {
+				item.dateTextField.isHidden = false
+				item.dateTextField.frame = CGRect(x: 0.0, y: message.bubbleHeight + (additionalHeight.showName ? 15.0 : 0), width: panelWidth, height: 25.0)
+				item.dateTextField.stringValue = dateString
+			}
+			
 			if message.fromMe {
 
 				item.profileImageView.isHidden = true
@@ -82,13 +121,25 @@ class MessagesViewController: NSViewController, NSCollectionViewDataSource, NSCo
 				item.messageBubble.frame = CGRect(x: message.bubbleX, y: 0.0, width: message.bubbleWidth, height: message.bubbleHeight)
 
 			} else {
-
 				
-				if let photo = message.sender?.photo {
-					item.profileImageView.image = NSImage(data: photo)
+				if additionalHeight.showName {
+					item.nameTextField.isHidden = false
+					item.nameTextField.frame = CGRect(x: 46.0, y: message.bubbleHeight, width: 200.0, height: 15.0)
+					item.nameTextField.stringValue = "\(message.sender!.firstName ?? "") \(message.sender!.lastName ?? "")"
+				}
+				
+				
+				if additionalHeight.quick {
+					item.profileImageView.isHidden = true
+				} else {
+					if let photo = message.sender?.photo {
+						item.profileImageView.isHidden = false
+						item.profileImageView.image = NSImage(data: photo)
+					} else {
+						item.profileImageView.isHidden = true
+					}
 				}
 				item.messageTextField.textColor = NSColor.black
-				
 				
 				item.messageBubble.fillColor = NSColor(red: 229/255, green: 229/255, blue: 234/255, alpha: 1.0)
 				
@@ -115,7 +166,9 @@ class MessagesViewController: NSViewController, NSCollectionViewDataSource, NSCo
 	func collectionView(_ collectionView: NSCollectionView, layout collectionViewLayout: NSCollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> NSSize {
 
 		// Use precalculated height
-		return CGSize(width: panelWidth, height: Store.shared.message(at: indexPath.item)!.layoutHeight)
+		let heightAddition = heightAdditions[indexPath.item]
+		let additionalHeight: Double = (heightAddition.showHour ? (heightAddition.showName ? 15.0 : 25.0) : 0.0) + (heightAddition.showName ? 25.0 : 0.0) + (heightAddition.quick ? 0.0 : 7.0)
+		return CGSize(width: panelWidth, height: Store.shared.message(at: indexPath.item)!.layoutHeight + additionalHeight)
 	}
 
 	func collectionView(_ collectionView: NSCollectionView, layout collectionViewLayout: NSCollectionViewLayout, insetForSectionAt section: Int) -> NSEdgeInsets {

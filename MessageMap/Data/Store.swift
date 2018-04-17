@@ -174,6 +174,12 @@ class Store {
 		refilter()
 	}
 	
+	func setFilter(_ filterType: FilterType, to: [Int]) {
+		let filter = filters[filterType.rawValue]
+		filter.filters = Set(to)
+		refilter()
+	}
+	
 	func count() -> Int {
 		return filteredMessages.count
 	}
