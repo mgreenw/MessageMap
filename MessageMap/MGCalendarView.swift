@@ -362,7 +362,6 @@ class MGCalendarView: NSView {
 	}
 
 	public func reloadValues() {
-		print("Reload Calendar Values")
 		guard let source = dataSource else {
 			print("No MGCalendarViewDataSource set")
 			return
@@ -387,7 +386,6 @@ class MGCalendarView: NSView {
 
 	public func reloadCalendar() {
 
-		print("Reload Calendar")
 		guard let source = dataSource else {
 			print("No MGCalendarViewDataSource set")
 			return

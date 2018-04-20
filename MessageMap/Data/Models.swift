@@ -76,6 +76,7 @@ class Message: Object {
 	@objc dynamic var date = Date()
 	@objc dynamic var fromMe = false
 	@objc dynamic var text: String?
+	@objc dynamic var attributedBody: String?
 	@objc dynamic var year = 0
 	@objc dynamic var month = 0
 	@objc dynamic var hour = 0

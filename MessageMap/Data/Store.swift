@@ -36,6 +36,8 @@ class Store {
 		return message.hour
 	}), Filter(name: "Weekday", type: .weekday, generateWithout: false ,transform: { message in
 		return message.weekday
+	}), Filter(name: "WeekdayHour", type: .weekdayHour, generateWithout: true, transform: { message in
+		return (message.hour * 10) + message.weekday
 	})]
 		
 	init() {

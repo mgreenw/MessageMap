@@ -48,6 +48,7 @@ class iMessageParser {
 	// Define table and columns for "message" table
 	let messageTable = Table("message")
 	let textCol = Expression<String>("text")
+	let attributedBodyCol = Expression<SQLite.Blob>("attributedBody")
 	let handleIdCol = Expression<Int>("handle_id")
 	let isFromMeCol = Expression<Int>("is_from_me")
 	let serviceCol = Expression<String>("service")
@@ -118,7 +119,7 @@ class iMessageParser {
 		delegate?.setShortProgressMessage(to: "Query for Messages")
 		let messagesCount = try! db.scalar(messageTable.count)
 		var messageIds: [Int] = Array(realm.objects(Message.self).filter("iMessageID != nil ")).map({ Int($0.iMessageID.value!) })
-		guard let messages = try? db.prepare(messageTable.filter(!messageIds.contains(idCol)).select(idCol, textCol, handleIdCol, isFromMeCol, dateCol, serviceCol)) else {
+		guard let messages = try? db.prepare(messageTable.filter(!messageIds.contains(idCol)).select(idCol, attributedBodyCol, textCol, handleIdCol, isFromMeCol, dateCol, serviceCol)) else {
 			print("Failed to get handles table")
 			return
 		}
@@ -423,6 +424,7 @@ class iMessageParser {
 				continue
 			}
 			let text = try? message.get(textCol)
+			let attributedBody = try? message.get(attributedBodyCol)
 
 			guard let handleId = try? message.get(handleIdCol) else {
 				print("Could not get message's 'handle_id' column, therefore skipping")
@@ -512,27 +514,55 @@ class iMessageParser {
 				newMessage.service = .Unknown
 			}
 			
-			newMessage.text = text == "" ? nil : text
+			
+			if newMessage.month==4 && newMessage.dayOfMonth == 17 && newMessage.year == 2018 && newMessage.hour == 23 && newMessage.minute == 52 {
+				print(text)
+				if let textSafe = text {
+					print(textSafe.trimmingCharacters(in: .whitespacesAndNewlines))
+				}
+				
+			}
+			
+			if let bodySafe = attributedBody {
+				newMessage.attributedBody = String(data: Data.fromDatatypeValue(bodySafe), encoding: .utf8)
+			}
+			
+			
+			if let textSafe = text {
+				let strippedText = textSafe.replacingOccurrences(of: "\u{ef}", with: "", options: NSString.CompareOptions.literal, range:nil).trimmingCharacters(in: .whitespacesAndNewlines)
+				if strippedText.isEmpty {
+					newMessage.text = nil
+				} else {
+					newMessage.text = textSafe
+				}
+			} else {
+				newMessage.text = nil
+			}
+			
 			newMessage.iMessageID.value = id
 
 			let fromMe = isFromMe == 1 ? true : false
 			newMessage.fromMe = fromMe
 
 			// Do message layout precalculations
-			let estimatedFrame = NSString(string: text ?? "").boundingRect(with: size, options: options, attributes: [NSAttributedStringKey.font : NSFont.systemFont(ofSize: 13.0)], context: nil)
+			
+			if newMessage.text != nil {
+				let estimatedFrame = NSString(string: text ?? "").boundingRect(with: size, options: options, attributes: [NSAttributedStringKey.font : NSFont.systemFont(ofSize: 13.0)], context: nil)
 
-			let width = Double(estimatedFrame.width)
-			let height = Double(estimatedFrame.height)
+				let width = Double(estimatedFrame.width)
+				let height = Double(estimatedFrame.height)
+				
+				newMessage.textFieldWidth = width + 8
+				newMessage.textFieldHeight = height + 5
+				newMessage.bubbleWidth = width + 18
+				newMessage.bubbleHeight = height + 11
+				newMessage.layoutHeight = height + 11
 
-			newMessage.textFieldWidth = width + 8
-			newMessage.textFieldHeight = height + 5
-			newMessage.bubbleWidth = width + 18
-			newMessage.bubbleHeight = height + 11
-			newMessage.layoutHeight = height + 11
-
-			if fromMe {
-				newMessage.textFieldX = messagePaneWidth - width - 35 + 6
-				newMessage.bubbleX = messagePaneWidth - width - 35
+				if fromMe {
+					newMessage.textFieldX = messagePaneWidth - width - 35 + 6
+					newMessage.bubbleX = messagePaneWidth - width - 35
+				}
+				
 			}
 
 			messagesDict[id] = newMessage

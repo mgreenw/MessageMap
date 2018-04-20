@@ -10,10 +10,10 @@ Ranking: 1-5 for SIMPLICITY, 1-10 for IMPORTANCE. Then, add for score.
 - [x] 12 (3, 9) Ability to reload iMessages automatically when the app starts & manually while in the app
 - [x] 11 (4, 7) Add "deselect" behavoir to the calendar
 ^^ STILL A BIT BUGGY
+- [ ] Make attachments show up in Message List
 
-
-- [ ] 10 (3, 7) MessageList: Add name in Multi-person chat
-- [ ] 10 (3, 7) MessageList: Add date/time above messages sent more than an hour apart
+- [x] 10 (3, 7) MessageList: Add name in Multi-person chat
+- [x] 10 (3, 7) MessageList: Add date/time above messages sent more than an hour apart
 - [ ] 11 (3, 8) Analysis: Add "top word list" functionality
 - [ ] 10 (2, 8) Analysis: Add github-like "punchcard" (http://openmymind.net/How-Meaningful-Do-You-Find-Github-Punchard/)
 - [ ] 10 (2, 8) PieChart: Number of Messages OR number of words OR number of characters sent between participants in chat (use a segmented control to control this). This could transform into a Squarified treemap if no chat is selected

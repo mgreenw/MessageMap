@@ -26,6 +26,7 @@ enum FilterType: Int {
 	case day = 0
 	case hour = 1
 	case weekday = 2
+	case weekdayHour = 3
 }
 
 

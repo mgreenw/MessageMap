@@ -292,18 +292,27 @@
             </objects>
             <point key="canvasLocation" x="101" y="1148"/>
         </scene>
-        <!--View Controller-->
+        <!--Analytics View Controller-->
         <scene sceneID="hR0-KQ-sPB">
             <objects>
-                <viewController id="uTB-oY-yE2" sceneMemberID="viewController">
+                <viewController id="uTB-oY-yE2" customClass="AnalyticsViewController" customModule="MessageMap" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="vTA-iJ-7Id">
-                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                        <rect key="frame" x="0.0" y="0.0" width="456" height="465"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PMQ-ws-k4e" customClass="MGPunchcardView" customModule="MessageMap" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="456" height="152"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                            </customView>
+                        </subviews>
                     </view>
+                    <connections>
+                        <outlet property="punchcardView" destination="PMQ-ws-k4e" id="UdX-KI-L1y"/>
+                    </connections>
                 </viewController>
                 <customObject id="XuI-KQ-XRJ" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-63" y="1608"/>
+            <point key="canvasLocation" x="-66" y="1690.5"/>
         </scene>
         <!--Window Controller-->
         <scene sceneID="lGU-ul-Jx3">

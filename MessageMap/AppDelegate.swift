@@ -29,6 +29,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	}
 	
 	@IBAction func updateDatabase(sender: NSMenuItem) {
+		startDatabaseUpdate()
+	}
+	
+	func startDatabaseUpdate() {
 		// Open the main MessageMap Window
 		DispatchQueue.main.async {
 			for window in NSApplication.shared.windows {
@@ -41,11 +45,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 					main.view.window?.close()
 				}
 			}
-//			let mainWindowController = NSStoryboard(name: NSStoryboard.Name(rawValue: "Main"), bundle: nil).instantiateController(withIdentifier: NSStoryboard.SceneIdentifier(rawValue: "main")) as! NSWindowController
-//			mainWindowController.showWindow(self)
-//
-//			// Close the Welcome window
-//			self.view.window?.close()
 		}
 		print("Update databases!")
 	}
@@ -55,6 +54,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		try! realm.write {
 			realm.deleteAll()
 		}
+		realm.refresh()
+		startDatabaseUpdate()
 	}
 
 }

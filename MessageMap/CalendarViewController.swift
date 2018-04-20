@@ -39,7 +39,6 @@ class CalendarViewController: NSViewController, MGCalendarViewDelegate, MGCalend
 				values[dayID] = 1
 			}
 		})
-		print("Calendar View messages Changed")
 		self.calendarView.reloadValues()
 	}
 
