@@ -29,7 +29,7 @@ class MGPunchcardView: NSView {
 	let hourLabelHeight: CGFloat = 30.0
 	
 	let weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
-	let hours = ["12", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11",]
+	let hours = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11",]
 	
 	func reloadPunchcard() {
 		punchcardValues = Array(repeating: Array(repeating: 0.0, count: 24), count: 7)
@@ -49,11 +49,13 @@ class MGPunchcardView: NSView {
         super.draw(dirtyRect)
 		let weekdayHeight = (self.frame.height - hourLabelHeight) / 7
 		let weekdaySubdivision = weekdayHeight / 9
-		let maxRadius = weekdaySubdivision * 3
-		let maxArea = CGFloat.pi * pow(maxRadius, 2)
 		
 		let hourWidth = (self.frame.width - weekdayLabelWidth) / 24
 		
+        let maxRadius = min(weekdaySubdivision * 3, hourWidth)
+        let maxArea = CGFloat.pi * pow(maxRadius, 2)
+
+        
 		let paragraphStyle = NSMutableParagraphStyle()
 		paragraphStyle.alignment = .center
 		let color = NSColor(white: 0.0, alpha: 1.0)
@@ -65,12 +67,12 @@ class MGPunchcardView: NSView {
 		// draw hour labels
 		for (index, hour) in hours.enumerated() {
 			let x = weekdayLabelWidth + (CGFloat(index) * hourWidth)
-			let hourString = hour as NSString
+			let hourString = "\(index)" as NSString
 			hourString.draw(in: NSRect(x: x, y: 0, width: hourWidth, height: hourLabelHeight), withAttributes: attributes)
 		}
 		
 		for (weekdayIndex, day) in weekDays.enumerated() {
-			let y = hourLabelHeight + (CGFloat(weekdayIndex) * weekdayHeight)
+			let y = hourLabelHeight + (CGFloat(6-weekdayIndex) * weekdayHeight)
 			
 			NSColor(white: 0.6, alpha: 1.0).setStroke()
 			
@@ -97,7 +99,6 @@ class MGPunchcardView: NSView {
 				tick.stroke()
 				
 				let value = punchcardValues[weekdayIndex][hourIndex]
-				print("Value: \(value)")
 				let area = (CGFloat(value) / CGFloat(maxValue)) * maxArea
 				
 				let radius = sqrt(area/CGFloat.pi)

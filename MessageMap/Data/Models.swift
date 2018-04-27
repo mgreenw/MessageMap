@@ -19,7 +19,6 @@ class Person: Object {
 	let handles = LinkingObjects(fromType: Handle.self, property: "person")
 	@objc dynamic var contactID: String?
 	@objc dynamic var photo: Data?
-
 }
 
 class Chat: Object {
@@ -39,7 +38,6 @@ class Chat: Object {
 		if let date = self.lastMessageDate {
 			return date
 		}
-
 		return Date.distantPast
 	}
 
@@ -61,13 +59,6 @@ class ChatJoin: Object {
 	@objc dynamic var originalChatID = 0
 	@objc dynamic var chat: Chat?
 }
-
-// Represents a grouping of multiple chats based on the same participants
-//class SuperChat: Object {
-//	@objc dynamic var id = UUID().uuidString
-//}
-
-
 
 class Message: Object {
 	@objc dynamic var id = UUID().uuidString
@@ -96,6 +87,10 @@ class Message: Object {
 	@objc dynamic var bubbleWidth: Double = 0.0
 	@objc dynamic var bubbleHeight: Double = 0.0
 	@objc dynamic var layoutHeight: Double = 0.0
+    
+    var dayHash: Int {
+        return year * 10000 + month * 100 + dayOfMonth
+    }
 }
 
 class Handle: Object {

@@ -11,17 +11,15 @@ import RealmSwift
 
 class CalendarViewController: NSViewController, MGCalendarViewDelegate, MGCalendarViewDataSource {
 
+    @IBOutlet var scrollView: NSScrollView!
 	@IBOutlet var calendarView: MGCalendarView!
 	let realm = try! Realm()
 	var values = [String:Int]()
-	let delegate = NSApplication.shared.delegate as! AppDelegate
 
 	override func viewDidLoad() {
 		calendarView.dataSource = self
 		calendarView.delegate = self
-
-		delegate.calendarViewControler = self
-		print("view did load")
+        calendarView.scrollView = scrollView
 		
 		Store.shared.addMessagesChangedListener(messagesChanged)
 		
@@ -72,9 +70,7 @@ class CalendarViewController: NSViewController, MGCalendarViewDelegate, MGCalend
 	
 	func calendarViewSelectionDidChange(_ notification: Notification) {
 		if calendarView.selection.count > 0 {
-			Store.shared.setFilter(.day, to: calendarView.selection.map { selection in
-				selection.int
-			})
+			Store.shared.setFilter(.day, to: calendarView.selection)
 		}
 	}
 	

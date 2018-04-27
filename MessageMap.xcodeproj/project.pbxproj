@@ -18,7 +18,6 @@
 		985E39021FCB4D79009BA3F2 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = 985E39011FCB4D79009BA3F2 /* Store.swift */; };
 		985E39041FCB4DE1009BA3F2 /* ContactParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 985E39031FCB4DE1009BA3F2 /* ContactParser.swift */; };
 		985E39071FCB4F39009BA3F2 /* DataCleaning.swift in Sources */ = {isa = PBXBuildFile; fileRef = 985E39061FCB4F39009BA3F2 /* DataCleaning.swift */; };
-		9861C7ED206F92F20015430F /* Queries.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9861C7EC206F92F20015430F /* Queries.swift */; };
 		98857630206E8EEA000DB5CE /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9885762C206E8EE9000DB5CE /* RealmSwift.framework */; };
 		98857631206E8EEA000DB5CE /* RealmSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9885762C206E8EE9000DB5CE /* RealmSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		98857634206E8EEA000DB5CE /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9885762E206E8EEA000DB5CE /* SQLite.framework */; };
@@ -30,8 +29,9 @@
 		9885763F206E8EF7000DB5CE /* RealmSwift.framework.dSYM in Resources */ = {isa = PBXBuildFile; fileRef = 9885763B206E8EF7000DB5CE /* RealmSwift.framework.dSYM */; };
 		988AFB792082C3A6006A83E6 /* Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 988AFB782082C3A6006A83E6 /* Filter.swift */; };
 		988E76111FBB2D9000A782DF /* MGCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 988E76101FBB2D9000A782DF /* MGCalendarView.swift */; };
+		989270522090BAC900CA1398 /* MGTreemapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989270512090BAC900CA1398 /* MGTreemapView.swift */; };
+		989270572090BDE000CA1398 /* MGPunchcardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989270562090BDE000CA1398 /* MGPunchcardView.swift */; };
 		989D394320754C3F007E73D4 /* MessageItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989D394220754C3F007E73D4 /* MessageItem.swift */; };
-		98B02EEB208A37E20018B692 /* MGPunchcardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98B02EEA208A37E20018B692 /* MGPunchcardView.swift */; };
 		98B02EED208A38780018B692 /* AnalyticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98B02EEC208A38780018B692 /* AnalyticsViewController.swift */; };
 		98E43912207CF63C0055F462 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E43911207CF63C0055F462 /* Extensions.swift */; };
 		98F275741FB91D1600EB1241 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F275731FB91D1600EB1241 /* AppDelegate.swift */; };
@@ -78,7 +78,6 @@
 		985E39011FCB4D79009BA3F2 /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
 		985E39031FCB4DE1009BA3F2 /* ContactParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactParser.swift; sourceTree = "<group>"; };
 		985E39061FCB4F39009BA3F2 /* DataCleaning.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataCleaning.swift; sourceTree = "<group>"; };
-		9861C7EC206F92F20015430F /* Queries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Queries.swift; sourceTree = "<group>"; };
 		9885762C206E8EE9000DB5CE /* RealmSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RealmSwift.framework; path = Carthage/Build/Mac/RealmSwift.framework; sourceTree = "<group>"; };
 		9885762E206E8EEA000DB5CE /* SQLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SQLite.framework; path = Carthage/Build/Mac/SQLite.framework; sourceTree = "<group>"; };
 		9885762F206E8EEA000DB5CE /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Realm.framework; path = Carthage/Build/Mac/Realm.framework; sourceTree = "<group>"; };
@@ -87,8 +86,9 @@
 		9885763B206E8EF7000DB5CE /* RealmSwift.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = RealmSwift.framework.dSYM; path = Carthage/Build/Mac/RealmSwift.framework.dSYM; sourceTree = "<group>"; };
 		988AFB782082C3A6006A83E6 /* Filter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Filter.swift; sourceTree = "<group>"; };
 		988E76101FBB2D9000A782DF /* MGCalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MGCalendarView.swift; sourceTree = "<group>"; };
+		989270512090BAC900CA1398 /* MGTreemapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MGTreemapView.swift; sourceTree = "<group>"; };
+		989270562090BDE000CA1398 /* MGPunchcardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MGPunchcardView.swift; sourceTree = "<group>"; };
 		989D394220754C3F007E73D4 /* MessageItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageItem.swift; sourceTree = "<group>"; };
-		98B02EEA208A37E20018B692 /* MGPunchcardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MGPunchcardView.swift; path = MessageMap/MGPunchcardView.swift; sourceTree = SOURCE_ROOT; };
 		98B02EEC208A38780018B692 /* AnalyticsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsViewController.swift; sourceTree = "<group>"; };
 		98E43911207CF63C0055F462 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		98F275701FB91D1600EB1241 /* MessageMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MessageMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -123,7 +123,6 @@
 			children = (
 				985E39011FCB4D79009BA3F2 /* Store.swift */,
 				988AFB782082C3A6006A83E6 /* Filter.swift */,
-				9861C7EC206F92F20015430F /* Queries.swift */,
 				98FAFCF11FBDF55B00F242AC /* Models.swift */,
 				98FAFCF51FBE04D600F242AC /* iMessageParser.swift */,
 				984EED90208416A80004A4D4 /* iMessageDatabase.swift */,
@@ -131,6 +130,35 @@
 				985E39061FCB4F39009BA3F2 /* DataCleaning.swift */,
 			);
 			path = Data;
+			sourceTree = "<group>";
+		};
+		989270532090BD0E00CA1398 /* Calendar */ = {
+			isa = PBXGroup;
+			children = (
+				98046B541FBA140100ACCF79 /* CalendarViewController.swift */,
+				988E76101FBB2D9000A782DF /* MGCalendarView.swift */,
+			);
+			path = Calendar;
+			sourceTree = "<group>";
+		};
+		989270542090BD1600CA1398 /* Analytics */ = {
+			isa = PBXGroup;
+			children = (
+				98B02EEC208A38780018B692 /* AnalyticsViewController.swift */,
+				989270562090BDE000CA1398 /* MGPunchcardView.swift */,
+				989270512090BAC900CA1398 /* MGTreemapView.swift */,
+			);
+			path = Analytics;
+			sourceTree = "<group>";
+		};
+		989270552090BD2300CA1398 /* Messages */ = {
+			isa = PBXGroup;
+			children = (
+				981605BD20742FC500D8E8F2 /* MessagesViewController.swift */,
+				989D394220754C3F007E73D4 /* MessageItem.swift */,
+				981605C12075129200D8E8F2 /* MessageItem.xib */,
+			);
+			path = Messages;
 			sourceTree = "<group>";
 		};
 		98F275671FB91D1600EB1241 = {
@@ -165,13 +193,9 @@
 				981A40272073BBE500F98511 /* EntryViewController.swift */,
 				985E39051FCB4E76009BA3F2 /* Data */,
 				98046B4C1FBA13AF00ACCF79 /* ChatsViewController.swift */,
-				981605BD20742FC500D8E8F2 /* MessagesViewController.swift */,
-				98046B541FBA140100ACCF79 /* CalendarViewController.swift */,
-				988E76101FBB2D9000A782DF /* MGCalendarView.swift */,
-				98B02EEC208A38780018B692 /* AnalyticsViewController.swift */,
-				98B02EEA208A37E20018B692 /* MGPunchcardView.swift */,
-				989D394220754C3F007E73D4 /* MessageItem.swift */,
-				981605C12075129200D8E8F2 /* MessageItem.xib */,
+				989270552090BD2300CA1398 /* Messages */,
+				989270532090BD0E00CA1398 /* Calendar */,
+				989270542090BD1600CA1398 /* Analytics */,
 				981605BF2075003C00D8E8F2 /* SplitViewControllers.swift */,
 				98E43911207CF63C0055F462 /* Extensions.swift */,
 				98F275771FB91D1600EB1241 /* Assets.xcassets */,
@@ -278,7 +302,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				981605BE20742FC500D8E8F2 /* MessagesViewController.swift in Sources */,
-				98B02EEB208A37E20018B692 /* MGPunchcardView.swift in Sources */,
 				98E43912207CF63C0055F462 /* Extensions.swift in Sources */,
 				985E39071FCB4F39009BA3F2 /* DataCleaning.swift in Sources */,
 				98B02EED208A38780018B692 /* AnalyticsViewController.swift in Sources */,
@@ -290,12 +313,13 @@
 				98046B551FBA140100ACCF79 /* CalendarViewController.swift in Sources */,
 				985E39021FCB4D79009BA3F2 /* Store.swift in Sources */,
 				98FAFCF21FBDF55B00F242AC /* Models.swift in Sources */,
+				989270572090BDE000CA1398 /* MGPunchcardView.swift in Sources */,
 				98046B4D1FBA13AF00ACCF79 /* ChatsViewController.swift in Sources */,
 				981A40282073BBE500F98511 /* EntryViewController.swift in Sources */,
-				9861C7ED206F92F20015430F /* Queries.swift in Sources */,
 				988AFB792082C3A6006A83E6 /* Filter.swift in Sources */,
 				98F275741FB91D1600EB1241 /* AppDelegate.swift in Sources */,
 				985E39041FCB4DE1009BA3F2 /* ContactParser.swift in Sources */,
+				989270522090BAC900CA1398 /* MGTreemapView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -429,6 +453,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = MessageMap/MessageMap.entitlements;
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = 23G6F4JB4G;
@@ -443,6 +468,7 @@
 				OTHER_SWIFT_FLAGS = "-Xfrontend -warn-long-function-bodies=500";
 				PRODUCT_BUNDLE_IDENTIFIER = com.maxgreenwald.MessageMap;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
@@ -452,6 +478,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = MessageMap/MessageMap.entitlements;
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = 23G6F4JB4G;
@@ -466,6 +493,7 @@
 				OTHER_SWIFT_FLAGS = "-Xfrontend -warn-long-function-bodies=500";
 				PRODUCT_BUNDLE_IDENTIFIER = com.maxgreenwald.MessageMap;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
 			};
 			name = Release;

@@ -29,9 +29,6 @@ class MessagesViewController: NSViewController, NSCollectionViewDataSource, NSCo
 		super.viewDidLoad()
 
 		self.view.window?.isOpaque = false
-
-		let delegate = NSApplication.shared.delegate as! AppDelegate
-		delegate.messagesViewController = self
 		
 		Store.shared.addMessagesChangedListener(messagesChanged)
 
@@ -48,7 +45,7 @@ class MessagesViewController: NSViewController, NSCollectionViewDataSource, NSCo
 	func generateHeightAdditions() {
 		var prevMessage: Message? = nil
 		heightAdditions.removeAll()
-		let groupChat = (Store.shared.chat?.participants.count ?? 0) > 1
+		let groupChat = (Store.shared.selectedChat?.participants.count ?? 0) > 1
 		Store.shared.enumerateMessages { message in
 			if let prev = prevMessage {
 				let interval = message.date.timeIntervalSince(prev.date)
@@ -76,7 +73,7 @@ class MessagesViewController: NSViewController, NSCollectionViewDataSource, NSCo
 	}
 
 	func collectionView(_ collectionView: NSCollectionView, numberOfItemsInSection section: Int) -> Int {
-		if Store.shared.chat != nil {
+		if Store.shared.selectedChat != nil {
 			return Store.shared.count()
 		}
 		return 0
@@ -143,7 +140,7 @@ class MessagesViewController: NSViewController, NSCollectionViewDataSource, NSCo
 				
 				item.messageBubble.fillColor = NSColor(red: 229/255, green: 229/255, blue: 234/255, alpha: 1.0)
 				
-				if Store.shared.chat!.participants.count > 1 {
+				if Store.shared.selectedChat!.participants.count > 1 {
 					item.profileImageView.isHidden = false
 					item.messageTextField.frame = CGRect(x: 46.0, y: 2.0, width: message.textFieldWidth, height: message.textFieldHeight)
 					item.messageBubble.frame = CGRect(x: 40.0, y: 0.0, width: message.bubbleWidth, height: message.bubbleHeight)

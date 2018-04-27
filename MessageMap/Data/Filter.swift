@@ -8,20 +8,8 @@
 
 import Foundation
 
-struct DayID: Hashable, Equatable {
-	var year: Int = 0
-	var month: Int = 0
-	var day: Int = 0
-	
-	var string: String {
-		return "\(year)-\(month)-\(day)"
-	}
-	
-	var int: Int {
-		return year * 10000 + month * 100 + day
-	}
-}
-
+// A list of the current filters
+// Should exactly match Store.shared.filters by index
 enum FilterType: Int {
 	case day = 0
 	case hour = 1
@@ -29,22 +17,35 @@ enum FilterType: Int {
 	case weekdayHour = 3
 }
 
-
 class Filter {
 	var name: String
 	var type: FilterType
-	func predicate(_ value: Int) -> Bool {
-		return self.filters.contains(value)
-	}
-	var transform: (Message) -> Int
+    
+    // A function that generates a hash from a message for a specific filter
+	var hash: (Message) -> Int
+    
+    // A set of hashes representing the messages to filter
+    // If empty, do not use this filter
 	var filters = Set<Int>()
-	var messagesWithout = [Int]()
-	var generateWithout: Bool
+    
+    // Index of messages including messages that are filtered by all other filters
+    // EXCEPT for the messages filtered by the current filter
+	var filteredMessages = [Int]()
 	
-	init(name: String, type: FilterType, generateWithout: Bool, transform: @escaping (Message) -> Int) {
+	var newFilteredMessages = [Int]()
+    
+    // Whether this filter should generate its own 'filteredMessages', which is a costly process
+	var generateFilteredMessages: Bool
+	
+	init(name: String, type: FilterType, generateWithout: Bool, hash: @escaping (Message) -> Int) {
 		self.name = name
 		self.type = type
-		self.transform = transform
-		self.generateWithout = generateWithout
+		self.hash = hash
+		self.generateFilteredMessages = generateWithout
 	}
+    
+    // Check if the filters contains the specific hash
+    func predicate(_ value: Int) -> Bool {
+        return self.filters.contains(value)
+    }
 }

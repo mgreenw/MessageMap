@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import RealmSwift
 
 func sanitizeEmail(_ email: String) -> String {
 	let sanitized = email.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()

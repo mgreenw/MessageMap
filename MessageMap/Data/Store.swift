@@ -9,46 +9,53 @@
 import Foundation
 import RealmSwift
 
-class Store {
+typealias DayHash = Int
 
-	// Initialize shared store that all classes will have access to
+class Store {
+    
+    // Store's private realm instance
+    let realm = try! Realm()
+
+    // Shared Store: allows entire application to use the same filters
 	static var shared = Store()
 	
-	var chat: Chat? = nil
+    // The chat selected by the user, if applicable
+	var selectedChat: Chat? = nil
+    
+    // All of the messages, sorted by date
+    var allMessages = [Message]()
+    
+    // Array of indexes of message in allMessages
 	var filteredMessages = [Int]()
-	var messages = [Message]()
-	var chats = [Chat]()
-	
-	let realm = try! Realm()
-	
+    
+    // Array of chats from all filters
+    var filteredChats = [Chat]()
+    
+    // Array of all chat's, sorted by date
 	private var sortedChats = [Chat]()
 	
-	// chat id to set of the days in the chat that contain messages
-	var daysInChat = [String: Set<Int>]()
+    // Functions that will get called when the filteredChats list changes
+	private var chatListeners = [() -> Void]()
+    
+    // Functions that will get called when the filteredMessages list changes
+	private var messageListeners = [() -> Void]()
 	
-	var chatListeners = [() -> Void]()
-	var messageListeners = [() -> Void]()
-	
-	var filters: [Filter]! = [Filter(name: "Day", type: .day, generateWithout: true, transform: { message in
-		let messageDay = DayID(year: message.year, month: message.month, day: message.dayOfMonth)
-		return messageDay.int
-	}), Filter(name: "Hour", type: .hour, generateWithout: false, transform: { message in
+    // Set the filters, in the order defined in the FilterType enum
+	let filters: [Filter]! = [Filter(name: "Day", type: .day, generateWithout: true, hash: { message in
+        return message.dayHash
+	}), Filter(name: "Hour", type: .hour, generateWithout: false, hash: { message in
 		return message.hour
-	}), Filter(name: "Weekday", type: .weekday, generateWithout: false ,transform: { message in
+	}), Filter(name: "Weekday", type: .weekday, generateWithout: false , hash: { message in
 		return message.weekday
-	}), Filter(name: "WeekdayHour", type: .weekdayHour, generateWithout: true, transform: { message in
+	}), Filter(name: "WeekdayHour", type: .weekdayHour, generateWithout: true, hash: { message in
 		return (message.hour * 10) + message.weekday
 	})]
 		
+    // As soon as the store is initialized, begin the refilter process
 	init() {
-		print("Init Store")
 		newMessagesAdded()
 	}
 	
-	// This function is used to ensure that the shared Filter singleton has been initialized
-	func startStore() {
-		print("Starting filter")
-	}
 	
 	func addChatsChangedListener(_ listener: @escaping () -> Void) {
 		chatListeners.append(listener)
@@ -59,102 +66,142 @@ class Store {
 	}
 	
 	func refilter() {
+//		DispatchQueue.global(qos: .userInitiated).async {
+			self.refilterAsync()
+//		}
+	}
+	
+	func refilterAsync() {
+        
+        /*
+         The goal here is to avoid unnecessary double filtering. We want to store a list of the
+         filtered messages for the selected chat, and a list of filtered chats that contain
+         at least one message that passes all of the filter
+         */
 		
-		for filter in filters {
-			filter.messagesWithout = []
-		}
+		let realmAsync = try! Realm()
 		
-		let prevMessages = filteredMessages
-		let prevChats = chats
+		sortedChats = Array(realmAsync.objects(Chat.self).filter("messages.@count > 0").sorted(byKeyPath: "lastMessageDate", ascending: false))
 		
-		// Filter chats by daysInChat
-		// This does not yet take into account hour filters or weekday filters
-		let dayFilters = filters[FilterType.day.rawValue]
-		if dayFilters.filters.count > 0 {
-			chats = sortedChats.filter { chat in
-				daysInChat[chat.id]!.intersection(dayFilters.filters).count > 0
-			}
+        // Reset 'filteredMessages' for each filter
+        for filter in filters {
+            filter.newFilteredMessages = []
+        }
+		
+		var newFilteredMessages = [Int]()
+		var newAllMessages = [Message]()
+        
+        // Setup a list of predicates to filter the messages by
+        let filtersToUse = filters.filter { $0.filters.count > 0 }
+        
+        let newFilteredChats = sortedChats.filter { chat in
+            
+            // Iterate through all the messages in a chat:
+            // If a single message passes every filter, then include the chat in filteredChats
+            chatMessages: for message in chat.messages {
+                
+                // Iterate through all the filters, and check if the message passes the filter's predicate
+                for filter in filtersToUse {
+                
+                    // If the message fails one filter, then go to the next chat message
+                    if !filter.predicate(filter.hash(message)) {
+                        continue chatMessages
+                    }
+                }
+                
+                // The chat includes a message that passes all the filters, so include it in filteredChats
+                return true
+            }
+            
+            // The chat has no messages that pass the filter, so do not include it in filteredChats
+            return false
+        }
+       
+		// Set all messages to be the selected chat's messages, otherwise all messages,
+		// in either case sorted by date
+		if let chat = selectedChat {
+			newAllMessages = Array(chat.sortedMessages)
 		} else {
-			chats = sortedChats
+			newAllMessages = Array(realmAsync.objects(Message.self).sorted(byKeyPath: "date"))
 		}
-		
-		if chats != prevChats {
-			for listener in chatListeners {
-				listener()
-			}
-		}
-		
-		// Get the chat if it does
-		if let chatSafe = chat {
-			// Setup a list of predicates to filter the messages by
-			let filtersToUse = filters.filter { $0.filters.count > 0 }
-			let filtersToGenerate = filters.filter { $0.generateWithout }
 			
-			// Get the messages and filter them by the predicates!
-			messages = Array(chatSafe.sortedMessages)
-			filteredMessages = []
-			
-			let dayFilter = filters[FilterType.day.rawValue]
-			
-			for (index, message) in messages.enumerated() {
-				var rejectionCount = 0
-				var previousRejection: Filter = dayFilter
-				for filter in filtersToUse {
-					// If current filter says "No", but every other filter says yes, add it to the "messagesWithoutFilter"
-					if !filter.predicate(filter.transform(message)) {
-						rejectionCount += 1
-						previousRejection = filter
-					}
-				}
-				if rejectionCount == 0 {
-					filteredMessages.append(index)
-					for filter in filters {
-						if filter.generateWithout {
-							filter.messagesWithout.append(index)
-						}
+		// Iterate through all messages, and filter out messages that don't match a filter in use
+		messages: for (index, message) in newAllMessages.enumerated() {
+			var previousRejection: Filter? = nil
+			for filter in filtersToUse {
+				// If current filter says "No", but every other filter says yes, add it to the "messagesWithoutFilter"
+				if !filter.predicate(filter.hash(message)) {
+					
+					// If the previous rejection has already been set for this
+					// message, then there are more than two rejections.
+					// In this case, the message will not be a part of any
+					// set, so go to the next message
+					if previousRejection != nil {
+						 continue messages
 					}
 					
-				} else if rejectionCount == 1 {
-					previousRejection.messagesWithout.append(index)
+					// If there is no previous rejection, set the current filter
+					// to be the previous rejection
+					previousRejection = filter
 				}
 			}
-
-		} else {
-			print("No chat selected")
-			messages = Array(realm.objects(Message.self).sorted(byKeyPath: "date"))
-			let fullIndexArray = messages.count > 0 ? Array(0...messages.count-1) : []
-			filteredMessages = fullIndexArray
-			for filter in filters {
-				if filter.generateWithout {
-					filter.messagesWithout = fullIndexArray
+			
+			// If there has been exactly one rejection from a filter...
+			if let rejection = previousRejection {
+				
+				// Add the message to the filteredMessages array for that filter
+				rejection.newFilteredMessages.append(index)
+				
+			// If there were no rejections from any filters...
+			} else {
+				
+				// Add the message to the global filteredMessages, and add it
+				// to the filtered messages for all the filters
+				newFilteredMessages.append(index)
+				for filter in filters {
+					if filter.generateFilteredMessages {
+						filter.newFilteredMessages.append(index)
+					}
 				}
 			}
 		}
-
-		if filteredMessages != prevMessages {
-			for listener in messageListeners {
+		
+		// Begin syncronous calls...
+//		DispatchQueue.main.sync {
+		self.allMessages = newAllMessages
+		
+		for filter in self.filters {
+			filter.filteredMessages = filter.newFilteredMessages
+		}
+		
+		if newFilteredChats != self.filteredChats {
+			self.filteredChats = newFilteredChats
+			for listener in self.chatListeners {
+				listener()
+			}
+			
+			print("Chats not equal")
+		}
+		
+		if newFilteredMessages != self.filteredMessages {
+			self.filteredMessages = newFilteredMessages
+			
+			for listener in self.messageListeners {
 				listener()
 			}
 		}
+		
+
+//		}
 	}
 	
 	func newMessagesAdded() {
 		// Recreate data structures to help filter speed
-		sortedChats = Array(realm.objects(Chat.self).filter("messages.@count > 0").sorted(byKeyPath: "lastMessageDate", ascending: false))
-		
-		daysInChat.removeAll()
-		for chat in sortedChats {
-			let days = Set(chat.messages.map { message in
-				DayID(year: message.year, month: message.month, day: message.dayOfMonth).int
-			})
-			daysInChat[chat.id] = days
-		}
-		
 		refilter()
 	}
 	
 	func setChat(to chat: Chat?) {
-		self.chat = chat
+		self.selectedChat = chat
 		refilter()
 	}
 	
@@ -188,32 +235,32 @@ class Store {
 	
 	func message(at index: Int) -> Message? {
 		if let messageIndex = filteredMessages[safe: index] {
-			return messages[messageIndex]
+			return allMessages[messageIndex]
 		}
 		return nil
 	}
 	
 	func enumerateMessages(_ action: (Message) -> Void) {
 		for index in 0..<filteredMessages.count {
-			action(messages[filteredMessages[index]])
+			action(allMessages[filteredMessages[index]])
 		}
 	}
 	
 	func countForFilter(_ filterType: FilterType) -> Int {
-		return filters[filterType.rawValue].messagesWithout.count
+		return filters[filterType.rawValue].filteredMessages.count
 	}
 	
 	func messageForFilter(_ filterType: FilterType, at index: Int) -> Message? {
-		if let messageIndex = filters[filterType.rawValue].messagesWithout[safe: index] {
-			return messages[safe: messageIndex]
+		if let messageIndex = filters[filterType.rawValue].filteredMessages[safe: index] {
+			return allMessages[safe: messageIndex]
 		}
 		return nil
 	}
 	
 	func enumerateMessagesForFilter(_ filterType: FilterType, _ action: (Message) -> Void) {
 		let filter = filters[filterType.rawValue]
-		for index in 0..<filter.messagesWithout.count {
-			action(messages[filter.messagesWithout[index]])
+		for index in 0..<filter.filteredMessages.count {
+			action(allMessages[filter.filteredMessages[index]])
 		}
 	}
 }

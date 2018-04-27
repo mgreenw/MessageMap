@@ -26,7 +26,7 @@ protocol MGCalendarViewDelegate: AnyObject {
 }
 
 class MGCalendarView: NSView {
-
+    
 	weak var delegate: MGCalendarViewDelegate?
 	weak var dataSource: MGCalendarViewDataSource?
 
@@ -43,9 +43,9 @@ class MGCalendarView: NSView {
 	var selectionStart: Day?
 	var selectionEnd: Day?
 	private var selectedDays: Set<Day> = Set<Day>()
-	public var selection: [DayID] {
+	public var selection: [Int] {
 		return selectedDays.map { day in
-			DayID(year: day.year, month: day.month, day: day.day)
+			day.dayHash
 		}
 	}
 
@@ -59,6 +59,27 @@ class MGCalendarView: NSView {
 			}
 		}
 	}
+    
+    var scrollView: NSScrollView! {
+        willSet (newScrollView) {
+            let weekdayLabelView = NSBox(frame: NSRect(x: 0, y: 0, width: dayLabelWidth, height: self.frame.height-self.headerHeight))
+            
+            weekdayLabelView.fillColor = NSColor.blue
+            weekdayLabelView.titlePosition = .noTitle
+            weekdayLabelView.borderType = .noBorder
+            
+            let days = ["Sat", "Fri", "Thu", "Wed", "Tue", "Mon", "Sun"]
+            
+            for (index, day) in days.enumerated() {
+                let textField = NSTextField(labelWithString: day)
+                textField.frame = NSRect(x: 0, y: CGFloat(index) * rowHeight, width: dayLabelWidth, height: rowHeight)
+                weekdayLabelView.addSubview(textField)
+            }
+            
+            newScrollView.addFloatingSubview(weekdayLabelView, for: .horizontal)
+            
+        }
+    }
 
 	private func setRowHeight() {
 		// This math ensures that rowHeight is always an integer
@@ -611,6 +632,10 @@ class Day: CustomStringConvertible, Hashable {
 	var value: Double = 0.0
 	var week: Week!
 	var selected: Bool = false
+    
+    var dayHash: Int {
+        return year * 10000 + month * 100 + day
+    }
 	
 	var weekIndex: Int {
 		return week.index!

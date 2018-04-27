@@ -17,14 +17,11 @@ class ChatsViewController: NSViewController, NSTableViewDataSource, NSTableViewD
 	@IBOutlet weak var tableView: NSTableView!
     @IBOutlet weak var progress: NSProgressIndicator!
 	let dateFormatter = DateFormatter()
-	let delegate = NSApplication.shared.delegate as! AppDelegate
 	let realm = try! Realm()
 	var selectedChat: Chat? = nil
 	
     override func viewDidLoad() {
         super.viewDidLoad()
-
-		delegate.chatsViewController = self
 		
 		Store.shared.addChatsChangedListener(chatsChanged)
 
@@ -37,14 +34,14 @@ class ChatsViewController: NSViewController, NSTableViewDataSource, NSTableViewD
 	func chatsChanged() {
 		self.tableView.reloadData()
 		if let selected = selectedChat {
-			if let index = Store.shared.chats.index(of: selected){
+			if let index = Store.shared.filteredChats.index(of: selected){
 				tableView.selectRowIndexes(IndexSet(integer: index), byExtendingSelection: false)
 			}
 		}
 	}
 
 	func numberOfRows(in tableView: NSTableView) -> Int {
-		return Store.shared.chats.count
+		return Store.shared.filteredChats.count
 	}
 
 	func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
@@ -56,11 +53,11 @@ class ChatsViewController: NSViewController, NSTableViewDataSource, NSTableViewD
 	}
 
 	func tableViewSelectionDidChange(_ notification: Notification) {
-		if selectedChat == Store.shared.chats[tableView.selectedRow] {
+		if selectedChat == Store.shared.filteredChats[tableView.selectedRow] {
 			// Clear selected chat
 		} else {
 			self.view.window!.makeFirstResponder(self.tableView)
-			let chat = Store.shared.chats[tableView.selectedRow]
+			let chat = Store.shared.filteredChats[tableView.selectedRow]
 			Store.shared.setChat(to: chat)
 			selectedChat = chat
 		}
@@ -70,7 +67,7 @@ class ChatsViewController: NSViewController, NSTableViewDataSource, NSTableViewD
 	func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
 
 		let cell: ChatTableCellView = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "chatRow"), owner: self) as! ChatTableCellView
-		let chat = Store.shared.chats[row]
+		let chat = Store.shared.filteredChats[row]
 
 		cell.image.image = nil
 

@@ -215,7 +215,7 @@
                 <customObject id="YLy-65-1bz" customClass="NSFontManager"/>
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="121" y="-562"/>
+            <point key="canvasLocation" x="-215" y="-660"/>
         </scene>
         <!--Window Controller-->
         <scene sceneID="R2V-B0-nI4">
@@ -223,7 +223,7 @@
                 <windowController storyboardIdentifier="main" id="B8D-0N-5wS" sceneMemberID="viewController">
                     <window key="window" title="MessageMap - Welcome" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" tabbingIdentifier="mainWindow" titlebarAppearsTransparent="YES" titleVisibility="hidden" id="IQv-IB-iLA">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" fullSizeContentView="YES"/>
-                        <rect key="contentRect" x="0.0" y="0.0" width="1000" height="800"/>
+                        <rect key="contentRect" x="0.0" y="0.0" width="1000" height="600"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
                         <value key="minSize" type="size" width="1000" height="600"/>
                         <connections>
@@ -236,7 +236,7 @@
                 </windowController>
                 <customObject id="Oky-zY-oP4" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="95" y="424"/>
+            <point key="canvasLocation" x="-222" y="395"/>
         </scene>
         <!--Main Split View Controller-->
         <scene sceneID="uIV-lG-Qzm">
@@ -263,7 +263,7 @@
                 </splitViewController>
                 <customObject id="pdn-GF-8S9" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-454" y="1179"/>
+            <point key="canvasLocation" x="617" y="395"/>
         </scene>
         <!--Chat Message Calendar Split View Controller-->
         <scene sceneID="9h2-0N-uUm">
@@ -290,7 +290,7 @@
                 </splitViewController>
                 <customObject id="hBH-cw-pdZ" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="101" y="1148"/>
+            <point key="canvasLocation" x="617" y="981"/>
         </scene>
         <!--Analytics View Controller-->
         <scene sceneID="hR0-KQ-sPB">
@@ -304,15 +304,20 @@
                                 <rect key="frame" x="0.0" y="0.0" width="456" height="152"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             </customView>
+                            <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kJu-9e-hwG" customClass="MGTreemapView" customModule="MessageMap" customModuleProvider="target">
+                                <rect key="frame" x="228" y="152" width="228" height="152"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                            </customView>
                         </subviews>
                     </view>
                     <connections>
                         <outlet property="punchcardView" destination="PMQ-ws-k4e" id="UdX-KI-L1y"/>
+                        <outlet property="treemapView" destination="kJu-9e-hwG" id="tQW-dZ-mw7"/>
                     </connections>
                 </viewController>
                 <customObject id="XuI-KQ-XRJ" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-66" y="1690.5"/>
+            <point key="canvasLocation" x="1204" y="395.5"/>
         </scene>
         <!--Window Controller-->
         <scene sceneID="lGU-ul-Jx3">
@@ -335,7 +340,7 @@
                 </windowController>
                 <customObject id="EJe-Dl-ogr" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-205" y="-239"/>
+            <point key="canvasLocation" x="-173" y="-332"/>
         </scene>
         <!--Entry View Controller-->
         <scene sceneID="SrC-U7-yIe">
@@ -430,7 +435,7 @@
                 </viewController>
                 <customObject id="9BV-tD-1zY" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="423" y="-239"/>
+            <point key="canvasLocation" x="403" y="-332"/>
         </scene>
         <!--Chat Message Split View Controller-->
         <scene sceneID="lrd-37-AvC">
@@ -457,7 +462,7 @@
                 </splitViewController>
                 <customObject id="L4C-bh-M5W" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="632" y="1155"/>
+            <point key="canvasLocation" x="1207" y="981"/>
         </scene>
         <!--Calendar View Controller-->
         <scene sceneID="uXS-tl-vbh">
@@ -490,14 +495,14 @@
                                 </scroller>
                             </scrollView>
                             <box fixedFrame="YES" boxType="custom" borderType="none" cornerRadius="4" title="Box" translatesAutoresizingMaskIntoConstraints="NO" id="tsp-L4-QIW">
-                                <rect key="frame" x="0.0" y="0.0" width="25" height="200"/>
+                                <rect key="frame" x="0.0" y="0.0" width="26" height="198"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <view key="contentView" ambiguous="YES" id="Xy5-NM-8Dt">
-                                    <rect key="frame" x="0.0" y="0.0" width="25" height="200"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="26" height="198"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="604-rQ-fK4">
-                                            <rect key="frame" x="0.0" y="174" width="25" height="27"/>
+                                            <rect key="frame" x="0.0" y="174" width="25" height="25"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="NSTouchBarRefreshTemplate" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="rLN-9g-xq6">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -514,11 +519,12 @@
                     </view>
                     <connections>
                         <outlet property="calendarView" destination="XbY-ls-QdR" id="Q1o-Rf-qaX"/>
+                        <outlet property="scrollView" destination="WGi-ev-ShC" id="3gW-Dz-RQs"/>
                     </connections>
                 </viewController>
                 <customObject id="n8A-RM-gst" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="576.5" y="1758"/>
+            <point key="canvasLocation" x="617.5" y="1469"/>
         </scene>
         <!--Chats View Controller-->
         <scene sceneID="klc-Db-tnb">
@@ -645,7 +651,7 @@
                     </connections>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="1131" y="706"/>
+            <point key="canvasLocation" x="1720" y="981"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="LGe-iR-wrJ">
@@ -669,25 +675,25 @@
                 </viewController>
                 <customObject id="WRj-Ak-i9q" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2249" y="739"/>
+            <point key="canvasLocation" x="2219" y="632"/>
         </scene>
         <!--Messages View Controller-->
         <scene sceneID="ajP-Pz-tnv">
             <objects>
                 <viewController id="beG-g5-lj5" customClass="MessagesViewController" customModule="MessageMap" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="H5Z-rM-3zp">
-                        <rect key="frame" x="0.0" y="0.0" width="465" height="300"/>
+                        <rect key="frame" x="0.0" y="0.0" width="465" height="500"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <scrollView wantsLayer="YES" fixedFrame="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zOi-Nj-jcP">
-                                <rect key="frame" x="0.0" y="0.0" width="465" height="246"/>
+                                <rect key="frame" x="0.0" y="0.0" width="465" height="446"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <clipView key="contentView" ambiguous="YES" drawsBackground="NO" id="ocv-WZ-eW4">
-                                    <rect key="frame" x="0.0" y="0.0" width="465" height="246"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="465" height="446"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <collectionView ambiguous="YES" id="UBv-NR-Nr1">
-                                            <rect key="frame" x="0.0" y="0.0" width="465" height="246"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="465" height="446"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                                             <collectionViewFlowLayout key="collectionViewLayout" minimumInteritemSpacing="1" minimumLineSpacing="1" id="Wn3-hh-V9C">
                                                 <size key="itemSize" width="50" height="50"/>
@@ -711,11 +717,11 @@
                                 </scroller>
                             </scrollView>
                             <progressIndicator wantsLayer="YES" fixedFrame="YES" maxValue="100" displayedWhenStopped="NO" indeterminate="YES" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="skM-VG-VC7">
-                                <rect key="frame" x="216" y="103" width="32" height="32"/>
+                                <rect key="frame" x="216" y="303" width="32" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             </progressIndicator>
                             <containerView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bgU-SB-wuK">
-                                <rect key="frame" x="0.0" y="245" width="465" height="55"/>
+                                <rect key="frame" x="0.0" y="445" width="465" height="55"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <connections>
                                     <segue destination="04t-0L-CBT" kind="embed" id="MZ1-bL-FJB"/>
@@ -730,7 +736,7 @@
                 </viewController>
                 <customObject id="xgt-4C-pBX" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1699" y="1086"/>
+            <point key="canvasLocation" x="2227" y="981"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="gHo-3O-3JX">
@@ -765,7 +771,7 @@
                 </viewController>
                 <customObject id="94I-Y6-0nQ" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1574" y="628"/>
+            <point key="canvasLocation" x="1720" y="642"/>
         </scene>
     </scenes>
     <resources>
