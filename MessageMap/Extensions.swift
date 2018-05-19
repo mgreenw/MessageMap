@@ -114,3 +114,31 @@ extension Collection where Indices.Iterator.Element == Index {
 		return indices.contains(index) ? self[index] : nil
 	}
 }
+
+
+
+// Adapted from this article: https://medium.com/@jackywangdeveloper/swift-the-right-way-to-add-target-in-uibutton-in-using-closures-877557ed9455
+typealias NSControlTargetClosure = (NSControl) -> ()
+class ClosureWrapper: NSObject {
+	var closure: NSControlTargetClosure = { button in
+		
+	}
+	var attachTo: NSControl = NSControl()
+	init(attachTo: NSControl, closure: @escaping NSControlTargetClosure) {
+		super.init()
+		self.closure = closure
+		self.attachTo = attachTo
+		objc_setAssociatedObject(attachTo, "[\(arc4random())]", self, .OBJC_ASSOCIATION_RETAIN)
+	}
+	
+	@objc func invoke() {
+		closure(attachTo)
+	}
+}
+extension NSControl {
+	func addAction(action: @escaping NSControlTargetClosure) {
+		let sleeve = ClosureWrapper(attachTo: self, closure: action)
+		self.target = sleeve
+		self.action = #selector(ClosureWrapper.invoke)
+	}
+}

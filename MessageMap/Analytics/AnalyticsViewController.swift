@@ -16,6 +16,8 @@ class AnalyticsViewController: NSViewController, MGPunchcardViewDataSource, MGTr
 	@IBOutlet var treemapView: MGTreemapView!
 	// Array of weekday (0-6) and hours (0-23)
 	var punchcardValues = Array(repeating: Array(repeating: 0.0, count: 24), count: 7)
+	var treemapValues = [Int: Double]()
+	var sortedTreemapValues = [Double]()
 	
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,12 +32,19 @@ class AnalyticsViewController: NSViewController, MGPunchcardViewDataSource, MGTr
 	
 	func messagesChanged() {
 		punchcardValues = Array(repeating: Array(repeating: 0.0, count: 24), count: 7)
+		treemapValues.removeAll()
 		
 		Store.shared.enumerateMessagesForFilter(FilterType.weekdayHour, { message in
 			
 			// The value added will change depending on the filter type
 			punchcardValues[message.weekday-1][message.hour] += 1.0
 		})
+		
+		Store.shared.enumerateMessagesForFilter(FilterType.person, { message in
+			treemapValues[message.sender!.idInt] = treemapValues[message.sender!.idInt, default: 0.0] + 1.0
+		})
+		
+		sortedTreemapValues = Array(treemapValues.values).sorted()
 		
 		punchcardView.reloadPunchcard()
 		treemapView.reloadTreemap()
@@ -49,11 +58,11 @@ class AnalyticsViewController: NSViewController, MGPunchcardViewDataSource, MGTr
 	let values = [500.0, 100.0, 50.0, 900.0]
 	
 	func numberOfValues(for treemapView: MGTreemapView) -> Int {
-		return treemap.count
+		return sortedTreemapValues.count
 	}
 	
 	func treemapView(_ treemapView: MGTreemapView, valueForIndex index: Int) -> Double {
-		return values[index]
+		return sortedTreemapValues[index]
 	}
 	
 	func treemapView(_ treemapView: MGTreemapView, photoForIndex index: Int) -> Data? {
@@ -61,7 +70,7 @@ class AnalyticsViewController: NSViewController, MGPunchcardViewDataSource, MGTr
 	}
 	
 	func treemapView(_ treemapView: MGTreemapView, labelForIndex index: Int) -> String {
-		return treemap[index]
+		return ""
 	}
 	
 }

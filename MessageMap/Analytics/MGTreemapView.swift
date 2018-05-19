@@ -24,32 +24,33 @@ class MGTreemapView: NSView {
 	weak var delegate: MGPunchcardViewDelegate?
 	weak var dataSource: MGTreemapViewDataSource?
 	
-	class Element: NSBox {
-		var value: CGFloat = 0.0
-		var label: String = ""
-		var photo: Data? = nil
+	class Element {
+		let value: CGFloat
+		let label: String
+		let photo: Data?
 		
-		override init(frame frameRect: NSRect) {
-			super.init(frame: frameRect)
-		}
+		var frame: CGRect = NSZeroRect
 		
-		required init?(coder decoder: NSCoder) {
-			super.init(coder: decoder)
+		init(value: CGFloat, label: String, photo: Data?) {
+			self.value = value
+			self.label = label
+			self.photo = photo
 		}
 		
 		func getArea() -> CGFloat {
 			return self.frame.width * self.frame.height
 		}
+		
+		func draw() {
+			let path = NSBezierPath(rect: frame)
+			NSColor.black.setStroke()
+			path.stroke()
+		}
 	}
 	
 	func addElement(value: Double, label: String, photo: Data?) {
-		let element = Element(frame: NSRect(x: 0, y: 0, width: 10, height: 10))
-		element.value = CGFloat(value)
-		element.label = label
-		element.photo = photo
-		element.titlePosition = .noTitle
+		var element = Element(value: CGFloat(value), label: label, photo: photo)
 		elements.append(element)
-		self.addSubview(element)
 	}
 	
 	var elements = [Element]()
@@ -63,6 +64,7 @@ class MGTreemapView: NSView {
 		elements = []
 		
 		let numberOfElements = data.numberOfValues(for: self)
+		print("number of elements: \(numberOfElements)")
 		
 		for index in 0..<numberOfElements {
 			let value = data.treemapView(self, valueForIndex: index)
@@ -72,14 +74,22 @@ class MGTreemapView: NSView {
 			addElement(value: value, label: label, photo: photo)
 		}
 		
-		self.setNeedsDisplay(self.frame)
+		elements = elements.sorted(by: {elementOne, elementTwo in
+			elementOne.value > elementTwo.value
+		})
+		
+		print(self.frame)
+		DispatchQueue.main.async {
+			self.setNeedsDisplay(NSRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height))
+		}
 	}
 	
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
 		
-		
-		
+		print("Draw treemap")
+		print(dirtyRect)
+				
 		var x: CGFloat = 0.0
 		var y: CGFloat = 0.0
 		var width: CGFloat = self.frame.width
@@ -125,102 +135,10 @@ class MGTreemapView: NSView {
 			rowStart = currChild + 1
 		}
 		
+		for element in elements {
+			element.draw()
+		}
     }
-	
-	
-	//		// If we are drawing a horizontal row, update the current x points. If not, update the y points.
-	//		if (horizontal) {
-	//			currX = currX + currRowWidth;
-	//			currWidth = currWidth - currRowWidth ;
-	//		} else {
-	//			currY = currY + currRowWidth;
-	//			currHeight = currHeight - currRowWidth;
-	//		}
-	//
-	//
-	//		// Find the new horizontal
-	//		horizontal = (currHeight < currWidth);
-	//
-	//		// Increment rowStart to the new row starting child
-	//		rowStart = currChild + 1;
-	//
-	//	}
-	//
-	//	String name = "";
-	//	boolean shouldFilter = false;
-	//	for (TreemapPerson p: this.people) {
-	//		p.render();
-	//		if (clicked && p.contain(mouseX, mouseY)) {
-	//			name = p.person.name;
-	//			shouldFilter = true;
-	//			p.selected = true;
-	//			for (TreemapPerson p2: this.people) {
-	//				if (p2 != p) p2.selected = false;
-	//			}
-	//		}
-	//	}
-	//
-	//	if (shouldFilter) {
-	//		cm.filterByPerson(name);
-	//	}
-	//	clicked = false;
-	//
-	//}
-	//
-	//// worst
-	////   - finds the worst aspect ratio in the row
-	//private float worst(List<TreemapPerson> row, float rowWidth) {
-	//
-	//	// Calculate rowWidth^2, rowArea^2, and the sum pixelRowArea for the row
-	//	float wSquared = rowWidth * rowWidth;
-	//	float rowArea = sumPixelArea(row);
-	//	float rowAreaSquared = rowArea * rowArea;
-	//
-	//	// Complete the "worst" caluculation to find the worst aspect ratio of all nodes in the row
-	//	return max(((wSquared * row.get(0).getArea()) / rowAreaSquared), (rowAreaSquared / (wSquared * row.get(row.size() - 1).getArea())));
-
-	//
-	//// updateRowBounds
-	////   - Update the w and h values of each node in a row using the rowWidth
-	//private float updateRowBounds(List<TreemapPerson> row, float x, float y, float w, float h, float ratio) {
-	//
-	//	boolean horizontal = (h < w);
-	//
-	//	// Get the row sumArea and rowWidth
-	//	float rowArea = sumArea(row);
-	//	float rowWidth = rowWidth(rowArea, ratio, w, h);
-	//
-	//	// Iterate over each child in the row
-	//	for (int i = 0; i < row.size(); i++) {
-	//
-	//		// Get the rect area to row area ratio, and update the node bounds if horizontal or not, accoringly
-	//		TreemapPerson rect = row.get(i);
-	//		float rectToRowRatio = rect.person.totalMessageLength / rowArea;
-	//
-	//		if (horizontal) {
-	//			rect.viewX = x;
-	//			rect.viewY = (i < 1) ? y : (row.get(i-1).viewY + row.get(i-1).viewHeight);
-	//			rect.viewWidth = rowWidth;
-	//			rect.viewHeight = rectToRowRatio * h;
-	//
-	//		} else {
-	//			rect.viewX = (i < 1) ? x : (row.get(i-1).viewX + row.get(i-1).viewWidth);
-	//			rect.viewY = y;
-	//			rect.viewWidth = rectToRowRatio * w;
-	//			rect.viewHeight = rowWidth;
-	//		}
-	//		rect.set(rect.viewX, rect.viewY, rect.viewWidth, rect.viewHeight);
-	//	}
-	//
-	//	return rowWidth;
-	//}
-	//
-	//// sumArea
-	////   - Get the sum of all the areas in a row list
-	//
-	//
-	//// sumPixelArea
-	////   - Get the sum of all the actual w*h pixels in a row
 
 	
 	

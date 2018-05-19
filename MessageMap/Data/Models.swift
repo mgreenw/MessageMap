@@ -11,6 +11,9 @@ import RealmSwift
 
 class Person: Object {
 	@objc dynamic var id = UUID().uuidString
+	@objc dynamic var idInt: Int = {
+		return Int(Date().timeIntervalSince1970 * 10000000)
+	}()
 	@objc dynamic var firstName: String?
 	@objc dynamic var lastName: String?
 	@objc dynamic var isMe = false

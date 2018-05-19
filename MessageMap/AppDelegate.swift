@@ -8,9 +8,10 @@
 
 import Cocoa
 import RealmSwift
+import Quartz
 
 @NSApplicationMain
-class AppDelegate: NSObject, NSApplicationDelegate {
+class AppDelegate: NSObject, NSApplicationDelegate, QLPreviewPanelDataSource {
 
 	func applicationDidFinishLaunching(_ aNotification: Notification) {
         
@@ -68,6 +69,32 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         // Update the database
 		startDatabaseUpdate()
+	}
+	
+	var attachmentURL: URL? = nil
+	
+	override func acceptsPreviewPanelControl(_ panel: QLPreviewPanel!) -> Bool {
+		return true
+	}
+	
+	override func beginPreviewPanelControl(_ panel: QLPreviewPanel!) {
+		QLPreviewPanel.shared().dataSource = self
+	}
+	
+	override func endPreviewPanelControl(_ panel: QLPreviewPanel!) {
+		
+	}
+	
+	func numberOfPreviewItems(in panel: QLPreviewPanel!) -> Int {
+		return attachmentURL == nil ? 0 : 1
+	}
+	
+	func previewPanel(_ panel: QLPreviewPanel!, previewItemAt index: Int) -> QLPreviewItem! {
+		
+		if let url = attachmentURL {
+			return url as QLPreviewItem
+		}
+		return URL(fileURLWithPath: "") as QLPreviewItem
 	}
 
 }

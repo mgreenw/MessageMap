@@ -10,6 +10,7 @@
 		98046B4D1FBA13AF00ACCF79 /* ChatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98046B4C1FBA13AF00ACCF79 /* ChatsViewController.swift */; };
 		98046B551FBA140100ACCF79 /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98046B541FBA140100ACCF79 /* CalendarViewController.swift */; };
 		98046B591FBA190F00ACCF79 /* Cartfile in Resources */ = {isa = PBXBuildFile; fileRef = 98046B581FBA190F00ACCF79 /* Cartfile */; };
+		980B754120AA3DA20097ED16 /* MGWordListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 980B754020AA3DA20097ED16 /* MGWordListViewController.swift */; };
 		981605BE20742FC500D8E8F2 /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 981605BD20742FC500D8E8F2 /* MessagesViewController.swift */; };
 		981605C02075003C00D8E8F2 /* SplitViewControllers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 981605BF2075003C00D8E8F2 /* SplitViewControllers.swift */; };
 		981605C22075129200D8E8F2 /* MessageItem.xib in Resources */ = {isa = PBXBuildFile; fileRef = 981605C12075129200D8E8F2 /* MessageItem.xib */; };
@@ -70,6 +71,7 @@
 		98046B4C1FBA13AF00ACCF79 /* ChatsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatsViewController.swift; sourceTree = "<group>"; };
 		98046B541FBA140100ACCF79 /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
 		98046B581FBA190F00ACCF79 /* Cartfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartfile; sourceTree = "<group>"; };
+		980B754020AA3DA20097ED16 /* MGWordListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MGWordListViewController.swift; sourceTree = "<group>"; };
 		981605BD20742FC500D8E8F2 /* MessagesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesViewController.swift; sourceTree = "<group>"; };
 		981605BF2075003C00D8E8F2 /* SplitViewControllers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitViewControllers.swift; sourceTree = "<group>"; };
 		981605C12075129200D8E8F2 /* MessageItem.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MessageItem.xib; sourceTree = "<group>"; };
@@ -147,6 +149,7 @@
 				98B02EEC208A38780018B692 /* AnalyticsViewController.swift */,
 				989270562090BDE000CA1398 /* MGPunchcardView.swift */,
 				989270512090BAC900CA1398 /* MGTreemapView.swift */,
+				980B754020AA3DA20097ED16 /* MGWordListViewController.swift */,
 			);
 			path = Analytics;
 			sourceTree = "<group>";
@@ -311,6 +314,7 @@
 				98FAFCF61FBE04D600F242AC /* iMessageParser.swift in Sources */,
 				988E76111FBB2D9000A782DF /* MGCalendarView.swift in Sources */,
 				98046B551FBA140100ACCF79 /* CalendarViewController.swift in Sources */,
+				980B754120AA3DA20097ED16 /* MGWordListViewController.swift in Sources */,
 				985E39021FCB4D79009BA3F2 /* Store.swift in Sources */,
 				98FAFCF21FBDF55B00F242AC /* Models.swift in Sources */,
 				989270572090BDE000CA1398 /* MGPunchcardView.swift in Sources */,

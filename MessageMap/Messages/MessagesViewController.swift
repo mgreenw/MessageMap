@@ -8,6 +8,7 @@
 
 import Cocoa
 import RealmSwift
+import Quartz
 
 class MessagesViewController: NSViewController, NSCollectionViewDataSource, NSCollectionViewDelegateFlowLayout {
 
@@ -16,13 +17,13 @@ class MessagesViewController: NSViewController, NSCollectionViewDataSource, NSCo
 	let realm = try! Realm()
 	@IBOutlet var progress: NSProgressIndicator!
 	var dayFilter = [(year: Int, month: Int, day: Int)]()
-	var heightAdditions = [(quick: Bool, showHour: Bool, showName: Bool)]()
+	var heightAdditions = [(quick: Bool, showHour: Bool, showName: Bool, attachments: Int)]()
 	let dateFormatter:DateFormatter = {
 		let formatter = DateFormatter()
 		formatter.dateFormat = "M/d/yy, h:mm a" // Add :ss to add the milliseconds
 		return formatter
 	}()
-
+	
 	let panelWidth = 465.0
 
 	override func viewDidLoad() {
@@ -59,9 +60,9 @@ class MessagesViewController: NSViewController, NSCollectionViewDataSource, NSCo
 					return showHour ? true : differentSender
 				}()
 				
-				heightAdditions.append((quick: quick && (!showName) && !differentSender, showHour: showHour, showName: showName))
+				heightAdditions.append((quick: quick && (!showName) && !differentSender, showHour: showHour, showName: showName, attachments: message.attachments.count))
 			} else {
-				heightAdditions.append((quick: false, showHour: true, showName: groupChat && !message.fromMe))
+				heightAdditions.append((quick: false, showHour: true, showName: groupChat && !message.fromMe, attachments: message.attachments.count))
 			}
 			
 			prevMessage = message
@@ -79,12 +80,14 @@ class MessagesViewController: NSViewController, NSCollectionViewDataSource, NSCo
 		return 0
 	}
 
+
 	func collectionView(_ itemForRepresentedObjectAtcollectionView: NSCollectionView, itemForRepresentedObjectAt indexPath: IndexPath) -> NSCollectionViewItem {
 
 		let item: MessageItem = collectionView.makeItem(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: cellId), for: indexPath) as! MessageItem
 		let message = Store.shared.message(at: indexPath.item)!
 		item.nameTextField.isHidden = true
 		item.dateTextField.isHidden = true
+
 		
 		if let messageText = message.text {
 			item.messageTextField.stringValue = messageText
@@ -116,6 +119,26 @@ class MessagesViewController: NSViewController, NSCollectionViewDataSource, NSCo
 				}
 				item.messageTextField.frame = CGRect(x: message.textFieldX, y: 2.0, width: message.textFieldWidth, height: message.textFieldHeight)
 				item.messageBubble.frame = CGRect(x: message.bubbleX, y: 0.0, width: message.bubbleWidth, height: message.bubbleHeight)
+				
+				for (index, attachment) in message.attachments.enumerated() {
+
+					let attachmentButton = NSButton(title: attachment.transferName, target: nil, action: nil)
+					attachmentButton.addAction(action: { button in
+
+						let absoluteAttachmentPath =  FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent(attachment.filename.replacingOccurrences(of: "~/", with: ""))
+						
+						if let delegate = NSApplication.shared.delegate as? AppDelegate {
+							delegate.attachmentURL = absoluteAttachmentPath
+						}
+						if let sharedPanel = QLPreviewPanel.shared() {
+							sharedPanel.updateController()
+							sharedPanel.makeKeyAndOrderFront(self)
+						}
+					})
+					attachmentButton.frame = NSRect(x: panelWidth-100.0, y: message.bubbleHeight + (Double(index) * 30.0), width: 90.0, height: 30.0)
+					attachmentButton.toolTip = attachment.transferName
+					item.view.addSubview(attachmentButton)
+				}
 
 			} else {
 				
@@ -164,12 +187,12 @@ class MessagesViewController: NSViewController, NSCollectionViewDataSource, NSCo
 
 		// Use precalculated height
 		let heightAddition = heightAdditions[indexPath.item]
-		let additionalHeight: Double = (heightAddition.showHour ? (heightAddition.showName ? 15.0 : 25.0) : 0.0) + (heightAddition.showName ? 25.0 : 0.0) + (heightAddition.quick ? 0.0 : 7.0)
+		let additionalHeight: Double = (heightAddition.showHour ? (heightAddition.showName ? 15.0 : 25.0) : 0.0) + (heightAddition.showName ? 25.0 : 0.0) + (heightAddition.quick ? 0.0 : 7.0) + (Double(heightAddition.attachments) * 50.0)
 		return CGSize(width: panelWidth, height: Store.shared.message(at: indexPath.item)!.layoutHeight + additionalHeight)
 	}
 
 	func collectionView(_ collectionView: NSCollectionView, layout collectionViewLayout: NSCollectionViewLayout, insetForSectionAt section: Int) -> NSEdgeInsets {
 		return NSEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
 	}
-
+	
 }

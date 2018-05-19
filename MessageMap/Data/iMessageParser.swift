@@ -606,7 +606,7 @@ class iMessageParser {
 			if let attachment = attachmentsDict[attachmentId] {
 				if let message = messagesDict[messageId] {
 					attachment.message = message
-					
+
 					delegate?.setShortProgressMessage(to: "Join message \(messageId) with attachment")
 					delegate?.incrementProgress(by: progressCount)
 					continue

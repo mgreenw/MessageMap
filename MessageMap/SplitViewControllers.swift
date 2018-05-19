@@ -7,6 +7,12 @@
 //
 
 import Cocoa
+import Quartz
+
+class MainWindow: NSWindowController {
+	
+
+}
 
 class MainSplitViewController: NSSplitViewController {
 

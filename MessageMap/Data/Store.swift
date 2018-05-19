@@ -11,6 +11,11 @@ import RealmSwift
 
 typealias DayHash = Int
 
+protocol StoreListener {
+	func messagesWillChange() -> Void
+	func messagesDidChange() -> Void
+}
+
 class Store {
     
     // Store's private realm instance
@@ -49,13 +54,14 @@ class Store {
 		return message.weekday
 	}), Filter(name: "WeekdayHour", type: .weekdayHour, generateWithout: true, hash: { message in
 		return (message.hour * 10) + message.weekday
+	}), Filter(name: "Person", type: .person, generateWithout: true, hash: { message in
+		return message.sender!.idInt
 	})]
 		
     // As soon as the store is initialized, begin the refilter process
 	init() {
 		newMessagesAdded()
 	}
-	
 	
 	func addChatsChangedListener(_ listener: @escaping () -> Void) {
 		chatListeners.append(listener)
@@ -66,12 +72,6 @@ class Store {
 	}
 	
 	func refilter() {
-//		DispatchQueue.global(qos: .userInitiated).async {
-			self.refilterAsync()
-//		}
-	}
-	
-	func refilterAsync() {
         
         /*
          The goal here is to avoid unnecessary double filtering. We want to store a list of the

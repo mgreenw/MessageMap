@@ -14,8 +14,7 @@ Ranking: 1-5 for SIMPLICITY, 1-10 for IMPORTANCE. Then, add for score.
 
 - [x] 10 (3, 7) MessageList: Add name in Multi-person chat
 - [x] 10 (3, 7) MessageList: Add date/time above messages sent more than an hour apart
-- [ ] 11 (3, 8) Analysis: Add "top word list" functionality
-- [ ] 10 (2, 8) Analysis: Add github-like "punchcard" (http://openmymind.net/How-Meaningful-Do-You-Find-Github-Punchard/)
+- [ ] 11 (3, 8) Analysis: Add "top word list" functionality - [ ] 10 (2, 8) Analysis: Add github-like "punchcard" (http://openmymind.net/How-Meaningful-Do-You-Find-Github-Punchard/)
 - [ ] 10 (2, 8) PieChart: Number of Messages OR number of words OR number of characters sent between participants in chat (use a segmented control to control this). This could transform into a Squarified treemap if no chat is selected
 - [ ] 10 (4, 6) Add dummy profile picture for chats/people with no profile picture
 - [ ] 9 (2, 7) MessageList: show ...xxx messages...  between two dates that have been filtered on, and allow clicking on that to view the messages in between
