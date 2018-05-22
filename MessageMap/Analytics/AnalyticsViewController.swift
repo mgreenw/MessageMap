@@ -9,8 +9,7 @@
 import Cocoa
 import RealmSwift
 
-class AnalyticsViewController: NSViewController, MGPunchcardViewDataSource, MGTreemapViewDataSource {
-
+class AnalyticsViewController: NSViewController, MGPunchcardViewDataSource, MGTreemapViewDataSource, StoreListener {
 
 	@IBOutlet var punchcardView: MGPunchcardView!
 	@IBOutlet var treemapView: MGTreemapView!
@@ -22,15 +21,21 @@ class AnalyticsViewController: NSViewController, MGPunchcardViewDataSource, MGTr
     override func viewDidLoad() {
         super.viewDidLoad()
 		print("Analytics view did load")
-		Store.shared.addMessagesChangedListener(messagesChanged)
+		Store.shared.addListener(self)
 		
 		punchcardView.dataSource = self
 		treemapView.dataSource = self
-		messagesChanged()
+		messagesDidChange()
         // Do view setup here.
     }
 	
-	func messagesChanged() {
+	
+	// MARK: Store Listener
+	func messagesMightChange() {
+		
+	}
+	
+	func messagesDidChange() {
 		punchcardValues = Array(repeating: Array(repeating: 0.0, count: 24), count: 7)
 		treemapValues.removeAll()
 		
@@ -48,6 +53,10 @@ class AnalyticsViewController: NSViewController, MGPunchcardViewDataSource, MGTr
 		
 		punchcardView.reloadPunchcard()
 		treemapView.reloadTreemap()
+	}
+	
+	func messagesDidNotChange() {
+		
 	}
 
 	func punchcardView(_ punchcardView: MGPunchcardView, valueFor weekday: Int, hour: Int) -> Double? {

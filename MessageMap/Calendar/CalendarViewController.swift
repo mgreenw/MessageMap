@@ -9,7 +9,7 @@
 import Cocoa
 import RealmSwift
 
-class CalendarViewController: NSViewController, MGCalendarViewDelegate, MGCalendarViewDataSource {
+class CalendarViewController: NSViewController, MGCalendarViewDelegate, MGCalendarViewDataSource, StoreListener {
 
     @IBOutlet var scrollView: NSScrollView!
 	@IBOutlet var calendarView: MGCalendarView!
@@ -21,13 +21,18 @@ class CalendarViewController: NSViewController, MGCalendarViewDelegate, MGCalend
 		calendarView.delegate = self
         calendarView.scrollView = scrollView
 		
-		Store.shared.addMessagesChangedListener(messagesChanged)
+		Store.shared.addListener(self)
 		
 		calendarView.reloadCalendar()
-		messagesChanged()
+		messagesDidChange()
 	}
 	
-	func messagesChanged() {
+	// MARK: Store Listener
+	func messagesMightChange() {
+		
+	}
+	
+	func messagesDidChange() {
 		values.removeAll()
 		Store.shared.enumerateMessagesForFilter(FilterType.day, { message in
 			let dayID = "\(message.year)-\(message.month)-\(message.dayOfMonth)"
@@ -38,6 +43,10 @@ class CalendarViewController: NSViewController, MGCalendarViewDelegate, MGCalend
 			}
 		})
 		self.calendarView.reloadValues()
+	}
+	
+	func messagesDidNotChange() {
+		
 	}
 
 	func dateRange(for calendarView: MGCalendarView) -> (Date, Date) {

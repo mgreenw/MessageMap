@@ -12,7 +12,7 @@ import RealmSwift
 // Define Constants
 let chatsViewWidth = 250
 
-class ChatsViewController: NSViewController, NSTableViewDataSource, NSTableViewDelegate {
+class ChatsViewController: NSViewController, NSTableViewDataSource, NSTableViewDelegate, StoreListener {
 
 	@IBOutlet weak var tableView: NSTableView!
     @IBOutlet weak var progress: NSProgressIndicator!
@@ -23,21 +23,32 @@ class ChatsViewController: NSViewController, NSTableViewDataSource, NSTableViewD
     override func viewDidLoad() {
         super.viewDidLoad()
 		
-		Store.shared.addChatsChangedListener(chatsChanged)
+		Store.shared.addListener(self)
 
 		self.tableView.delegate = self
 		self.tableView.dataSource = self
 		dateFormatter.dateFormat = "MM/dd/yy"
+		
+		messagesDidChange()
 
     }
 	
-	func chatsChanged() {
+	// MARK: Store Listener
+	func messagesMightChange() {
+		
+	}
+	
+	func messagesDidChange() {
 		self.tableView.reloadData()
 		if let selected = selectedChat {
 			if let index = Store.shared.filteredChats.index(of: selected){
 				tableView.selectRowIndexes(IndexSet(integer: index), byExtendingSelection: false)
 			}
 		}
+	}
+	
+	func messagesDidNotChange() {
+		
 	}
 
 	func numberOfRows(in tableView: NSTableView) -> Int {

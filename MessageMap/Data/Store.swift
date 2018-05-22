@@ -12,8 +12,9 @@ import RealmSwift
 typealias DayHash = Int
 
 protocol StoreListener {
-	func messagesWillChange() -> Void
+	func messagesMightChange() -> Void
 	func messagesDidChange() -> Void
+	func messagesDidNotChange() -> Void
 }
 
 class Store {
@@ -39,11 +40,7 @@ class Store {
     // Array of all chat's, sorted by date
 	private var sortedChats = [Chat]()
 	
-    // Functions that will get called when the filteredChats list changes
-	private var chatListeners = [() -> Void]()
-    
-    // Functions that will get called when the filteredMessages list changes
-	private var messageListeners = [() -> Void]()
+	private var listeners = [StoreListener]()
 	
     // Set the filters, in the order defined in the FilterType enum
 	let filters: [Filter]! = [Filter(name: "Day", type: .day, generateWithout: true, hash: { message in
@@ -62,13 +59,9 @@ class Store {
 	init() {
 		newMessagesAdded()
 	}
-	
-	func addChatsChangedListener(_ listener: @escaping () -> Void) {
-		chatListeners.append(listener)
-	}
-	
-	func addMessagesChangedListener(_ listener: @escaping () -> Void) {
-		messageListeners.append(listener)
+
+	func addListener(_ listener: StoreListener) -> Void {
+		listeners.append(listener)
 	}
 	
 	func refilter() {
@@ -78,6 +71,11 @@ class Store {
          filtered messages for the selected chat, and a list of filtered chats that contain
          at least one message that passes all of the filter
          */
+		
+		// Alert the listeners that we are filtering. Maybe perform an animation
+		for listener in listeners {
+			listener.messagesMightChange()
+		}
 		
 		let realmAsync = try! Realm()
 		
@@ -174,25 +172,29 @@ class Store {
 			filter.filteredMessages = filter.newFilteredMessages
 		}
 		
-		if newFilteredChats != self.filteredChats {
-			self.filteredChats = newFilteredChats
-			for listener in self.chatListeners {
-				listener()
-			}
-			
-			print("Chats not equal")
-		}
-		
+		// Alert all of the listeners if the messages changed (or not)
+		// Perform all of these async, and for each update the UI on the main thread
+		// when all calculations are complete
 		if newFilteredMessages != self.filteredMessages {
 			self.filteredMessages = newFilteredMessages
 			
-			for listener in self.messageListeners {
-				listener()
+			
+			
+			for listener in self.listeners {
+				//DispatchQueue.global(qos: .userInitiated).async {
+					listener.messagesDidChange()
+				//}
 			}
+			
+		} else {
+			
+			for listener in self.listeners {
+				//DispatchQueue.global(qos: .userInitiated).async {
+					listener.messagesDidNotChange()
+				//}
+			}
+			
 		}
-		
-
-//		}
 	}
 	
 	func newMessagesAdded() {

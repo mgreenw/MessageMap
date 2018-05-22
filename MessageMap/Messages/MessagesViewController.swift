@@ -10,7 +10,7 @@ import Cocoa
 import RealmSwift
 import Quartz
 
-class MessagesViewController: NSViewController, NSCollectionViewDataSource, NSCollectionViewDelegateFlowLayout {
+class MessagesViewController: NSViewController, NSCollectionViewDataSource, NSCollectionViewDelegateFlowLayout, StoreListener {
 
 	@IBOutlet weak var collectionView: NSCollectionView!
 	private let cellId = "messageCell"
@@ -31,16 +31,27 @@ class MessagesViewController: NSViewController, NSCollectionViewDataSource, NSCo
 
 		self.view.window?.isOpaque = false
 		
-		Store.shared.addMessagesChangedListener(messagesChanged)
+		Store.shared.addListener(self)
 
 		collectionView.backgroundColors.append(NSColor.white)
 		collectionView.register(MessageItem.self, forItemWithIdentifier: NSUserInterfaceItemIdentifier(rawValue: cellId))
+		
+		messagesDidChange()
 	}
 	
-	func messagesChanged() {
+	// MARK: Store Listener
+	func messagesMightChange() {
+		
+	}
+	
+	func messagesDidChange() {
 		// Generate new heights
 		generateHeightAdditions()
 		self.collectionView.reloadData()
+	}
+	
+	func messagesDidNotChange() {
+		
 	}
 	
 	func generateHeightAdditions() {

@@ -9,3 +9,10 @@ What would that look like?
 2. Change messagesChanged to messagesDidChange
 3. Setup a 'loading' state for each custom view
 4. 
+
+
+Chats
+Messages
+Calendar
+Punchard
+Treemap
