@@ -177,7 +177,7 @@ class Store {
 		// when all calculations are complete
 		if newFilteredMessages != self.filteredMessages {
 			self.filteredMessages = newFilteredMessages
-			
+			self.filteredChats = newFilteredChats
 			
 			
 			for listener in self.listeners {
