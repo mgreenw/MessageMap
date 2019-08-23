@@ -2,7 +2,7 @@
 
 A visual iMessage browser with a heatmap calendar that filters on conversation and day. Built for COMP 177 Visualization in Fall 2017.
 
-<img src="MessagMap.jpg" width="80%">
+<img src="./MessagMap.jpg" width="80%">
 
 ## Setup
 
