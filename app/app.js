@@ -1,5 +1,4 @@
 const electron = require('electron');
-const Menu = electron.Menu;
 const app = electron.app;
 
 var BrowserWindow = electron.BrowserWindow;
@@ -14,22 +13,6 @@ app.on('window-all-closed', function () {
 // initialization and ready for creating browser windows.
 app.on('ready', function () {
     // Create the browser window.
-
-    // const template = [
-    //     {
-    //         label: 'Filter',
-    //         submenu: [
-    //             {
-    //                 label: 'Hello',
-    //                 accelerator: 'Shift+CmdOrCtrl+H',
-    //                 click() {
-    //                     console.log('Oh, hi there!')
-    //                 }
-    //             }
-    //         ]
-    //     }
-    // ];
-    // Menu.setApplicationMenu(Menu.buildFromTemplate(template));
 
     //var path = app.setPath("MessageMap", app.getPath("appData"));
     global.dataPath = app.getPath("userData");
@@ -46,8 +29,6 @@ app.on('ready', function () {
         // when you should delete the corresponding element.
         mainWindow = null;
     });
-
-
 });
 
 
